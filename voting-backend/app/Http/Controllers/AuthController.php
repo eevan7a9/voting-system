@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->client = DB::table('oauth_clients')->where('id', 2)->first();
+    }
     /**
      * Store a newly loged-in user.
      *
@@ -18,7 +24,20 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        return json_encode(["mesage" => $request->all()]);
+
+        $request->request->add([
+            'grant_type' => 'password',
+            'client_id' => $this->client->id,
+            'client_secret' => $this->client->secret,
+            'username' => $request->email,
+            'password' => $request->password,
+            'scope' => '*',
+        ]);
+        $proxy = Request::create(
+            'oauth/token',
+            'POST'
+        );
+        return  Route::dispatch($proxy);
     }
     /**
      * Register new user.
