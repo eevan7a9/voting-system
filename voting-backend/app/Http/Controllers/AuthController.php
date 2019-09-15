@@ -64,7 +64,9 @@ class AuthController extends Controller
 
         return response()->json($validated, 200);
     }
-
+    /**
+     * Logout user by invoking access token
+     */
     public function logout()
     {
         // we get the authenticated user
@@ -81,5 +83,13 @@ class AuthController extends Controller
          *       'revoked' => true
          *     ]);
          */
+    }
+    /**
+     * We get the basic information of the current user
+     */
+    public function user()
+    {
+        $user = Auth::user();
+        return response()->json($user);
     }
 }

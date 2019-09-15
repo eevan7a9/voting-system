@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::post('/logout', 'AuthController@logout');
+    Route::get('/logout', 'AuthController@logout');
+    Route::get('/user', 'AuthController@user');
 });
 
 Route::post('/login', 'AuthController@login');
