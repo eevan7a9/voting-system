@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class QuestionController extends Controller
 {
@@ -78,7 +79,12 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        //
+        $request->validate([
+            "title" => "required|string",
+        ]);
+        $question->title = $request->title;
+        $question->update();
+        return response()->json(["message" => "Success", "data" => $question]);
     }
 
     /**
