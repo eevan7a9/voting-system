@@ -36,7 +36,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => "required|string",
+        ]);
+        $question = new Question();
+        $question->user_id = 2;
+        $question->title = $request->title;
+        $question->save();
+
+        return response()->json($question);
     }
 
     /**
