@@ -23,3 +23,5 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+// Resource Controller for Questions
+Route::resource('question', 'QuestionController');
