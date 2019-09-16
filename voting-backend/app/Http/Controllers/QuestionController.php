@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 
 class QuestionController extends Controller
 {
+    public  function __construct()
+    {
+        $this->middleware('auth:api')->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,11 +42,12 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'title' => "required|string",
         ]);
         $question = new Question();
-        $question->user_id = 2;
+        $question->user_id = $user->id;
         $question->title = $request->title;
         $question->save();
 
@@ -56,7 +62,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        return response()->json($question);
     }
 
     /**
