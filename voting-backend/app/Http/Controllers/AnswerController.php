@@ -14,19 +14,9 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        //
+        $answer = Answer::all();
+        return response()->json($answer);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +25,15 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "title" => "required|string",
+            "question_id" => "required|integer"
+        ]);
+        $answer = new Answer();
+        $answer->title = $request->title;
+        $answer->question_id = $request->question_id;
+        $answer->save();
+        return response()->json($answer);
     }
 
     /**
@@ -46,20 +44,8 @@ class AnswerController extends Controller
      */
     public function show(Answer $answer)
     {
-        //
+        return response()->json($answer);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Answer  $answer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Answer $answer)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +55,12 @@ class AnswerController extends Controller
      */
     public function update(Request $request, Answer $answer)
     {
-        //
+        $request->validate([
+            "title" => "required"
+        ]);
+        $answer->title = $request->title;
+        $answer->update();
+        return response()->json($answer);
     }
 
     /**
@@ -80,6 +71,7 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        //
+        $answer->delete();
+        return response()->json($answer);
     }
 }

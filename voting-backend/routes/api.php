@@ -25,3 +25,5 @@ Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 // Resource Controller for Questions
 Route::resource('question', 'QuestionController');
+// Resource Controller for Ansers
+Route::resource('answer', 'AnswerController');
