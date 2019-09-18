@@ -15,6 +15,8 @@ class CreateVotesTable extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('question_id')->nullable();
+            $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedBigInteger('answer_id')->nullable();
             $table->foreign('answer_id')->references('id')->on('answers');
             $table->unsignedBigInteger('user_id')->nullable();

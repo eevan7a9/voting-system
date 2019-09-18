@@ -26,11 +26,13 @@ class VoteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            "question_id" => "required|integer",
             "answer_id" => "required|integer",
             "user_id" => "required|integer",
 
         ]);
         $vote = new Vote();
+        $vote->question_id = $request->question_id;
         $vote->answer_id = $request->answer_id;
         $vote->user_id = $request->user_id;
         $vote->save();
@@ -79,6 +81,7 @@ class VoteController extends Controller
      */
     public function destroy(Vote $vote)
     {
-        //
+        $vote->delete();
+        return response()->json($vote);
     }
 }
