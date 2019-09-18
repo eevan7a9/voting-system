@@ -27,3 +27,5 @@ Route::post('/register', 'AuthController@register');
 Route::resource('question', 'QuestionController');
 // Resource Controller for Ansers
 Route::resource('answer', 'AnswerController');
+// Resource Controller fpr Vote
+Route::resource('vote', 'VoteController');

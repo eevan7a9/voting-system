@@ -14,19 +14,9 @@ class VoteController extends Controller
      */
     public function index()
     {
-        //
+        $votes = Vote::all();
+        return response()->json($votes);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +25,16 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "answer_id" => "required|integer",
+            "user_id" => "required|integer",
+
+        ]);
+        $vote = new Vote();
+        $vote->answer_id = $request->answer_id;
+        $vote->user_id = $request->user_id;
+        $vote->save();
+        return response()->json($vote);
     }
 
     /**
@@ -46,7 +45,7 @@ class VoteController extends Controller
      */
     public function show(Vote $vote)
     {
-        //
+        return response()->json($vote);
     }
 
     /**
