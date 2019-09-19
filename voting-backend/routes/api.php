@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/logout', 'AuthController@logout');
     Route::get('/user', 'AuthController@user');
+    // Resource Controller fpr Vote
+    Route::resource('vote', 'VoteController');
 });
 
 Route::post('/login', 'AuthController@login');
@@ -27,5 +29,3 @@ Route::post('/register', 'AuthController@register');
 Route::resource('question', 'QuestionController');
 // Resource Controller for Ansers
 Route::resource('answer', 'AnswerController');
-// Resource Controller fpr Vote
-Route::resource('vote', 'VoteController');
