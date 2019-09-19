@@ -90,6 +90,8 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
+        $user->questions; // to show questins user created
+        $user->votes; // to show all the votes users made
         return response()->json($user);
     }
 }
