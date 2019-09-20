@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view class="container" />
+    <router-view class="container main-view" />
   </div>
 </template>
 <script>
@@ -19,5 +19,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+@media (max-width: 600px) {
+  .main-view {
+    padding-top: 60px;
+  }
 }
 </style>

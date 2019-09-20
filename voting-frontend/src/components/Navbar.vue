@@ -54,6 +54,10 @@ export default {
 </script>
 
 <style scoped>
+#nav {
+  -webkit-box-shadow: 4px 9px 14px -8px #000000;
+  box-shadow: 4px 9px 14px -8px #000000;
+}
 .container {
   display: flex;
   justify-content: space-between;
