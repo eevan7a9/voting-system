@@ -1,27 +1,55 @@
 <template>
   <div id="nav" class="bg-violetdient">
     <div class="container tx-upp fw-bold ls-2">
-      <div>
+      <div class="left-nav">
         <router-link to="/" class="nav-item light padx-1">Home</router-link>
         <router-link to="/about" class="nav-item light padx-1">About</router-link>
       </div>
-      <div class="logo">
-        <img class="vue-logo" src="../assets/logo.png" width="35px" />
-        <span>+</span>
-        <img class="laravel-logo" src="../assets/laravel.svg" width="30px" />
+      <div class="center-nav">
+        <div class="logo">
+          <img class="vue-logo" src="../assets/logo.png" width="35px" />
+          <span>+</span>
+          <img class="laravel-logo" src="../assets/laravel.svg" width="30px" />
+        </div>
+        <div id="hamburger" @click="NavTrigger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-      <div>
+      <div class="right-nav">
         <router-link to="/" class="nav-item light padx-1">Register</router-link>
         <router-link to="/about" class="nav-item light padx-1">Login</router-link>
         <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
       </div>
+    </div>
+    <div
+      class="mobile-nav bg-violetdient tx-upp fw-bold ls-2"
+      :style="mobile_nav ? 'display:flex;' : 'display:none;'"
+      @click="NavTrigger"
+    >
+      <router-link to="/" class="nav-item light padx-1">Home</router-link>
+      <router-link to="/about" class="nav-item light padx-1">About</router-link>
+      <router-link to="/" class="nav-item light padx-1">Register</router-link>
+      <router-link to="/about" class="nav-item light padx-1">Login</router-link>
+      <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
+  data() {
+    return {
+      mobile_nav: 0
+    };
+  },
+  methods: {
+    NavTrigger() {
+      this.mobile_nav = !this.mobile_nav;
+    }
+  }
 };
 </script>
 
@@ -43,8 +71,9 @@ export default {
   background: #e8dede;
   border-radius: 100%;
   padding: 0 10px;
+  max-width: 100px;
 }
-.logo span {
+.center-nav span {
   padding-bottom: 20px;
   position: absolute;
   font-size: 25px;
@@ -57,5 +86,49 @@ export default {
 .laravel-logo {
   margin-bottom: -5px;
   margin-left: 15px;
+}
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  #nav {
+    height: 60px;
+    position: fixed;
+    padding: 5px 0;
+    width: 100%;
+  }
+  .container {
+    flex-direction: column;
+  }
+  .center-nav {
+    order: -1;
+    display: flex;
+    justify-content: space-between;
+  }
+  .logo {
+    width: 100px;
+  }
+  #hamburger {
+    cursor: pointer;
+    padding-top: 5px;
+  }
+  #hamburger div {
+    background: aliceblue;
+    height: 5px;
+    width: 50px;
+    margin-top: 5px;
+  }
+  .left-nav,
+  .right-nav {
+    display: none;
+  }
+  .mobile-nav {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+  }
 }
 </style>
