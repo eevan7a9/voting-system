@@ -1,0 +1,251 @@
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Utilities */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1170px;
+  padding: 0 15px;
+}
+/*                          font color Starts                            */
+.dark {
+  color: #333;
+}
+.light {
+  color: aliceblue;
+}
+.red {
+  color: rgb(231, 20, 20);
+}
+.green {
+  color: rgb(7, 139, 7);
+}
+/*                              Background color Starts                   */
+.bg-vuedient {
+  background: linear-gradient(
+    0deg,
+    rgba(113, 181, 150, 1) 5%,
+    rgba(49, 170, 116, 1) 46%,
+    rgba(65, 184, 131, 1) 100%
+  );
+}
+.bg-greendient {
+  background: linear-gradient(
+    0deg,
+    rgba(79, 143, 34, 1) 5%,
+    rgba(48, 162, 31, 1) 46%,
+    rgba(29, 148, 48, 1) 100%
+  );
+}
+.bg-reddient {
+  background: linear-gradient(
+    0deg,
+    rgba(244, 45, 45, 1) 3%,
+    rgba(210, 30, 30, 1) 52%,
+    rgba(198, 33, 0, 1) 100%
+  );
+}
+.bg-bluedient {
+  background: linear-gradient(
+    0deg,
+    rgba(34, 50, 175, 1) 3%,
+    rgba(60, 57, 204, 1) 50%,
+    rgba(66, 3, 214, 1) 100%
+  );
+}
+.bg-violetdient {
+  background: linear-gradient(
+    0deg,
+    rgba(116, 5, 153, 1) 3%,
+    rgba(144, 8, 173, 1) 54%,
+    rgba(123, 0, 142, 1) 100%
+  );
+}
+.bg-lightdient {
+  background-image: radial-gradient(
+    circle farthest-corner at 18.7% 37.8%,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(225, 234, 238, 1) 90%
+  );
+}
+.bg-darkdient {
+  background-image: radial-gradient(
+    circle,
+    #22251c,
+    #292c22,
+    #313427,
+    #383c2d,
+    #404433
+  );
+}
+.bg-danger {
+  background-image: radial-gradient(
+    circle 820px at -14.8% -18.7%,
+    rgba(242, 7, 7, 1) 0%,
+    rgba(242, 165, 13, 1) 90%
+  );
+}
+.bg-success {
+  background-image: radial-gradient(
+    circle 1124px at 1.6% 5%,
+    rgba(9, 249, 0, 0.36) 7.4%,
+    rgba(216, 245, 34, 0.34) 48.1%,
+    rgba(16, 186, 88, 0.35) 80.1%
+  );
+}
+/*                              Font Weight Starts                   */
+.fw-bolder {
+  font-weight: 900;
+}
+.fw-bold {
+  font-weight: 700;
+}
+.fw-thin {
+  font-weight: 300;
+}
+.fw-thinner {
+  font-weight: 100;
+}
+/*                              Font Size                            */
+.fs-smaller {
+  font-size: 10px;
+}
+.fs-small {
+  font-size: 13px;
+}
+.fs-normal {
+  font-size: 16px;
+}
+.fs-large {
+  font-size: 22px;
+}
+.fs-larger {
+  font-size: 28px;
+}
+.fs-18 {
+  font-size: 18px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+.fs-25 {
+  font-size: 25px;
+}
+/*                              font Case                            */
+.tx-upp {
+  text-transform: uppercase;
+}
+.tx-low {
+  text-transform: lowercase;
+}
+.tx-cap {
+  text-transform: uppercase;
+}
+/*                              letter spacing                            */
+.ls-1 {
+  letter-spacing: 1px;
+}
+.ls-2 {
+  letter-spacing: 2px;
+}
+.ls-3 {
+  letter-spacing: 3px;
+}
+.ls-4 {
+  letter-spacing: 4px;
+}
+.ls-5 {
+  letter-spacing: 5px;
+}
+/*                              Padding Starts                   */
+.padx-1 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.pady-1 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.padx-2 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.pady-2 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.padx-3 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+.pady-3 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+/*                                 Border Radius                     */
+.borad-1 {
+  border-radius: 7px;
+}
+.borad-2 {
+  border-radius: 14px;
+}
+.borad-3 {
+  border-radius: 21px;
+}
+.borad-4 {
+  border-radius: 28px;
+}
+/*                                 Cursor                                */
+.pointer {
+  cursor: pointer;
+}
+.progress {
+  cursor: progress;
+}
+.not-allowed {
+  cursor: not-allowed;
+}
+/*                                  transition animation                         */
+.bounce-enter-active {
+  animation: bounce-in 0.3s;
+}
+.bounce-leave-active {
+  position: absolute;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}
+.fade-enter-active {
+  transition: opacity 1.5s;
+}
+.fade-leave-active {
+  transition: opacity 1.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
