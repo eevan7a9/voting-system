@@ -35,7 +35,7 @@
     <div class="Options">
       <h2 class="tx-upp fs-large">options</h2>
       <hr class="mgy-1 mgx-1" />
-      <button class="pady-1 padx-1 mgt-1 bg-purpledient light fw-bolder pointer">New Question</button>
+      <button class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer">New Question</button>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  border: 3px solid rgb(106, 4, 140);
+  border: 3px solid #1583c7;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }

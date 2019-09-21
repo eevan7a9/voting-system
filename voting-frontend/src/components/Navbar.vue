@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" class="bg-purpledient">
+  <div id="nav" class="bg-bluedient">
     <div class="container tx-upp fw-bold ls-2">
       <div class="left-nav">
         <router-link to="/" class="nav-item light padx-1">Home</router-link>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      class="mobile-nav bg-purpledient tx-upp fw-bold ls-2"
+      class="mobile-nav bg-bluedient tx-upp fw-bold ls-2"
       :style="mobile_nav ? 'display:flex;' : 'display:none;'"
       @click="NavTrigger"
     >

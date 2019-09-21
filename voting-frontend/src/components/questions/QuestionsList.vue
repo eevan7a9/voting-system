@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="wrapper bg-purpledient mgt-1 mgb-2"
+      class="wrapper bg-bluedient mgt-1 mgb-2"
       v-for="(question, index) in allQuestions"
       :key="index"
     >
@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  border: 3px solid rgb(106, 4, 140);
+  border: 3px solid #1583c7;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
@@ -69,6 +69,6 @@ export default {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  color: rgb(106, 4, 140);
+  color: #1583c7;
 }
 </style>
