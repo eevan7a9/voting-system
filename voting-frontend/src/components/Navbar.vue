@@ -64,8 +64,8 @@ export default {
 }
 .nav-item {
   text-decoration: none;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   line-height: 60px;
 }
 .nav-item:hover {
@@ -74,14 +74,14 @@ export default {
 .logo {
   background: #e8dede;
   border-radius: 100%;
-  padding: 0 10px;
+  padding: 8px 10px;
   max-width: 100px;
 }
 .center-nav span {
   padding-bottom: 20px;
   position: absolute;
   font-size: 25px;
-  color: blueviolet;
+  color: #1583c7;
 }
 .vue-logo {
   padding: 2px 0;

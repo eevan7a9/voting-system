@@ -25,6 +25,9 @@
 .green {
   color: rgb(7, 139, 7);
 }
+.blue {
+  color: #1583c7;
+}
 /*                              Background color Starts                   */
 .bg-vuedient {
   background: linear-gradient(

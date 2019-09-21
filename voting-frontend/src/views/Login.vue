@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="wrapper pady-2 mgt-3 bg-lightdient borad-1">
+      <h1 class="login pady-1 padx-2 tx-upp blue">login</h1>
       <form @submit="submit">
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
@@ -42,12 +43,17 @@ export default {
 <style scoped>
 .wrapper {
   border: 3px solid #1583c7;
-  /* width: 80%; */
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.login {
+  text-align: center;
 }
 .email-container,
 .password-container {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: minmax(100px, 200px) 1fr;
 }
 .email-container label,
 .password-container label {
@@ -57,6 +63,9 @@ export default {
   text-align: center;
 }
 @media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+  }
   .email-container,
   .password-container {
     grid-template-columns: 1fr;

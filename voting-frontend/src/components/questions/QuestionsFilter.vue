@@ -23,11 +23,11 @@
           <input type="radio" name="sorter" id />
         </li>
         <li>
-          <p class="pady-8-px tx-cap fs-18">unanswered</p>
+          <p class="pady-8-px tx-cap fs-18">not voted</p>
           <input type="radio" name="sorter" id />
         </li>
         <li>
-          <p class="pady-8-px tx-cap fs-18">Answered</p>
+          <p class="pady-8-px tx-cap fs-18">voted</p>
           <input type="radio" name="sorter" id />
         </li>
       </ul>
