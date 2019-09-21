@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="wrapper bg-violetdient mgt-1 mgb-2"
+      class="wrapper bg-purpledient mgt-1 mgb-2"
       v-for="(question, index) in allQuestions"
       :key="index"
     >
@@ -58,14 +58,14 @@ export default {
   border-top-left-radius: 20px;
 }
 .answers {
-  max-width: 700px;
+  max-width: 900px;
   margin-right: auto;
   margin-left: auto;
   display: grid;
   grid-template-columns: 1fr auto;
 }
 .more {
-  max-width: 700px;
+  max-width: 900px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;

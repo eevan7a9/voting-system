@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" class="bg-violetdient">
+  <div id="nav" class="bg-purpledient">
     <div class="container tx-upp fw-bold ls-2">
       <div class="left-nav">
         <router-link to="/" class="nav-item light padx-1">Home</router-link>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      class="mobile-nav bg-violetdient tx-upp fw-bold ls-2"
+      class="mobile-nav bg-purpledient tx-upp fw-bold ls-2"
       :style="mobile_nav ? 'display:flex;' : 'display:none;'"
       @click="NavTrigger"
     >
@@ -66,7 +66,7 @@ export default {
   text-decoration: none;
   padding-top: 15px;
   padding-bottom: 15px;
-  line-height: 50px;
+  line-height: 60px;
 }
 .nav-item:hover {
   background: rgba(194, 176, 213, 0.28);
