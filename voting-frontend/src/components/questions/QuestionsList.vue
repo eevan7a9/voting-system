@@ -1,84 +1,47 @@
 <template>
   <div>
-    <div class="wrapper mgt-2">
+    <div
+      class="wrapper bg-violetdient mgt-2-em"
+      v-for="(question, index) in allQuestions"
+      :key="index"
+    >
       <div class="question-cont bg-lightdient dark pady-1 padx-2">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum eaque et vero?</h2>
+        <h2>{{ question.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
       </div>
       <hr />
-      <div class="answers-cont bg-violetdient">
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-      </div>
-    </div>
-    <div class="wrapper mgt-2">
-      <div class="question-cont bg-lightdient dark pady-1 padx-2">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum eaque et vero?</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
-      </div>
-      <hr />
-      <div class="answers-cont bg-violetdient">
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
+      <div
+        class="answers-cont mgb-1-px"
+        v-for="(answer, index) in question.answers.slice(0,2)"
+        :key="index"
+      >
+        <div class="answers pady-1 padx-2 bg-lightdient pointer">
+          <p class="fs-18">{{ answer.title }}</p>
+          <input type="radio" :name="question.id" id />
         </div>
       </div>
-    </div>
-    <div class="wrapper mgt-2">
-      <div class="question-cont bg-lightdient dark pady-1 padx-2">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum eaque et vero?</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
-      </div>
-      <hr />
-      <div class="answers-cont bg-violetdient">
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-      </div>
-    </div>
-    <div class="wrapper mgt-2">
-      <div class="question-cont bg-lightdient dark pady-1 padx-2">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum eaque et vero?</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
-      </div>
-      <hr />
-      <div class="answers-cont bg-violetdient">
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-        <div class="answers pady-2 padx-2 bg-lightdient">
-          <p class="fs-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, neque.</p>
-          <input type="radio" :name="radio_name" id />
-        </div>
-      </div>
+      <div
+        class="more pady-1 padx-2 bg-lightdient fw-bolder pointer"
+        v-if="question.answers.length > 2"
+      >View more</div>
+      <div
+        class="more pady-1 padx-2 bg-lightdient fw-bolder pointer"
+        v-if="question.answers.length == 0"
+      >None</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "QuestionsList",
   data() {
     return {
       radio_name: "this"
     };
-  }
+  },
+  computed: mapGetters(["allQuestions"])
 };
 </script>
 
@@ -98,7 +61,14 @@ export default {
   max-width: 700px;
   margin-right: auto;
   margin-left: auto;
-  border: 1px solid #333;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.more {
+  max-width: 700px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgb(106, 4, 140);
 }
 </style>
