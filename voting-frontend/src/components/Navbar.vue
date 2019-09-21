@@ -18,8 +18,8 @@
         </div>
       </div>
       <div class="right-nav">
-        <router-link to="/" class="nav-item light padx-1">Register</router-link>
-        <router-link to="/about" class="nav-item light padx-1">Login</router-link>
+        <router-link to="/register" class="nav-item light padx-1">Register</router-link>
+        <router-link to="/login" class="nav-item light padx-1">Login</router-link>
         <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
       </div>
     </div>
@@ -30,8 +30,8 @@
     >
       <router-link to="/" class="nav-item light padx-1">Home</router-link>
       <router-link to="/about" class="nav-item light padx-1">About</router-link>
-      <router-link to="/" class="nav-item light padx-1">Register</router-link>
-      <router-link to="/about" class="nav-item light padx-1">Login</router-link>
+      <router-link to="/register" class="nav-item light padx-1">Register</router-link>
+      <router-link to="/login" class="nav-item light padx-1">Login</router-link>
       <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
     </div>
   </div>
