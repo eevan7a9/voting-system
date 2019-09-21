@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="wrapper bg-violetdient mgt-2-em"
+      class="wrapper bg-violetdient mgt-1 mgb-2"
       v-for="(question, index) in allQuestions"
       :key="index"
     >
@@ -11,7 +11,7 @@
       </div>
       <hr />
       <div
-        class="answers-cont mgb-1-px"
+        class="answers-cont mgb-2-px"
         v-for="(answer, index) in question.answers.slice(0,2)"
         :key="index"
       >
@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   border: 3px solid rgb(106, 4, 140);
   border-top-right-radius: 20px;
