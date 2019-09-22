@@ -192,17 +192,33 @@ const state = {
                 "updated_at": "2019-09-15 07:46:23"
             }
         }
-    ]
+    ],
+    question: {
+        "id": 0,
+        "user_id": 0,
+        "title": "",
+        "created_at": "null",
+        "updated_at": "",
+        "answers": []
+    }
 }
 const getters = {
     allQuestions: (state) => state.questions,
+    questionDetail: state => state.question
 
 }
 const actions = {
-
+    getQuestionDetails: ({ commit, state }, id) => {
+        setTimeout(() => {
+            const question = state.questions.find(question => question.id == id)
+            commit("setQuestionDetails", question);
+        }, 2000);
+    }
 }
 const mutations = {
-
+    setQuestionDetails: (state, question) => {
+        state.question = question;
+    }
 }
 export default {
     state,

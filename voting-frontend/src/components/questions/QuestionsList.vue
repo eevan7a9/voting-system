@@ -15,17 +15,23 @@
         v-for="(answer, index) in question.answers.slice(0,2)"
         :key="index"
       >
-        <div class="answers pady-1 padx-2 bg-lightdient pointer">
+        <div class="answers pady-1 padx-2 bg-lightdient">
           <p class="fs-18">{{ answer.title }}</p>
           <input type="radio" :name="question.id" id />
         </div>
       </div>
       <div
-        class="more pady-1 padx-2 bg-lightdient fw-bolder pointer"
+        class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
         v-if="question.answers.length > 2"
-      >View more</div>
+      >...</div>
+      <router-link :to="{ name:'details', params:{questionId:question.id}}">
+        <div
+          class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
+          v-if="question.answers.length !== 0"
+        >Vote Now!</div>
+      </router-link>
       <div
-        class="more pady-1 padx-2 bg-lightdient fw-bolder pointer"
+        class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
         v-if="question.answers.length == 0"
       >None</div>
     </div>
@@ -46,6 +52,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .wrapper {
   border: 3px solid #1583c7;
   border-top-right-radius: 20px;
@@ -64,11 +73,16 @@ export default {
   display: grid;
   grid-template-columns: 1fr auto;
 }
-.more {
+.vote {
   max-width: 900px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   color: #1583c7;
+}
+.more {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

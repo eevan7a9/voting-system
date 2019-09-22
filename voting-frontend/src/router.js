@@ -28,6 +28,16 @@ export default new Router({
       path: "/login",
       name: "login",
       component: () => import('./views/Login.vue'),
-    }
+    },
+    {
+      path: "/question/:questionId/details",
+      name: "details",
+      component: () => import('./views/Details.vue'),
+      props(route) { // by doing this we can prevent the params.id Type 
+        let props = { ...route.params } // from changing when entered from url
+        props.questionId = parseInt(props.questionId);
+        return props
+      },
+    },
   ]
 })
