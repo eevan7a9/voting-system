@@ -1,7 +1,7 @@
 <template>
   <div id="nav" class="bg-bluedient">
     <div class="container tx-upp fw-bold ls-2">
-      <div class="left-nav">
+      <div class="left-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
         <router-link to="/" class="nav-item light padx-1">Home</router-link>
         <router-link to="/about" class="nav-item light padx-1">About</router-link>
       </div>
@@ -17,13 +17,13 @@
           <div></div>
         </div>
       </div>
-      <div class="right-nav">
+      <div class="right-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
         <router-link to="/register" class="nav-item light padx-1">Register</router-link>
         <router-link to="/login" class="nav-item light padx-1">Login</router-link>
         <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
       </div>
     </div>
-    <div
+    <!-- <div
       class="mobile-nav bg-bluedient tx-upp fw-bold ls-2"
       :style="mobile_nav ? 'display:flex;' : 'display:none;'"
       @click="NavTrigger"
@@ -33,7 +33,7 @@
       <router-link to="/register" class="nav-item light padx-1">Register</router-link>
       <router-link to="/login" class="nav-item light padx-1">Login</router-link>
       <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -48,6 +48,10 @@ export default {
   methods: {
     NavTrigger() {
       this.mobile_nav = !this.mobile_nav;
+      console.log(1);
+    },
+    onFocusing() {
+      console.log(1);
     }
   }
 };
@@ -76,6 +80,7 @@ export default {
   border-radius: 100%;
   padding: 8px 10px;
   max-width: 100px;
+  height: 50px;
 }
 .center-nav span {
   padding-bottom: 20px;
@@ -97,13 +102,14 @@ export default {
 
 @media (max-width: 600px) {
   #nav {
-    height: 60px;
+    height: 65px;
     position: fixed;
     padding: 5px 0;
     width: 100%;
   }
   .container {
     flex-direction: column;
+    padding: 0;
   }
   .center-nav {
     order: -1;
@@ -112,10 +118,12 @@ export default {
   }
   .logo {
     width: 100px;
+    padding: 0px;
   }
   #hamburger {
     cursor: pointer;
     padding-top: 5px;
+    padding: 10px;
   }
   #hamburger div {
     background: aliceblue;
@@ -123,16 +131,22 @@ export default {
     width: 50px;
     margin-top: 5px;
   }
-  .left-nav,
-  .right-nav {
+  .notTriggerNav {
     display: none;
   }
-  .mobile-nav {
+  .triggerNav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background: #1583c7;
+  }
+  /* .mobile-nav {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     text-align: center;
     height: 100vh;
-  }
+  } */
 }
 </style>

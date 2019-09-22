@@ -1,19 +1,29 @@
 <template>
-  <div class="wrapper pady-3 mgt-3 mgb-2">
-    <div class="question-cont bg-lightdient dark pady-1 padx-2">
-      <h2>{{ questionDetail.title }}</h2>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
-    </div>
-    <div class="answers-cont mgt-1" v-for="(answer, index) in questionDetail.answers" :key="index">
-      <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
-        <p class="fs-18">{{ answer.title }}</p>
-        <input type="radio" :name="questionDetail.id" id />
+  <div>
+    <div class="wrapper pady-2 mgt-3 mgb-2 bg-lightdient">
+      <div class="question-cont dark pady-1 padx-2">
+        <h2>{{ questionDetail.title }}</h2>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+      </div>
+      <div
+        class="answers-cont mgt-1"
+        v-for="(answer, index) in questionDetail.answers"
+        :key="index"
+      >
+        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
+          <p class="fs-18">{{ answer.title }}</p>
+          <input type="radio" :name="questionDetail.id" id />
+        </div>
+      </div>
+      <div
+        class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
+        v-if="questionDetail.answers.length == 0"
+      >None</div>
+      <div class="buttons-container pady-3">
+        <button class="return pady-1 padx-2 fw-bold bg-vuedient">Return</button>
+        <button class="submit pady-1 padx-2 fw-bold bg-bluedient">Submit</button>
       </div>
     </div>
-    <div
-      class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
-      v-if="questionDetail.answers.length == 0"
-    >None</div>
   </div>
 </template>
 
@@ -49,6 +59,7 @@ export default {
 }
 .question-cont {
   border: 3px solid #1583c7;
+  background: white;
 }
 .answers {
   border: 3px solid #1583c7;
@@ -57,5 +68,9 @@ export default {
   margin-left: auto;
   display: grid;
   grid-template-columns: 1fr auto;
+}
+.buttons-container {
+  display: flex;
+  justify-content: space-around;
 }
 </style>
