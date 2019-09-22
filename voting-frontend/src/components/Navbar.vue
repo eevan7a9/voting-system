@@ -2,8 +2,12 @@
   <div id="nav" class="bg-bluedient">
     <div class="container tx-upp fw-bold ls-2">
       <div class="left-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
-        <router-link to="/" class="nav-item light padx-1">Home</router-link>
-        <router-link to="/about" class="nav-item light padx-1">About</router-link>
+        <router-link to="/" class="nav-item">
+          <div class="light padx-1" @click="NavTrigger">Home</div>
+        </router-link>
+        <router-link to="/about" class="nav-item">
+          <div class="light padx-1" @click="NavTrigger">About</div>
+        </router-link>
       </div>
       <div class="center-nav">
         <div class="logo">
@@ -18,22 +22,17 @@
         </div>
       </div>
       <div class="right-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
-        <router-link to="/register" class="nav-item light padx-1">Register</router-link>
-        <router-link to="/login" class="nav-item light padx-1">Login</router-link>
-        <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
+        <router-link to="/register" class="nav-item">
+          <div class="light padx-1" @click="NavTrigger">Register</div>
+        </router-link>
+        <router-link to="/login" class="nav-item">
+          <div class="light padx-1" @click="NavTrigger">Login</div>
+        </router-link>
+        <router-link to="/about" class="nav-item">
+          <div class="light padx-1" @click="NavTrigger">Logout</div>
+        </router-link>
       </div>
     </div>
-    <!-- <div
-      class="mobile-nav bg-bluedient tx-upp fw-bold ls-2"
-      :style="mobile_nav ? 'display:flex;' : 'display:none;'"
-      @click="NavTrigger"
-    >
-      <router-link to="/" class="nav-item light padx-1">Home</router-link>
-      <router-link to="/about" class="nav-item light padx-1">About</router-link>
-      <router-link to="/register" class="nav-item light padx-1">Register</router-link>
-      <router-link to="/login" class="nav-item light padx-1">Login</router-link>
-      <router-link to="/about" class="nav-item light padx-1">Logout</router-link>
-    </div>-->
   </div>
 </template>
 
@@ -50,7 +49,7 @@ export default {
       this.mobile_nav = !this.mobile_nav;
       console.log(1);
     },
-    onFocusing() {
+    someFunction() {
       console.log(1);
     }
   }
@@ -68,9 +67,13 @@ export default {
 }
 .nav-item {
   text-decoration: none;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  line-height: 60px;
+}
+.nav-item div {
+  padding: 20px;
+}
+.right-nav,
+.left-nav {
+  display: flex;
 }
 .nav-item:hover {
   background: rgba(194, 176, 213, 0.28);
@@ -141,12 +144,8 @@ export default {
     text-align: center;
     background: #1583c7;
   }
-  /* .mobile-nav {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    height: 100vh;
-  } */
+  .nav-item div {
+    padding: 50px;
+  }
 }
 </style>
