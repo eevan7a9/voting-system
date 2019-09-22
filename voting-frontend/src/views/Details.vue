@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper pady-2 mgt-3 mgb-2 bg-lightdient">
+    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
       <div class="question-cont dark pady-1 padx-2">
         <h2>{{ questionDetail.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
@@ -20,8 +20,8 @@
         v-if="questionDetail.answers.length == 0"
       >None</div>
       <div class="buttons-container pady-3">
-        <button class="return pady-1 padx-2 fw-bold bg-vuedient">Return</button>
-        <button class="submit pady-1 padx-2 fw-bold bg-bluedient">Submit</button>
+        <button class="cancel pady-1 padx-2 fw-bold borad-1 dark bg-lightdient tx-cap">cancel</button>
+        <button class="submit pady-1 padx-2 fw-bold borad-1 light bg-vuedient tx-cap">Submit</button>
       </div>
     </div>
   </div>
@@ -72,5 +72,9 @@ export default {
 .buttons-container {
   display: flex;
   justify-content: space-around;
+}
+.cancel,
+.submit {
+  border: 1px solid #1583c7;
 }
 </style>
