@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const state = {
     questions: [
         {
@@ -213,6 +215,19 @@ const actions = {
             const question = state.questions.find(question => question.id == id)
             commit("setQuestionDetails", question);
         }, 2000);
+    },
+    addQuestion: async () => {
+        await axios.post('/posts', {
+            user_id: 1,
+            title: 'tester',
+            created_at: '2019-20-1'
+        })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 }
 const mutations = {

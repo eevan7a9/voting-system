@@ -36,17 +36,40 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "CreateQuestion",
   data() {
     return {
       title: "",
-      additional_info: ""
+      additional_info: "",
+      error: ""
     };
   },
   methods: {
+    ...mapActions(["addQuestion"]),
+    validate() {
+      if (this.title) {
+        if (this.title.length < 6) {
+          this.error = "Title must be atleast 6 character long";
+        } else {
+          this.error = "";
+        }
+      } else {
+        this.error = "title must not be empty";
+      }
+    },
     submit() {
-      alert(`${this.title} - ${this.additional_info}`);
+      this.validate();
+      if (this.error) {
+        console.log(this.error);
+      } else {
+        this.addQuestion().then(() => {
+          this.title = "";
+          this.additional_info = "";
+          this.$router.push("/");
+        });
+      }
     },
     cancel() {
       this.$router.push("/");
