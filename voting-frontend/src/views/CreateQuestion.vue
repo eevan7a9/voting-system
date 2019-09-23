@@ -60,6 +60,8 @@ label {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
+  -webkit-box-shadow: 4px 9px 17px -8px #000000;
+  box-shadow: 4px 9px 17px -8px #000000;
 }
 .title-container {
   display: flex;

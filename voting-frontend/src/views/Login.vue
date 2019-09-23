@@ -46,6 +46,8 @@ export default {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  -webkit-box-shadow: 4px 9px 17px -8px #000000;
+  box-shadow: 4px 9px 17px -8px #000000;
 }
 .login {
   text-align: center;
