@@ -61,7 +61,7 @@ export default {
       alert("filter");
     },
     newQuestion() {
-      alert("new");
+      this.$router.push("create");
     }
   }
 };

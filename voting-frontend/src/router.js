@@ -39,5 +39,10 @@ export default new Router({
         return props
       },
     },
+    {
+      path: "/create",
+      name: "create",
+      component: () => import('./views/CreateQuestion.vue'),
+    }
   ]
 })
