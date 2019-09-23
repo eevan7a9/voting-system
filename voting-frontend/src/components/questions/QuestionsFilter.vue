@@ -7,11 +7,11 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">newest</p>
-            <input type="radio" name="sorter" id />
+            <input type="radio" name="sorter" id @change="sortQuestions" />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">oldest</p>
-            <input type="radio" name="sorter" id />
+            <input type="radio" name="sorter" id @change="sortQuestions" />
           </li>
         </ul>
       </div>
@@ -21,22 +21,25 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">all</p>
-            <input type="radio" name="sorter" id />
+            <input type="radio" name="sorter" id @change="filterQuestions" />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">not voted</p>
-            <input type="radio" name="sorter" id />
+            <input type="radio" name="sorter" id @change="filterQuestions" />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">voted</p>
-            <input type="radio" name="sorter" id />
+            <input type="radio" name="sorter" id @change="filterQuestions" />
           </li>
         </ul>
       </div>
       <div class="Options">
         <h2 class="tx-upp fs-large">options</h2>
         <hr class="mgy-1 mgx-1" />
-        <button class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer">New Question</button>
+        <button
+          class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer"
+          @click="newQuestion"
+        >New Question</button>
       </div>
     </div>
   </div>
@@ -49,6 +52,17 @@ export default {
     return {
       test: "Hello World"
     };
+  },
+  methods: {
+    sortQuestions() {
+      alert("sort");
+    },
+    filterQuestions() {
+      alert("filter");
+    },
+    newQuestion() {
+      alert("new");
+    }
   }
 };
 </script>
