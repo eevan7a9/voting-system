@@ -44,13 +44,33 @@ export default {
       mobile_nav: 0
     };
   },
+  mounted() {
+    // this will tell us if screen is being resized
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowWidth);
+      // window.addEventListener("resize", this.getWindowHeight);
+
+      //Init
+      this.getWindowWidth();
+      // this.getWindowHeight();
+    });
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
+  },
   methods: {
+    getWindowWidth(event) {
+      let windowWidth = document.documentElement.clientWidth;
+      if (windowWidth < 601) {
+        this.mobile_nav = 0;
+      }
+    },
+    // getWindowHeight(event) {
+    //   let windowHeight = document.documentElement.clientHeight;
+    //   console.log(windowHeight);
+    // },
     NavTrigger() {
       this.mobile_nav = !this.mobile_nav;
-      console.log(1);
-    },
-    someFunction() {
-      console.log(1);
     }
   }
 };

@@ -20,6 +20,11 @@
           </div>
           <div class="submit-container">
             <button
+              @click="cancel"
+              type="button"
+              class="cancel blue pady-1 mgt-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
+            >Cancel</button>
+            <button
               type="submit"
               class="pady-1 mgt-3 padx-2 borad-1 bg-bluedient light fs-20 pointer"
             >Submit</button>
@@ -42,6 +47,9 @@ export default {
   methods: {
     submit() {
       alert(`${this.title} - ${this.additional_info}`);
+    },
+    cancel() {
+      this.$router.push("/");
     }
   }
 };
@@ -54,6 +62,9 @@ label {
 }
 .create {
   text-align: center;
+}
+.cancel {
+  border: 1px solid #1583c7;
 }
 .wrapper {
   border: 3px solid #1583c7;
@@ -80,7 +91,8 @@ label {
   border: 3px solid #1583c7;
 }
 .submit-container {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
 }
 @media (max-width: 600px) {
   .wrapper {
@@ -88,6 +100,9 @@ label {
   }
   .create-container {
     padding: 5px;
+  }
+  .submit-container {
+    padding: 20px 0;
   }
 }
 </style>
