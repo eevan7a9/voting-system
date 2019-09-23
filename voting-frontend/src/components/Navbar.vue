@@ -139,7 +139,7 @@ export default {
     margin-top: 5px;
   }
   .notTriggerNav {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -148,6 +148,7 @@ export default {
     transition: transform 0.5s ease-in-out;
   }
   .triggerNav {
+    display: flex;
     transform: translateX(0%);
   }
   .nav-item div {
