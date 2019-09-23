@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="wrapper mgt-3 bg-lightdient borad-1">
-      <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
-      <form @submit="submit">
+      <section id="question" v-if="!edit_answer">
+        <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
         <div class="create-container pady-1 padx-3">
           <div class="title-container">
             <label for="title" class="pady-1 fs-18 tx-upp">title :</label>
@@ -25,25 +25,33 @@
               class="cancel blue pady-1 mgt-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
             >Cancel</button>
             <button
-              type="submit"
+              @click="create"
               class="pady-1 mgt-3 padx-2 borad-1 bg-bluedient light fs-20 pointer"
-            >Submit</button>
+            >continue</button>
           </div>
         </div>
-      </form>
+      </section>
+      <section v-if="edit_answer">
+        <CreateAnswers :title="title" :additional_info="additional_info" />
+      </section>
     </div>
   </div>
 </template>
 
 <script>
+import CreateAnswers from "../components/answers/CreateAnswers";
 import { mapActions } from "vuex";
 export default {
   name: "CreateQuestion",
+  components: {
+    CreateAnswers
+  },
   data() {
     return {
-      title: "",
-      additional_info: "",
-      error: ""
+      title: "test Title",
+      additional_info: "Test additional info",
+      error: "",
+      edit_answer: 0
     };
   },
   methods: {
@@ -59,16 +67,14 @@ export default {
         this.error = "title must not be empty";
       }
     },
-    submit() {
+    create() {
       this.validate();
       if (this.error) {
         console.log(this.error);
       } else {
-        this.addQuestion().then(() => {
-          this.title = "";
-          this.additional_info = "";
-          this.$router.push("/");
-        });
+        // this.title = "";
+        // this.additional_info = "";
+        this.edit_answer = 1;
       }
     },
     cancel() {
