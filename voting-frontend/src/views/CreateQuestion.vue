@@ -40,7 +40,6 @@
 
 <script>
 import CreateAnswers from "../components/answers/CreateAnswers";
-import { mapActions } from "vuex";
 export default {
   name: "CreateQuestion",
   components: {
@@ -55,7 +54,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addQuestion"]),
     validate() {
       if (this.title) {
         if (this.title.length < 6) {
@@ -70,7 +68,7 @@ export default {
     create() {
       this.validate();
       if (this.error) {
-        console.log(this.error);
+        alert(this.error);
       } else {
         // this.title = "";
         // this.additional_info = "";
