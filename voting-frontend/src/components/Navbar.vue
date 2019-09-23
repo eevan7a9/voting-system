@@ -1,7 +1,7 @@
 <template>
   <div id="nav" class="bg-bluedient">
     <div class="container tx-upp fw-bold ls-2">
-      <div class="left-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
+      <div class="left-nav notTriggerNav" :class="{triggerNav: mobile_nav}">
         <router-link to="/" class="nav-item">
           <div class="light padx-1" @click="NavTrigger">Home</div>
         </router-link>
@@ -21,7 +21,7 @@
           <div></div>
         </div>
       </div>
-      <div class="right-nav" :class="mobile_nav ? 'triggerNav' : 'notTriggerNav'">
+      <div class="right-nav notTriggerNav" :class="{triggerNav: mobile_nav}">
         <router-link to="/register" class="nav-item">
           <div class="light padx-1" @click="NavTrigger">Register</div>
         </router-link>
@@ -85,6 +85,10 @@ export default {
   max-width: 100px;
   height: 50px;
 }
+.center-nav {
+  /* width: 100px; */
+  min-width: 100px;
+}
 .center-nav span {
   padding-bottom: 20px;
   position: absolute;
@@ -135,14 +139,16 @@ export default {
     margin-top: 5px;
   }
   .notTriggerNav {
-    display: none;
-  }
-  .triggerNav {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     background: #1583c7;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+  }
+  .triggerNav {
+    transform: translateX(0%);
   }
   .nav-item div {
     padding: 50px;
