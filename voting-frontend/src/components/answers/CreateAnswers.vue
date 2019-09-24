@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addQuestion"]),
+    ...mapActions(["onLoader", "offLoader", "addQuestion", "addAnswer"]),
     addChoice() {
       if (this.choice) {
         this.answers.push({
@@ -68,14 +68,18 @@ export default {
       if (this.answers.length < 2) {
         alert("must Provide atleast two choices");
       } else {
-        this.addQuestion();
+        this.onLoader(); // turn loader on while sending request
+        this.addQuestion({
+          title: this.title,
+          additional_info: this.additional_info,
+          answers: this.answers
+        }).then(() => {
+          this.addAnswer(this.answers).then(() => {
+            this.offLoader(); // turn loader off when request is done
+          });
+        });
       }
     }
-  },
-  destroyed() {
-    this.id = 1;
-    this.choice = "";
-    this.answers = [];
   }
 };
 </script>

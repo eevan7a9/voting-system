@@ -216,14 +216,16 @@ const actions = {
             commit("setQuestionDetails", question);
         }, 2000);
     },
-    addQuestion: async () => {
+    addQuestion: async ({ commit }, question) => {
         await axios.post('/posts', {
             user_id: 1,
             title: 'tester',
             created_at: '2019-20-1'
         })
             .then(res => {
-                console.log(res)
+                commit("insertQuestion", question)
+                console.log(res);
+                console.log(question);
             })
             .catch(err => {
                 console.error(err);
@@ -231,9 +233,11 @@ const actions = {
     }
 }
 const mutations = {
+    insertQuestion: (state, question) => state.questions.unshift(question),
     setQuestionDetails: (state, question) => {
         state.question = question;
-    }
+    },
+
 }
 export default {
     state,
