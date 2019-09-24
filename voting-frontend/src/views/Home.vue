@@ -1,7 +1,7 @@
 <template>
   <div class="home pady-1">
     <QuestionsFilter />
-    <QuestionsList />
+    <QuestionsList :scrollInto="scrollInto" />
   </div>
 </template>
 
@@ -15,6 +15,9 @@ export default {
   components: {
     QuestionsFilter,
     QuestionsList
+  },
+  props: {
+    scrollInto: String
   }
 };
 </script>

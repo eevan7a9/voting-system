@@ -20,8 +20,14 @@
         v-if="questionDetail.answers.length == 0"
       >None</div>
       <div class="buttons-container pady-3">
-        <button class="cancel pady-1 padx-2 fw-bold borad-1 dark bg-lightdient tx-cap">cancel</button>
-        <button class="submit pady-1 padx-2 fw-bold borad-1 light bg-vuedient tx-cap">Submit</button>
+        <button
+          @click="cancel"
+          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
+        >cancel</button>
+        <button
+          @click="vote"
+          class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
+        >Submit</button>
       </div>
     </div>
   </div>
@@ -38,7 +44,16 @@ export default {
     ...mapGetters(["questionDetail"])
   },
   methods: {
-    ...mapActions(["getQuestionDetails"])
+    ...mapActions(["getQuestionDetails"]),
+    cancel() {
+      this.$router.push({
+        name: "home",
+        params: { scrollInto: `${this.questionDetail.id}` }
+      });
+    },
+    vote() {
+      alert("submited");
+    }
   },
   created() {
     if (this.question) {
