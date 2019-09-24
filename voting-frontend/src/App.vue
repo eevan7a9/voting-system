@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar id="topNav" />
+    <Navbar />
     <div id="loader" v-if="loader">
       <div class="lds-spinner">
         <div></div>
@@ -17,7 +17,7 @@
         <div></div>
       </div>
     </div>
-    <router-view class="container main-view" v-if="!loader" />
+    <router-view class="container main-view" />
   </div>
 </template>
 <script>
@@ -50,22 +50,18 @@ export default {
 }
 @media (max-width: 600px) {
   .main-view {
-    padding-top: 60px;
+    padding-top: 10px;
+    /* position: absolute; */
   }
 }
-#topNav {
-  top: 0;
-  position: sticky;
-  z-index: 1;
-}
 #loader {
-  position: sticky;
+  position: fixed;
   left: 0;
   top: 0;
-  z-index: 14;
+  z-index: 1;
   background: rgb(218, 215, 221);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

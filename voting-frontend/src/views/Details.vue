@@ -49,7 +49,7 @@ export default {
     ...mapGetters(["questionDetail"])
   },
   methods: {
-    ...mapActions(["getQuestionDetails"]),
+    ...mapActions(["onLoader", "offLoader", "getQuestionDetails"]),
     cancel() {
       this.$router.push({
         name: "home",
@@ -57,11 +57,19 @@ export default {
       });
     },
     submit() {
-      alert(this.selected);
+      if (!this.selected) {
+        alert("you have not selected any of the choices");
+      } else {
+        alert(this.selected);
+      }
     }
   },
   created() {
+    this.onLoader();
     this.getQuestionDetails(this.questionId);
+    setTimeout(() => {
+      this.offLoader();
+    }, 2000);
   }
 };
 </script>
