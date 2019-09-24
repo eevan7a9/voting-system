@@ -5,7 +5,7 @@
       v-for="(question, index) in allQuestions"
       :key="index"
     >
-      <div class="question-cont bg-lightdient dark pady-1 padx-2">
+      <div class="question-cont bg-lightdient dark pady-1 padx-2" :id="question.id">
         <h2>{{ question.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
       </div>
@@ -42,12 +42,29 @@
 import { mapGetters } from "vuex";
 export default {
   name: "QuestionsList",
+  props: {
+    scrollInto: String
+  },
   data() {
     return {
       radio_name: "this"
     };
   },
-  computed: mapGetters(["allQuestions"])
+  computed: mapGetters(["allQuestions"]),
+  methods: {
+    scrollTo(id) {
+      document.getElementById(`${id}`).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center"
+      });
+    }
+  },
+  mounted() {
+    if (this.scrollInto) {
+      this.scrollTo(this.scrollInto);
+    }
+  }
 };
 </script>
 
