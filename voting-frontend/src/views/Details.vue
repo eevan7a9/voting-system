@@ -12,7 +12,7 @@
       >
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
           <p class="fs-18">{{ answer.title }}</p>
-          <input type="radio" :name="questionDetail.id" id />
+          <input type="radio" :name="questionDetail.id" :value="answer.id" v-model="selected" />
         </div>
       </div>
       <div
@@ -25,7 +25,7 @@
           class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
         >cancel</button>
         <button
-          @click="vote"
+          @click="submit"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
         >Submit</button>
       </div>
@@ -40,6 +40,11 @@ export default {
   props: {
     questionId: Number
   },
+  data() {
+    return {
+      selected: null
+    };
+  },
   computed: {
     ...mapGetters(["questionDetail"])
   },
@@ -51,16 +56,11 @@ export default {
         params: { scrollInto: `${this.questionDetail.id}` }
       });
     },
-    vote() {
-      alert("submited");
+    submit() {
+      alert(this.selected);
     }
   },
   created() {
-    if (this.question) {
-      console.log(1);
-    } else {
-      console.log(0);
-    }
     this.getQuestionDetails(this.questionId);
   }
 };
