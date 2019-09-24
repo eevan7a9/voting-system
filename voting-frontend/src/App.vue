@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navbar id="topNav" />
-
     <div id="loader" v-if="loader">
       <div class="lds-spinner">
         <div></div>
@@ -22,24 +21,21 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
 import Navbar from "./components/Navbar";
 export default {
   components: {
     Navbar
   },
-  data() {
-    return {
-      loader: 1
-    };
+  computed: {
+    ...mapGetters(["loader"])
   },
   methods: {
-    loaderTrigger() {
-      this.loader = 0;
-    }
+    ...mapActions(["offLoader"])
   },
   created() {
     setTimeout(() => {
-      this.loader = 0;
+      this.offLoader();
     }, 3000);
   }
 };
