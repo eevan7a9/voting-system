@@ -74,9 +74,7 @@ export default {
           additional_info: this.additional_info,
           answers: this.answers
         }).then(() => {
-          this.addAnswer(this.answers).then(() => {
-            this.offLoader(); // turn loader off when request is done
-          });
+          this.offLoader(); // turn loader off when request is done
         });
       }
     }

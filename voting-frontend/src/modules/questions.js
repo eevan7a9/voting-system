@@ -224,8 +224,19 @@ const actions = {
         })
             .then(res => {
                 commit("insertQuestion", question)
-                console.log(res);
-                console.log(question);
+                console.log(res, question);
+                question.answers.forEach(answer => {
+                    axios.post('/likes', {
+                        post_id: 1,
+                        user_id: 1
+                    })
+                        .then(res => {
+                            console.log(res, answer)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                });
             })
             .catch(err => {
                 console.error(err);
