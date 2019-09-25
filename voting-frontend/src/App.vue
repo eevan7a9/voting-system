@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <div id="loader" v-if="loader">
+    <div id="loader" v-show="loader">
       <div class="lds-spinner">
         <div></div>
         <div></div>
@@ -17,7 +17,7 @@
         <div></div>
       </div>
     </div>
-    <router-view class="container main-view" />
+    <router-view class="container main-view" v-show="!loader" />
   </div>
 </template>
 <script>

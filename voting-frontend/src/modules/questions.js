@@ -235,6 +235,8 @@ const actions = {
         await axios.delete(`/posts/${id}`)
             .then(res => {
                 console.log(res)
+                commit("removeQuestion", id);
+                console.log(id);
             })
             .catch(err => {
                 console.error(err);
@@ -246,6 +248,7 @@ const mutations = {
     setQuestionDetails: (state, question) => {
         state.question = question;
     },
+    removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
 
 }
 export default {

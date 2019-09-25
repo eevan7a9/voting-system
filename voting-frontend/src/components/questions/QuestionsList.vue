@@ -6,8 +6,10 @@
       :key="index"
     >
       <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
-        <h2>{{ question.title }}</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+        <router-link :to="{ name:'details', params:{questionId:question.id}}">
+          <h2 class="mgb-1">{{ question.title }}</h2>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+        </router-link>
       </div>
       <hr />
       <AnswersList :answers="question.answers" />
@@ -66,6 +68,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: #333;
 }
 .wrapper {
   border: 3px solid #1583c7;
@@ -78,7 +81,9 @@ a {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 }
-
+.question-container h2:hover {
+  color: #1583c7;
+}
 .vote {
   max-width: 900px;
   text-align: center;
