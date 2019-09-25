@@ -84,6 +84,7 @@ export default {
   box-shadow: 4px 9px 14px -8px #000000;
   top: 0;
   position: sticky;
+  z-index: 2;
   /* width: 100%; */
 }
 .nav-container {
