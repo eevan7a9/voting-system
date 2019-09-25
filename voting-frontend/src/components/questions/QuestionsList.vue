@@ -5,21 +5,12 @@
       v-for="(question, index) in allQuestions"
       :key="index"
     >
-      <div class="question-cont bg-lightdient dark pady-1 padx-2" :id="question.id">
+      <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
         <h2>{{ question.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
       </div>
       <hr />
-      <div
-        class="answers-cont mgb-2-px"
-        v-for="(answer, index) in question.answers.slice(0,2)"
-        :key="index"
-      >
-        <div class="answers pady-1 padx-2 bg-lightdient">
-          <p class="fs-18">{{ answer.title }}</p>
-          <input type="radio" :name="question.id" id />
-        </div>
-      </div>
+      <AnswersList :answers="question.answers" />
       <div
         class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
         v-if="question.answers.length > 2"
@@ -39,9 +30,13 @@
 </template>
 
 <script>
+import AnswersList from "../answers/AnswersList";
 import { mapGetters } from "vuex";
 export default {
   name: "QuestionsList",
+  components: {
+    AnswersList
+  },
   props: {
     scrollInto: String
   },
@@ -79,17 +74,11 @@ a {
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
-.question-cont {
+.question-container {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 }
-.answers {
-  max-width: 900px;
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
+
 .vote {
   max-width: 900px;
   text-align: center;
