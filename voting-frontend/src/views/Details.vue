@@ -1,9 +1,16 @@
 <template>
   <div>
     <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
-      <QuestionOptions @edit="editQuestion" @delete="removeQuestion" @report="reportQuestion" />
-      <div class="question-cont dark pady-1 padx-2">
+      <QuestionOptions v-show="!editMode" @edit="edit" @delete="remove" @report="reportQuestion" />
+      <h2 class="edit-mode green tx-upp pady-1" v-show="editMode">Edit Mode :</h2>
+      <div class="question-cont dark pady-1 padx-2" v-show="!editMode">
         <h2>{{ questionDetail.title }}</h2>
+
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+      </div>
+      <div class="dark pady-1 padx-2" v-show="editMode">
+        <input class="fs-25 pady-1 padx-1 mgb-1 borad-1" type="text" v-model="questionDetail.title" />
+        <textarea class="pady-1 padx-1 fs-18 mgb-1 borad-1" cols="10" rows="3"></textarea>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
       </div>
       <div
@@ -11,16 +18,19 @@
         v-for="(answer, index) in questionDetail.answers"
         :key="index"
       >
-        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
+        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!editMode">
           <p class="fs-18">{{ answer.title }}</p>
           <input type="radio" :name="questionDetail.id" :value="answer.id" v-model="selected" />
+        </div>
+        <div class="answers pady-5-px padx-2 bg-bluedient light fw-bold" v-if="editMode">
+          <input class="fs-18 pady-5-px padx-5-px" type="text" v-model="answer.title" />
         </div>
       </div>
       <div
         class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
         v-if="questionDetail.answers.length == 0"
       >None</div>
-      <div class="buttons-container pady-3">
+      <div class="buttons-container pady-3" v-show="!editMode">
         <button
           @click="cancel"
           class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
@@ -29,6 +39,16 @@
           @click="submit"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
         >Submit</button>
+      </div>
+      <div class="buttons-container pady-1" v-show="editMode">
+        <button
+          @click="edit"
+          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 light bg-reddient tx-cap pointer"
+        >cancel</button>
+        <button
+          @click="save"
+          class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-greendient tx-cap pointer"
+        >Save</button>
       </div>
     </div>
   </div>
@@ -47,7 +67,8 @@ export default {
   },
   data() {
     return {
-      selected: null
+      selected: null,
+      editMode: false
     };
   },
   computed: {
@@ -73,10 +94,14 @@ export default {
         alert(this.selected);
       }
     },
-    editQuestion() {
-      alert("edit toggled");
+    save() {
+      console.log(JSON.stringify(this.questionDetail));
+      this.editMode = false;
     },
-    removeQuestion() {
+    edit() {
+      this.editMode = !this.editMode;
+    },
+    remove() {
       const answer = confirm("Are you sure you want to Delete this question?");
       answer
         ? this.deleteQuestion(this.questionDetail.id).then(() => {
@@ -99,6 +124,15 @@ export default {
 </script>
 
 <style scoped>
+input {
+  border: 3px solid #1583c7;
+  width: 100%;
+}
+textarea {
+  border: 3px solid #1583c7;
+  width: 100%;
+  resize: vertical;
+}
 .wrapper {
   border: 3px solid #1583c7;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
@@ -121,8 +155,22 @@ export default {
   display: flex;
   justify-content: space-around;
 }
+.edit-mode {
+  width: 100%;
+  text-align: center;
+}
 .cancel,
 .submit {
   border: 1px solid #1583c7;
+}
+@media (max-width: 600px) {
+  textarea {
+    padding: 0;
+    font-size: 15px;
+  }
+  input {
+    padding: 0;
+    font-size: 15px;
+  }
 }
 </style>

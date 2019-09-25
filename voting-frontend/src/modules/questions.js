@@ -241,7 +241,7 @@ const actions = {
             .catch(err => {
                 console.error(err);
             })
-    }
+    },
 }
 const mutations = {
     insertQuestion: (state, question) => state.questions.unshift(question),
