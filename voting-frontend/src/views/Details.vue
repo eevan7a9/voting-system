@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
+      <QuestionOptions @edit="editQuestion" @delete="deleteQuestion" @report="reportQuestion" />
       <div class="question-cont dark pady-1 padx-2">
         <h2>{{ questionDetail.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
@@ -34,9 +35,13 @@
 </template>
 
 <script>
+import QuestionOptions from "../components/questions/QuestionOptions";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Details",
+  components: {
+    QuestionOptions
+  },
   props: {
     questionId: Number
   },
@@ -62,6 +67,15 @@ export default {
       } else {
         alert(this.selected);
       }
+    },
+    editQuestion() {
+      alert("edit toggled");
+    },
+    deleteQuestion() {
+      alert("Are you sure you want to Delete this question?");
+    },
+    reportQuestion() {
+      alert("Are you sure you want to Report this question?");
     }
   },
   created() {
@@ -80,6 +94,7 @@ export default {
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
+
 .question-cont {
   border: 3px solid #1583c7;
   background: white;
