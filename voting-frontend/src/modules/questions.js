@@ -226,7 +226,7 @@ const actions = {
                 commit("insertQuestion", question)
                 console.log(res, question);
                 question.answers.forEach(answer => {
-                    axios.post('/likes', {
+                    axios.put(`/likes/${answer.id}`, {
                         post_id: 1,
                         user_id: 1
                     })
@@ -253,6 +253,32 @@ const actions = {
                 console.error(err);
             })
     },
+    editQuestion: async ({ commit }, question) => {
+        await axios.put(`/posts/${question.id}`, {
+            title: "hello",
+            user_id: "1"
+        })
+            .then(res => {
+                console.log(res)
+                console.log(question);
+                question.answers.forEach(answer => {
+                    axios.put(`/likes/${answer.id}`, {
+                        post_id: '1',
+                        user_1: 2
+                    })
+                        .then(res => {
+                            console.log(res)
+                            console.log(answer);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                })
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    }
 }
 const mutations = {
     insertQuestion: (state, question) => state.questions.unshift(question),

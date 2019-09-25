@@ -79,7 +79,8 @@ export default {
       "onLoader",
       "offLoader",
       "getQuestionDetails",
-      "deleteQuestion"
+      "deleteQuestion",
+      "editQuestion"
     ]),
     cancel() {
       this.$router.push({
@@ -95,7 +96,7 @@ export default {
       }
     },
     save() {
-      console.log(JSON.stringify(this.questionDetail));
+      this.editQuestion(this.questionDetail);
       this.editMode = false;
     },
     edit() {
