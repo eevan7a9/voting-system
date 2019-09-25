@@ -231,8 +231,8 @@ const actions = {
                 console.error(err);
             })
     },
-    deleteQuestion: async ({ commit }, question) => {
-        await axios.delete(`/posts/${question.id}`)
+    deleteQuestion: async ({ commit }, id) => {
+        await axios.delete(`/posts/${id}`)
             .then(res => {
                 console.log(res)
             })

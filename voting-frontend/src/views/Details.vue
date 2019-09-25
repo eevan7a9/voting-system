@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
-      <QuestionOptions @edit="editQuestion" @delete="deleteQuestion" @report="reportQuestion" />
+      <QuestionOptions @edit="editQuestion" @delete="removeQuestion" @report="reportQuestion" />
       <div class="question-cont dark pady-1 padx-2">
         <h2>{{ questionDetail.title }}</h2>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
@@ -54,7 +54,12 @@ export default {
     ...mapGetters(["questionDetail"])
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "getQuestionDetails"]),
+    ...mapActions([
+      "onLoader",
+      "offLoader",
+      "getQuestionDetails",
+      "deleteQuestion"
+    ]),
     cancel() {
       this.$router.push({
         name: "home",
@@ -71,8 +76,13 @@ export default {
     editQuestion() {
       alert("edit toggled");
     },
-    deleteQuestion() {
-      alert("Are you sure you want to Delete this question?");
+    removeQuestion() {
+      const answer = confirm("Are you sure you want to Delete this question?");
+      answer
+        ? this.deleteQuestion(this.questionDetail.id).then(() => {
+            this.$router.push({ name: "home" });
+          })
+        : "";
     },
     reportQuestion() {
       alert("Are you sure you want to Report this question?");
