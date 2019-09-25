@@ -230,6 +230,15 @@ const actions = {
             .catch(err => {
                 console.error(err);
             })
+    },
+    deleteQuestion: async ({ commit }, question) => {
+        await axios.delete(`/posts/${question.id}`)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 }
 const mutations = {
