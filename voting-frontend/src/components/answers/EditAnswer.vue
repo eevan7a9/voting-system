@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="answers pady-5-px padx-2 bg-bluedient light fw-bold">
-      <input class="fs-normal pady-1-px padx-5-px" type="text" v-model="answer.title" />
+    <div class="answers pdy-1 padx-2 bg-bluedient light fw-bold">
+      <p class="fs-18">{{ answer.title }}</p>
       <span class="pady-5-px padx-1 pointer" @click="remove">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -21,6 +21,15 @@
         </svg>
       </span>
     </div>
+    <div class="current-answer pady-1 padx-2 mgt-1 fs-18">
+      <input
+        type="text"
+        class="bg-lightdient fs-18"
+        v-model="title"
+        placeholder="Press Enter To Update"
+        @keypress.enter="update"
+      />
+    </div>
   </div>
 </template>
 
@@ -30,9 +39,18 @@ export default {
   props: {
     answer: Object
   },
+  data() {
+    return {
+      title: ""
+    };
+  },
   methods: {
     remove() {
       this.$emit("removeChoices", this.answer.id);
+    },
+    update() {
+      this.answer.title = this.title;
+      this.title = "";
     }
   }
 };
@@ -48,5 +66,28 @@ export default {
   grid-template-columns: 1fr auto;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
+}
+.answers p {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.current-answer {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
+input {
+  border: 0px solid #1583c7;
+  border-bottom: 3px solid #1583c7;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .answers {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  .current-answer {
+    padding: 0;
+  }
 }
 </style>

@@ -9,7 +9,7 @@
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
       </div>
       <!-- Edit Question Starts -->
-      <div class="dark pady-1 padx-2" v-show="editMode">
+      <div class="wrapper-edit-question dark pady-1 padx-2" v-show="editMode">
         <input
           class="fs-25 bg-lightdient pady-1 padx-1 mgb-1"
           type="text"
@@ -210,6 +210,12 @@ textarea {
   input {
     padding: 0;
     font-size: 15px;
+  }
+  .edit-mode {
+    padding: 0;
+  }
+  .wrapper-edit-question {
+    padding: 0;
   }
 }
 </style>
