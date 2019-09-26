@@ -50,29 +50,7 @@
         </div>
         <!-- Edit Answers Ends -->
       </div>
-      <!-- Add Answers Starts -->
-      <div class="answers mgt-1 pady-5-px padx-2 bg-bluedient light fw-bold" v-if="editMode">
-        <input class="fs-normal pady-1-px padx-5-px" type="text" v-model="new_answer" />
-        <span class="pady-5-px padx-1 pointer" @click="addChoices">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="34"
-            height="34"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-plus-square"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <line x1="12" y1="8" x2="12" y2="16" />
-            <line x1="8" y1="12" x2="16" y2="12" />
-          </svg>
-        </span>
-      </div>
-      <!-- Add Answers Ends -->
+      <AddAnswer :question_id="questionDetail.id" @newAnswer="addChoice" v-if="editMode" />
       <div class="buttons-container pady-3" v-show="!editMode">
         <button
           @click="cancel"
@@ -100,12 +78,14 @@
 </template>
 
 <script>
+import AddAnswer from "../components/answers/AddAnswer";
 import QuestionOptions from "../components/questions/QuestionOptions";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Details",
   components: {
-    QuestionOptions
+    QuestionOptions,
+    AddAnswer
   },
   props: {
     questionId: Number
@@ -113,8 +93,7 @@ export default {
   data() {
     return {
       selected: null,
-      editMode: false,
-      new_answer: ""
+      editMode: false
     };
   },
   computed: {
@@ -152,11 +131,12 @@ export default {
       // Enable Edit Mode
       this.editMode = !this.editMode;
     },
-    addChoices() {
-      alert("toggle Add choices");
-    },
     removeChoices() {
       alert("toggle remove choices");
+    },
+    addChoice(answer) {
+      this.questionDetail.answers.push(answer);
+      console.log(1);
     },
     remove() {
       // Removing the question and all it's answers

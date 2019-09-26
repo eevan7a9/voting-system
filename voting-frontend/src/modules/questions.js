@@ -226,12 +226,12 @@ const actions = {
                 commit("insertQuestion", question)
                 console.log(res, question);
                 question.answers.forEach(answer => {
-                    axios.put(`/likes/${answer.id}`, {
+                    axios.post(`/likes`, {
                         post_id: 1,
                         user_id: 1
                     })
                         .then(res => {
-                            console.log(res, answer)
+                            console.log(res, answer.id)
                         })
                         .catch(err => {
                             console.error(err);
@@ -264,8 +264,7 @@ const actions = {
                 let ctr = 0;
                 question.answers.forEach(answer => {
                     axios.put(`/likes/${answer.id}`, {
-                        post_id: '1',
-                        user_1: 2
+                        title: answer.title,
                     })
                         .then(res => {
                             ctr++
