@@ -10,9 +10,19 @@
       </div>
       <!-- Edit Question Starts -->
       <div class="dark pady-1 padx-2" v-show="editMode">
-        <input class="fs-25 pady-1 padx-1 mgb-1 borad-1" type="text" v-model="questionDetail.title" />
-        <textarea class="pady-1 padx-1 fs-18 mgb-1 borad-1" cols="10" rows="3"></textarea>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+        <input
+          class="fs-25 bg-lightdient pady-1 padx-1 mgb-1"
+          type="text"
+          v-model="questionDetail.title"
+        />
+        <textarea class="bg-lightdient pady-1 padx-1 fs-18 mgb-1" cols="10" rows="3"></textarea>
+        <div class="save-container">
+          <button
+            @click="save"
+            class="submit pady-10-px padx-2 mgb-1 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
+          >Save</button>
+        </div>
+        <hr class="blue" />
       </div>
       <!-- Edit Question Ends -->
       <div
@@ -25,32 +35,12 @@
           <input type="radio" :name="questionDetail.id" :value="answer.id" v-model="selected" />
         </div>
         <!-- Edit Answers Starts -->
-        <div class="answers pady-5-px padx-2 bg-bluedient light fw-bold" v-if="editMode">
-          <input class="fs-normal pady-1-px padx-5-px" type="text" v-model="answer.title" />
-          <span class="pady-5-px padx-1 pointer" @click="removeChoices">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="34"
-              height="34"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="3 6 5 6 21 6" />
-              <path
-                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-              />
-              <line x1="10" y1="11" x2="10" y2="17" />
-              <line x1="14" y1="11" x2="14" y2="17" />
-            </svg>
-          </span>
-        </div>
+        <EditAnswer :answer="answer" @removeChoices="removeChoices" v-if="editMode" />
         <!-- Edit Answers Ends -->
       </div>
+      <!-- Add Answers Starts -->
       <AddAnswer :question_id="questionDetail.id" @newAnswer="addChoice" v-if="editMode" />
+      <!-- Add Answers Ends -->
       <div class="buttons-container pady-3" v-show="!editMode">
         <button
           @click="cancel"
@@ -62,15 +52,12 @@
         >Submit</button>
       </div>
       <!-- Edit Buttons Starts -->
-      <div class="buttons-container pady-1" v-show="editMode">
+      <div class="buttons-container pady-1">
         <button
           @click="edit"
-          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 light bg-reddient tx-cap pointer"
-        >cancel</button>
-        <button
-          @click="save"
-          class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-greendient tx-cap pointer"
-        >Save</button>
+          v-show="editMode"
+          class="pady-1 padx-2 fs-18 fw-bold borad-1 light bg-reddient tx-cap pointer"
+        >Exit Edit Mode</button>
       </div>
       <!-- Edit Buttons Ends -->
     </div>
@@ -78,6 +65,7 @@
 </template>
 
 <script>
+import EditAnswer from "../components/answers/EditAnswer";
 import AddAnswer from "../components/answers/AddAnswer";
 import QuestionOptions from "../components/questions/QuestionOptions";
 import { mapGetters, mapActions } from "vuex";
@@ -85,6 +73,7 @@ export default {
   name: "Details",
   components: {
     QuestionOptions,
+    EditAnswer,
     AddAnswer
   },
   props: {
@@ -125,14 +114,18 @@ export default {
     save() {
       // Save Edits of both question and answers
       this.editQuestion(this.questionDetail);
-      this.editMode = false;
     },
     edit() {
       // Enable Edit Mode
       this.editMode = !this.editMode;
     },
-    removeChoices() {
-      alert("toggle remove choices");
+    removeChoices(id) {
+      const answer = confirm("are you sure you want to remove this answer?");
+      if (answer) {
+        this.questionDetail.answers = this.questionDetail.answers.filter(
+          answer => answer.id != id
+        );
+      }
     },
     addChoice(answer) {
       this.questionDetail.answers.push(answer);
@@ -163,11 +156,13 @@ export default {
 
 <style scoped>
 input {
-  border: 3px solid #1583c7;
+  border: 0px solid #1583c7;
+  border-bottom: 3px solid #1583c7;
   width: 100%;
 }
 textarea {
-  border: 3px solid #1583c7;
+  border: 0px solid #1583c7;
+  border-bottom: 3px solid #1583c7;
   width: 100%;
   resize: vertical;
 }
@@ -199,7 +194,13 @@ textarea {
 }
 .cancel,
 .submit {
-  border: 1px solid #1583c7;
+  border: 1px solid #5ab4ec;
+}
+.submit:hover {
+  background: #1583c7;
+}
+.save-container {
+  text-align: right;
 }
 @media (max-width: 600px) {
   textarea {

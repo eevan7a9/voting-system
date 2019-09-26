@@ -261,27 +261,7 @@ const actions = {
             .then(res => {
                 console.log(res)
                 console.log(question);
-                let ctr = 0;
-                question.answers.forEach(answer => {
-                    axios.put(`/likes/${answer.id}`, {
-                        title: answer.title,
-                    })
-                        .then(res => {
-                            ctr++
-                            console.log(res)
-                            console.log(answer);
-                            if (ctr == question.answers.length) {
-                                commit("updateQuestion", question);
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        })
-                })
-
-
-
-
+                commit("updateQuestion", question);
             })
             .catch(err => {
                 console.error(err);
@@ -298,7 +278,6 @@ const mutations = {
         state.questions.forEach(question => {
             if (question.id == 1) {
                 question.title = update_question.title;
-                question.answers = update_question.answers;
             }
         })
     }

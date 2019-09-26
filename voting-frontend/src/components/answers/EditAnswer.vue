@@ -1,0 +1,52 @@
+<template>
+  <div>
+    <div class="answers pady-5-px padx-2 bg-bluedient light fw-bold">
+      <input class="fs-normal pady-1-px padx-5-px" type="text" v-model="answer.title" />
+      <span class="pady-5-px padx-1 pointer" @click="remove">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="34"
+          height="34"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          <line x1="10" y1="11" x2="10" y2="17" />
+          <line x1="14" y1="11" x2="14" y2="17" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "EditAnswer",
+  props: {
+    answer: Object
+  },
+  methods: {
+    remove() {
+      this.$emit("removeChoices", this.answer.id);
+    }
+  }
+};
+</script>
+
+<style scoped>
+.answers {
+  border: 3px solid #1583c7;
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  -webkit-box-shadow: 4px 9px 17px -8px #000000;
+  box-shadow: 4px 9px 17px -8px #000000;
+}
+</style>

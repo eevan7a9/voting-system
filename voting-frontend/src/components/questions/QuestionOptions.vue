@@ -1,13 +1,13 @@
 <template>
   <div class="question-options">
     <ul>
-      <li class="padx-1 pady-1" @click="editQuestion">
+      <li class="padx-1 pady-1 pointer" @click="editQuestion">
         <img src="../../assets/edit.svg" alt="edit" />
       </li>
-      <li class="padx-1 pady-1" @click="deleteQuestion">
+      <li class="padx-1 pady-1 pointer" @click="deleteQuestion">
         <img src="../../assets/trash.svg" alt="delete" />
       </li>
-      <li class="padx-1 pady-1" @click="reportQuestion">
+      <li class="padx-1 pady-1 pointer" @click="reportQuestion">
         <img src="../../assets/flag.svg" alt="report" />
       </li>
     </ul>
