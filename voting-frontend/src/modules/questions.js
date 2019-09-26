@@ -261,19 +261,28 @@ const actions = {
             .then(res => {
                 console.log(res)
                 console.log(question);
+                let ctr = 0;
                 question.answers.forEach(answer => {
                     axios.put(`/likes/${answer.id}`, {
                         post_id: '1',
                         user_1: 2
                     })
                         .then(res => {
+                            ctr++
                             console.log(res)
                             console.log(answer);
+                            if (ctr == question.answers.length) {
+                                commit("updateQuestion", question);
+                            }
                         })
                         .catch(err => {
                             console.error(err);
                         })
                 })
+
+
+
+
             })
             .catch(err => {
                 console.error(err);
@@ -286,6 +295,14 @@ const mutations = {
         state.question = question;
     },
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
+    updateQuestion: (state, update_question) => {
+        state.questions.forEach(question => {
+            if (question.id == 1) {
+                question.title = update_question.title;
+                question.answers = update_question.answers;
+            }
+        })
+    }
 
 }
 export default {
