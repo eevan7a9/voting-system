@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
+    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient" v-if="question">
       <QuestionOptions v-show="!editMode" @edit="edit" @delete="remove" @report="reportQuestion" />
       <h2 class="edit-mode green tx-upp pady-1" v-show="editMode">Edit Mode :</h2>
       <div class="question-cont dark pady-1 padx-2" v-show="!editMode">
@@ -10,12 +10,13 @@
       </div>
       <!-- Edit Question Starts -->
       <div class="wrapper-edit-question dark pady-1 padx-2" v-show="editMode">
-        <input
-          class="fs-25 bg-lightdient pady-1 padx-1 mgb-1"
-          type="text"
-          v-model="editTitle"
-        />
-        <textarea class="bg-lightdient pady-1 padx-1 fs-18 mgb-1" v-model="editDescription" cols="10" rows="3"></textarea>
+        <input class="fs-25 bg-lightdient pady-1 padx-1 mgb-1" type="text" v-model="editTitle" />
+        <textarea
+          class="bg-lightdient pady-1 padx-1 fs-18 mgb-1"
+          v-model="editDescription"
+          cols="10"
+          rows="3"
+        ></textarea>
         <div class="save-container">
           <p class="pady-5-px green" v-show="saved">Successfully Saved</p>
           <button
@@ -26,11 +27,7 @@
         <hr class="blue" />
       </div>
       <!-- Edit Question Ends -->
-      <div
-        class="answers-cont mgt-1"
-        v-for="(answer, index) in question.answers"
-        :key="index"
-      >
+      <div class="answers-cont mgt-1" v-for="(answer, index) in question.answers" :key="index">
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!editMode">
           <p class="fs-18">{{ answer.title }}</p>
           <input type="radio" :name="question.id" :value="answer.id" v-model="selected" />
@@ -84,19 +81,13 @@ export default {
     return {
       selected: null,
       editMode: false,
-      saved:false,
-      editTitle:this.question.title,
-      editDescription:this.question.description
-
+      saved: false,
+      editTitle: "",
+      editDescription: ""
     };
   },
   methods: {
-    ...mapActions([
-      "onLoader",
-      "offLoader",
-      "deleteQuestion",
-      "editQuestion"
-    ]),
+    ...mapActions(["onLoader", "offLoader", "deleteQuestion", "editQuestion"]),
     cancel() {
       // Return to Home
       this.$router.push({
@@ -112,11 +103,11 @@ export default {
         alert(this.selected);
       }
     },
-    exitEditMode(){
-    this.editTitle = this.question.title;
-    this.editDescription = this.question.description;
-    this.editMode = false;
-    this.saved = false;
+    exitEditMode() {
+      this.editTitle = this.question.title;
+      this.editDescription = this.question.description;
+      this.editMode = false;
+      this.saved = false;
     },
     save() {
       // Save Edits of both question and answers
@@ -127,6 +118,8 @@ export default {
     },
     edit() {
       // Enable Edit Mode
+      this.editTitle = this.question.title;
+      this.editDescription = this.question.description;
       this.editMode = !this.editMode;
     },
     removeChoices(id) {
@@ -155,10 +148,15 @@ export default {
     }
   },
   created() {
-    this.onLoader();
-    setTimeout(() => {
-      this.offLoader();
-    }, 2000);
+    if (this.question == undefined) {
+      this.$router.push("/");
+      // console.log(1);
+    } else {
+      this.onLoader();
+      setTimeout(() => {
+        this.offLoader();
+      }, 2000);
+    }
   }
 };
 </script>
