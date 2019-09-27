@@ -53,6 +53,7 @@ class QuestionController extends Controller
         $question = new Question();
         $question->user_id = $user->id;
         $question->title = $request->title;
+        $question->description = $request->description;
         $question->save();
 
         return response()->json($question);
