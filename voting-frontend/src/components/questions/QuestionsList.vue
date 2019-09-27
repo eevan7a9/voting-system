@@ -8,7 +8,7 @@
       <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
         <router-link :to="{ name:'details', params:{question:question}}">
           <h2 class="mgb-1">{{ question.title }}</h2>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
+          <p>{{ question.description }}</p>
         </router-link>
       </div>
       <hr />
@@ -42,11 +42,6 @@ export default {
   props: {
     scrollInto: String
   },
-  data() {
-    return {
-      radio_name: "this"
-    };
-  },
   computed: mapGetters(["allQuestions"]),
   methods: {
     ...mapActions(["getQuestions"]),
@@ -63,11 +58,11 @@ export default {
       this.scrollTo(this.scrollInto);
     }
   },
-  created(){
+  created() {
     // we are using Free limited server resource,
     // we want to get questions from server once
     if (this.allQuestions.length < 1) {
-        this.getQuestions();
+      this.getQuestions();
     }
   }
 };
