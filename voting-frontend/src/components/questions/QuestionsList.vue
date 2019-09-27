@@ -6,7 +6,7 @@
       :key="index"
     >
       <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
-        <router-link :to="{ name:'details', params:{questionId:question.id}}">
+        <router-link :to="{ name:'details', params:{question:question}}">
           <h2 class="mgb-1">{{ question.title }}</h2>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda, ipsam vel distinctio temporibus facere delectus eius corrupti consectetur iure!</p>
         </router-link>
@@ -17,7 +17,7 @@
         class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
         v-if="question.answers.length > 2"
       >...</div>
-      <router-link :to="{ name:'details', params:{questionId:question.id}}">
+      <router-link :to="{ name:'details', params:{question:question}}">
         <div
           class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
           v-if="question.answers.length !== 0"
@@ -33,7 +33,7 @@
 
 <script>
 import AnswersList from "../answers/AnswersList";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "QuestionsList",
   components: {
@@ -49,6 +49,7 @@ export default {
   },
   computed: mapGetters(["allQuestions"]),
   methods: {
+    ...mapActions(["getQuestions"]),
     scrollTo(id) {
       document.getElementById(`${id}`).scrollIntoView({
         behavior: "auto",
@@ -60,6 +61,13 @@ export default {
   mounted() {
     if (this.scrollInto) {
       this.scrollTo(this.scrollInto);
+    }
+  },
+  created(){
+    // we are using Free limited server resource,
+    // we want to get questions from server once
+    if (this.allQuestions.length < 1) {
+        this.getQuestions();
     }
   }
 };

@@ -6,7 +6,7 @@ import questions from './modules/questions';
 import answers from './modules/answers';
 
 Vue.use(Vuex)
-axios.defaults.baseURL = "https://my-json-server.typicode.com/eevan7a9/social-media-db";
+axios.defaults.baseURL = "https://my-json-server.typicode.com/eevan7a9/voting-app-db/";
 export default new Vuex.Store({
   modules: {
     loader,
