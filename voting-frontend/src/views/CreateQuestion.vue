@@ -7,6 +7,7 @@
           <div class="title-container">
             <label for="title" class="pady-1 fs-18 tx-upp">title :</label>
             <input type="text" class="fs-18 pady-1 padx-1 borad-1" v-model="title" id="title" />
+            <p class="red" v-show="error.message">Error: {{ error.message }}</p>
           </div>
           <div class="additional-info">
             <label for="additional_info" class="pady-1 fs-13 tx-upp">additional info (optional):</label>
@@ -49,7 +50,9 @@ export default {
     return {
       title: "test Title",
       additional_info: "Test additional info",
-      error: "",
+      error: {
+        message: ""
+      },
       edit_answer: 0
     };
   },
@@ -57,21 +60,17 @@ export default {
     validate() {
       if (this.title) {
         if (this.title.length < 6) {
-          this.error = "Title must be atleast 6 character long";
+          this.error.message = "Title must be atleast 6 character long";
         } else {
-          this.error = "";
+          this.error.message = "";
         }
       } else {
-        this.error = "title must not be empty";
+        this.error.message = "title must not be empty";
       }
     },
     create() {
       this.validate();
-      if (this.error) {
-        alert(this.error);
-      } else {
-        // this.title = "";
-        // this.additional_info = "";
+      if (!this.error.message) {
         this.edit_answer = 1;
       }
     },
@@ -108,6 +107,9 @@ label {
 .title-container input {
   width: 100%;
   border: 3px solid #1583c7;
+}
+.title-container p {
+  text-align: center;
 }
 .additional-info {
   display: flex;
