@@ -48,6 +48,7 @@ class AnswerController extends Controller
      */
     public function show(Answer $answer)
     {
+        $answer->votes;
         return response()->json($answer);
     }
     /**

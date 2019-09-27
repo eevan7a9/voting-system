@@ -60,9 +60,9 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->save();
-
-        return response()->json($validated, 200);
+        // $user->save();
+        $success = ['message' => 'You have successully registered'];
+        return response()->json($success, 200);
     }
     /**
      * Logout user by invoking access token
