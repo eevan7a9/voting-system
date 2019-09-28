@@ -24,7 +24,6 @@
             class="submit pady-10-px padx-2 mgb-1 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
           >Save</button>
         </div>
-        <hr class="blue" />
       </div>
       <!-- Edit Question Ends -->
       <div class="answers-cont mgt-1" v-for="(answer, index) in question.answers" :key="index">
@@ -110,8 +109,8 @@ export default {
       this.saved = false;
     },
     save() {
-      // Save Edits of both question and answers
-      // this.editQuestion(this.question);
+      // Save Edits of title and description
+      this.editQuestion(this.question);
       this.question.title = this.editTitle;
       this.question.description = this.editDescription;
       this.saved = true;

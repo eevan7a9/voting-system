@@ -24,11 +24,11 @@ const actions = {
             commit("setQuestionDetails", question);
         }, 2000);
     },
-    getQuestions: async ({commit}) => {
+    getQuestions: async ({ commit }) => {
         await axios.get('/questions')
-        .then(res => {
-            commit("setQuestions", res.data);
-        });
+            .then(res => {
+                commit("setQuestions", res.data);
+            });
     },
     addQuestion: async ({ commit }, question) => {
         await axios.post('/posts', {
@@ -48,42 +48,41 @@ const actions = {
                             console.log(res, answer.id)
                         })
                         .catch(err => {
-                            console.error(err);
+                            alert(err);
                         })
                 });
             })
             .catch(err => {
-                console.error(err);
+                alert(err);
             })
     },
     deleteQuestion: async ({ commit }, id) => {
-        await axios.delete(`/posts/${id}`)
+        await axios.delete(`/questions/${id}`)
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 commit("removeQuestion", id);
-                console.log(id);
             })
             .catch(err => {
-                console.error(err);
+                alert(err);
             })
     },
     editQuestion: async ({ commit }, question) => {
-        await axios.put(`/posts/${question.id}`, {
-            title: "hello",
-            user_id: "1"
+        return await axios.put(`/questions/${question.id}`, {
+            title: question.title,
+            description: question.description
         })
             .then(res => {
-                console.log(res)
-                console.log(question);
-                commit("updateQuestion", question);
+                const updated_question = res.data;
+                // console.log(updated_question);
+                commit("updateQuestion", updated_question);
             })
             .catch(err => {
-                console.error(err);
+                alert(err);
             })
     }
 }
 const mutations = {
-    setQuestions:(state, questions) => state.questions = questions,
+    setQuestions: (state, questions) => state.questions = questions,
     insertQuestion: (state, question) => state.questions.unshift(question),
     setQuestionDetails: (state, question) => {
         state.question = question;
@@ -93,6 +92,7 @@ const mutations = {
         state.questions.forEach(question => {
             if (question.id == 1) {
                 question.title = update_question.title;
+                question.description = update_question.description
             }
         })
     }
