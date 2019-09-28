@@ -28,19 +28,20 @@ const actions = {
         })
             .then(res => {
                 const new_question = res.data;
-                new_question.answers = question.answers;
+                new_question.answers = [];
                 // we check if we success in creating question
                 if (new_question.id) {
                     let ctr = 0;
                     // we now create answers
-                    new_question.answers.forEach(answer => {
+                    question.answers.forEach(answer => {
                         axios.post(`/answers`, {
                             title: answer.title,
                             question_id: new_question.id
                         })
-                            .then(() => {
+                            .then((res) => {
+                                new_question.answers.push(res.data);
                                 ctr++;
-                                if (ctr == new_question.answers.length) {
+                                if (ctr == question.answers.length) {
                                     // if all are success we update the state
                                     commit("insertQuestion", new_question);
                                     // console.log(new_question);
