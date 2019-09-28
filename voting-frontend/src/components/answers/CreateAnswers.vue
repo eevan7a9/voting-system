@@ -70,11 +70,13 @@ export default {
       } else {
         this.onLoader(); // turn loader on while sending request
         this.addQuestion({
+          user_id: 1, // for testing
           title: this.title,
-          additional_info: this.additional_info,
+          description: this.additional_info,
           answers: this.answers
         }).then(() => {
           this.offLoader(); // turn loader off when request is done
+          this.$router.push({ name: "home" });
         });
       }
     }

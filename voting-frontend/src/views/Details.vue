@@ -110,9 +110,11 @@ export default {
     },
     save() {
       // Save Edits of title and description
-      this.editQuestion(this.question);
+
       this.question.title = this.editTitle;
       this.question.description = this.editDescription;
+      this.editQuestion(this.question);
+
       this.saved = true;
     },
     edit() {

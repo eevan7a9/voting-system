@@ -2,20 +2,10 @@ import axios from 'axios';
 
 const state = {
     questions: [],
-    // question: {
-    //     "id": 0,
-    //     "user_id": 0,
-    //     "title": "",
-    //     "created_at": "null",
-    //     "updated_at": "",
-    //     "description": "",
-    //     "answers": []
-    // }
 }
 const getters = {
     allQuestions: (state) => state.questions,
     // questionDetail: state => state.question
-
 }
 const actions = {
     getQuestionDetails: ({ commit, state }, id) => {
@@ -31,26 +21,36 @@ const actions = {
             });
     },
     addQuestion: async ({ commit }, question) => {
-        await axios.post('/posts', {
+        await axios.post('/questions', {
             user_id: 1,
-            title: 'tester',
-            created_at: '2019-20-1'
+            title: question.title,
+            description: question.description
         })
             .then(res => {
-                commit("insertQuestion", question)
-                console.log(res, question);
-                question.answers.forEach(answer => {
-                    axios.post(`/likes`, {
-                        post_id: 1,
-                        user_id: 1
-                    })
-                        .then(res => {
-                            console.log(res, answer.id)
+                const new_question = res.data;
+                new_question.answers = question.answers;
+                // we check if we success in creating question
+                if (new_question.id) {
+                    let ctr = 0;
+                    // we now create answers
+                    new_question.answers.forEach(answer => {
+                        axios.post(`/answers`, {
+                            title: answer.title,
+                            question_id: new_question.id
                         })
-                        .catch(err => {
-                            alert(err);
-                        })
-                });
+                            .then(() => {
+                                ctr++;
+                                if (ctr == new_question.answers.length) {
+                                    // if all are success we update the state
+                                    commit("insertQuestion", new_question);
+                                    // console.log(new_question);
+                                }
+                            })
+                            .catch(err => {
+                                alert(err);
+                            });
+                    });
+                }
             })
             .catch(err => {
                 alert(err);
@@ -67,13 +67,12 @@ const actions = {
             })
     },
     editQuestion: async ({ commit }, question) => {
-        return await axios.put(`/questions/${question.id}`, {
+        await axios.put(`/questions/${question.id}`, {
             title: question.title,
             description: question.description
         })
             .then(res => {
                 const updated_question = res.data;
-                // console.log(updated_question);
                 commit("updateQuestion", updated_question);
             })
             .catch(err => {
@@ -89,10 +88,11 @@ const mutations = {
     },
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
     updateQuestion: (state, update_question) => {
+        console.log(update_question);
         state.questions.forEach(question => {
-            if (question.id == 1) {
+            if (question.id == update_question.id) {
                 question.title = update_question.title;
-                question.description = update_question.description
+                question.description = update_question.description;
             }
         })
     }
