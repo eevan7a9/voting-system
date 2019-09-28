@@ -14,24 +14,11 @@
 
         <p>{{ question.description }}</p>
       </div>
-
       <!-- Edit Question Starts -->
-      <div class="wrapper-edit-question dark pady-1 padx-2" v-show="edit_mode">
-        <input class="fs-25 bg-lightdient pady-1 padx-1 mgb-1" type="text" v-model="edit_title" />
-        <textarea
-          class="bg-lightdient pady-1 padx-1 fs-18 mgb-1"
-          v-model="edit_description"
-          cols="10"
-          rows="3"
-        ></textarea>
-        <div class="save-container">
-          <p class="pady-5-px green" v-show="saved">Successfully Saved</p>
-          <button
-            @click="save"
-            class="submit pady-10-px padx-2 mgb-1 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
-          >Save</button>
-        </div>
-      </div>
+      <QuestionEdit
+        :question="{id:question.id, title:question.title, description:question.description}"
+        v-if="edit_mode"
+      />
       <!-- Edit Question Ends -->
       <div class="answers-cont mgt-1" v-for="(answer, index) in question.answers" :key="index">
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!edit_mode">
@@ -45,7 +32,6 @@
             :value="answer.id"
           />
         </div>
-
         <!-- Edit Answers Starts -->
         <AnswerEdit :answer="answer" @removeChoices="removeChoices" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
@@ -80,11 +66,13 @@
 import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
 import QuestionOptions from "../components/questions/QuestionOptions";
+import QuestionEdit from "../components/questions/QuestionEdit";
 import { mapActions } from "vuex";
 import axios from "axios";
 export default {
   name: "Details",
   components: {
+    QuestionEdit,
     QuestionOptions,
     AnswerEdit,
     AnswerAdd
@@ -95,14 +83,11 @@ export default {
   data() {
     return {
       selected_answer: null,
-      edit_mode: false,
-      saved: false,
-      edit_title: "",
-      edit_description: ""
+      edit_mode: false
     };
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "deleteQuestion", "editQuestion"]),
+    ...mapActions(["onLoader", "offLoader", "deleteQuestion"]),
     cancel() {
       // Return to Home
       this.$router.push({
@@ -140,24 +125,10 @@ export default {
       }
     },
     exitEditMode() {
-      this.edit_title = this.question.title;
-      this.edit_description = this.question.description;
       this.edit_mode = false;
       this.saved = false;
     },
-    save() {
-      // Save Edits of title and description
-
-      this.question.title = this.edit_title;
-      this.question.description = this.edit_description;
-      this.editQuestion(this.question);
-
-      this.saved = true;
-    },
     edit() {
-      // Enable Edit Mode
-      this.edit_title = this.question.title;
-      this.edit_description = this.question.description;
       this.edit_mode = !this.edit_mode;
     },
     removeChoices(id) {
@@ -187,17 +158,6 @@ export default {
 </script>
 
 <style scoped>
-input {
-  border: 0px solid #1583c7;
-  border-bottom: 3px solid #1583c7;
-  width: 100%;
-}
-textarea {
-  border: 0px solid #1583c7;
-  border-bottom: 3px solid #1583c7;
-  width: 100%;
-  resize: vertical;
-}
 .wrapper {
   border: 3px solid #1583c7;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
@@ -244,9 +204,6 @@ textarea {
 .submit:hover {
   background: #1583c7;
 }
-.save-container {
-  text-align: right;
-}
 @media (max-width: 600px) {
   textarea {
     padding: 0;
@@ -257,9 +214,6 @@ textarea {
     font-size: 15px;
   }
   .edit-mode {
-    padding: 0;
-  }
-  .wrapper-edit-question {
     padding: 0;
   }
 }
