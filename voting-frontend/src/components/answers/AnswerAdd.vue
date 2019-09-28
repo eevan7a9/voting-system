@@ -30,7 +30,7 @@
 import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "AddAnswer",
+  name: "AnswerAdd",
   props: {
     question_id: Number
   },

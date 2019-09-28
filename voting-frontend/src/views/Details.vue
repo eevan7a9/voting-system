@@ -7,8 +7,7 @@
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
-        @delete="remove"
-        @report="reportQuestion"
+        :question_id="question.id"
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question.title }}</h2>
@@ -41,18 +40,18 @@
           <input
             class="pointer"
             type="radio"
-            v-on:change="selectedAnswer(answer)"
+            v-on:change="selected_answer = answer;"
             :name="question.id"
             :value="answer.id"
           />
         </div>
 
         <!-- Edit Answers Starts -->
-        <EditAnswer :answer="answer" @removeChoices="removeChoices" v-if="edit_mode" />
+        <AnswerEdit :answer="answer" @removeChoices="removeChoices" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
       </div>
       <!-- Add Answers Starts -->
-      <AddAnswer :question_id="question.id" @newAnswer="addChoice" v-if="edit_mode" />
+      <AnswerAdd :question_id="question.id" @newAnswer="addChoice" v-if="edit_mode" />
       <!-- Add Answers Ends -->
       <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
@@ -78,16 +77,17 @@
 </template>
 
 <script>
-import EditAnswer from "../components/answers/EditAnswer";
-import AddAnswer from "../components/answers/AddAnswer";
+import AnswerEdit from "../components/answers/AnswerEdit";
+import AnswerAdd from "../components/answers/AnswerAdd";
 import QuestionOptions from "../components/questions/QuestionOptions";
 import { mapActions } from "vuex";
+import axios from "axios";
 export default {
   name: "Details",
   components: {
     QuestionOptions,
-    EditAnswer,
-    AddAnswer
+    AnswerEdit,
+    AnswerAdd
   },
   props: {
     question: Object
@@ -110,17 +110,33 @@ export default {
         params: { scrollInto: `${this.question.id}` }
       });
     },
-    selectedAnswer(answer) {
-      this.selected_answer = answer;
-    },
     submit() {
       // Submittinga Vote
       if (!this.selected_answer) {
         alert("you have not selected any of the choices");
       } else {
         // console.log(this.selected.title);
-        const vote = { user_id: 1, answer_id: this.selected_answer.id };
-        this.selected_answer.title = vote;
+        const vote = {
+          answer_id: this.selected_answer.id,
+          user_id: 1,
+          question_id: this.question.id
+        };
+        axios
+          .post(
+            `https://my-json-server.typicode.com/eevan7a9/voting-app-db/votes`,
+            {
+              answer_id: vote.answer_id,
+              user_id: vote.user_id,
+              question_id: vote.question_id
+            }
+          )
+          .then(res => {
+            const new_vote = res.data;
+            this.selected_answer.votes.push(new_vote);
+          })
+          .catch(err => {
+            alert(err);
+          });
       }
     },
     exitEditMode() {
@@ -154,18 +170,6 @@ export default {
     },
     addChoice(answer) {
       this.question.answers.push(answer);
-    },
-    remove() {
-      // Removing the question and all it's answers
-      const answer = confirm("Are you sure you want to Delete this question?");
-      answer
-        ? this.deleteQuestion(this.question.id).then(() => {
-            this.$router.push({ name: "home" });
-          })
-        : "";
-    },
-    reportQuestion() {
-      alert("Are you sure you want to Report this question?");
     }
   },
   created() {

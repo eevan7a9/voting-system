@@ -4,7 +4,7 @@
       <li class="padx-1 pady-1 pointer" @click="editQuestion">
         <img src="../../assets/edit.svg" alt="edit" />
       </li>
-      <li class="padx-1 pady-1 pointer" @click="deleteQuestion">
+      <li class="padx-1 pady-1 pointer" @click="remove">
         <img src="../../assets/trash.svg" alt="delete" />
       </li>
       <li class="padx-1 pady-1 pointer" @click="reportQuestion">
@@ -15,17 +15,28 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "QuestionOptions",
+  props: {
+    question_id: Number
+  },
   methods: {
+    ...mapActions(["deleteQuestion"]),
     editQuestion() {
       this.$emit("edit");
     },
-    deleteQuestion() {
-      this.$emit("delete");
+    remove() {
+      // Removing the question and all it's answers
+      const answer = confirm("Are you sure you want to Delete this question?");
+      answer
+        ? this.deleteQuestion(this.question_id).then(() => {
+            this.$router.push({ name: "home" });
+          })
+        : "";
     },
     reportQuestion() {
-      this.$emit("report");
+      alert("Are you sure you want to Report this question?");
     }
   }
 };

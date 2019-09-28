@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: "EditAnswer",
+  name: "AnswerEdit",
   props: {
     answer: Object
   },
