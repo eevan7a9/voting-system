@@ -133,7 +133,6 @@ export default {
     },
     addChoice(answer) {
       this.question.answers.push(answer);
-      console.log(1);
     },
     remove() {
       // Removing the question and all it's answers

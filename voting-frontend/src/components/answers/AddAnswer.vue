@@ -45,18 +45,15 @@ export default {
       this.onLoader();
       axios
         .post(
-          `https://my-json-server.typicode.com/eevan7a9/social-media-db/likes`,
+          `https://my-json-server.typicode.com/eevan7a9/voting-app-db/answers`,
           {
-            post_id: 1,
-            user_id: 1
-          }
-        )
-        .then(() => {
-          this.$emit("newAnswer", {
-            id: 11,
             title: this.title,
             question_id: this.question_id
-          });
+          }
+        )
+        .then(res => {
+          const answer = res.data;
+          this.$emit("newAnswer", answer);
           this.title = "";
           this.offLoader();
         });
