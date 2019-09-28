@@ -1,19 +1,27 @@
 <template>
   <div>
     <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient" v-if="question">
-      <QuestionOptions v-show="!editMode" @edit="edit" @delete="remove" @report="reportQuestion" />
-      <h2 class="edit-mode green tx-upp pady-1" v-show="editMode">Edit Mode :</h2>
-      <div class="question-cont dark pady-1 padx-2" v-show="!editMode">
+      <h2 class="reminder tx-upp pady-1" v-show="!edit_mode">Vote Wisely!!!</h2>
+      <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
+      <QuestionOptions
+        class="option-icons"
+        v-show="!edit_mode"
+        @edit="edit"
+        @delete="remove"
+        @report="reportQuestion"
+      />
+      <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question.title }}</h2>
 
         <p>{{ question.description }}</p>
       </div>
+
       <!-- Edit Question Starts -->
-      <div class="wrapper-edit-question dark pady-1 padx-2" v-show="editMode">
-        <input class="fs-25 bg-lightdient pady-1 padx-1 mgb-1" type="text" v-model="editTitle" />
+      <div class="wrapper-edit-question dark pady-1 padx-2" v-show="edit_mode">
+        <input class="fs-25 bg-lightdient pady-1 padx-1 mgb-1" type="text" v-model="edit_title" />
         <textarea
           class="bg-lightdient pady-1 padx-1 fs-18 mgb-1"
-          v-model="editDescription"
+          v-model="edit_description"
           cols="10"
           rows="3"
         ></textarea>
@@ -27,18 +35,26 @@
       </div>
       <!-- Edit Question Ends -->
       <div class="answers-cont mgt-1" v-for="(answer, index) in question.answers" :key="index">
-        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!editMode">
+        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!edit_mode">
           <p class="fs-18">{{ answer.title }}</p>
-          <input type="radio" :name="question.id" :value="answer.id" v-model="selected" />
+          <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
+          <input
+            class="pointer"
+            type="radio"
+            v-on:change="selectedAnswer(answer)"
+            :name="question.id"
+            :value="answer.id"
+          />
         </div>
+
         <!-- Edit Answers Starts -->
-        <EditAnswer :answer="answer" @removeChoices="removeChoices" v-if="editMode" />
+        <EditAnswer :answer="answer" @removeChoices="removeChoices" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
       </div>
       <!-- Add Answers Starts -->
-      <AddAnswer :question_id="question.id" @newAnswer="addChoice" v-if="editMode" />
+      <AddAnswer :question_id="question.id" @newAnswer="addChoice" v-if="edit_mode" />
       <!-- Add Answers Ends -->
-      <div class="buttons-container pady-3" v-show="!editMode">
+      <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
           @click="cancel"
           class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
@@ -52,7 +68,7 @@
       <div class="buttons-container pady-1">
         <button
           @click="exitEditMode"
-          v-show="editMode"
+          v-show="edit_mode"
           class="pady-1 padx-2 fs-18 fw-bold borad-1 light bg-reddient tx-cap pointer"
         >Exit Edit Mode</button>
       </div>
@@ -78,11 +94,11 @@ export default {
   },
   data() {
     return {
-      selected: null,
-      editMode: false,
+      selected_answer: null,
+      edit_mode: false,
       saved: false,
-      editTitle: "",
-      editDescription: ""
+      edit_title: "",
+      edit_description: ""
     };
   },
   methods: {
@@ -94,34 +110,39 @@ export default {
         params: { scrollInto: `${this.question.id}` }
       });
     },
+    selectedAnswer(answer) {
+      this.selected_answer = answer;
+    },
     submit() {
       // Submittinga Vote
-      if (!this.selected) {
+      if (!this.selected_answer) {
         alert("you have not selected any of the choices");
       } else {
-        alert(this.selected);
+        // console.log(this.selected.title);
+        const vote = { user_id: 1, answer_id: this.selected_answer.id };
+        this.selected_answer.title = vote;
       }
     },
     exitEditMode() {
-      this.editTitle = this.question.title;
-      this.editDescription = this.question.description;
-      this.editMode = false;
+      this.edit_title = this.question.title;
+      this.edit_description = this.question.description;
+      this.edit_mode = false;
       this.saved = false;
     },
     save() {
       // Save Edits of title and description
 
-      this.question.title = this.editTitle;
-      this.question.description = this.editDescription;
+      this.question.title = this.edit_title;
+      this.question.description = this.edit_description;
       this.editQuestion(this.question);
 
       this.saved = true;
     },
     edit() {
       // Enable Edit Mode
-      this.editTitle = this.question.title;
-      this.editDescription = this.question.description;
-      this.editMode = !this.editMode;
+      this.edit_title = this.question.title;
+      this.edit_description = this.question.description;
+      this.edit_mode = !this.edit_mode;
     },
     removeChoices(id) {
       const answer = confirm("are you sure you want to remove this answer?");
@@ -178,9 +199,22 @@ textarea {
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
-
+.option-icons {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.reminder {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
 .question-cont {
   border: 3px solid #1583c7;
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
   background: white;
 }
 .answers {
@@ -189,7 +223,7 @@ textarea {
   margin-right: auto;
   margin-left: auto;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
 }
 .buttons-container {
   display: flex;
