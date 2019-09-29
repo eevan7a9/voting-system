@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from "../router";
 
 const state = {
     questions: [],
@@ -14,14 +15,7 @@ const actions = {
         if (found_question) {
             commit("setQuestionDetails", found_question);
         } else {
-            axios.get(`/questions/${id}`)
-                .then(res => {
-                    const question = res.data
-                    commit("setQuestionDetails", question);
-                })
-                .catch(err => {
-                    alert(err);
-                })
+            router.push("/")
         }
     },
     getQuestions: async ({ commit }) => {
@@ -129,6 +123,9 @@ const actions = {
             .catch(err => {
                 alert(err);
             })
+    },
+    addVote: ({ commit }, vote) => {
+        commit("insertNewVote", vote);
     }
 }
 const mutations = {
@@ -141,23 +138,9 @@ const mutations = {
     updateQuestion: (state, update_question) => {
         state.question.title = update_question.title; // we update question detail
         state.question.description = update_question.description;
-        // console.log(update_question);
-        state.questions.forEach(question => {
-            if (question.id == update_question.id) {
-                // we update the lists of all questions
-                question.title = update_question.title;
-                question.description = update_question.description;
-            }
-        })
     },
     insertQuestionAnswer: (state, answer) => {
         state.question.answers.push(answer); // we update the detailed question
-        state.questions.forEach(question => {
-            if (question.id == answer.question_id) {
-                // we update the lists of all questions
-                question.answers.push(answer);
-            }
-        })
     },
     updateQuestionAnswer: (state, updated_answer) => {
         // we find the question_detail answer
@@ -171,13 +154,17 @@ const mutations = {
         }
     },
     removeQuestionAnswer: (state, deleted_answer) => {
-        // remove answer from question details
-        state.question.answers = state.question.answers.filter(answer => answer.id != deleted_answer.id);
         // remove answer from questions lists
         const found_question = state.questions.find(question => question.id === deleted_answer.question_id);
         if (found_question) {
             found_question.answers = found_question.answers.filter(answer => answer.id !== deleted_answer.id);
         }
+    },
+    insertNewVote: (state, vote) => {
+        // we update the question fron questions
+        const found_question = state.questions.find(question => question.id == vote.question_id);
+        const found_question_answer = found_question.answers.find(answer => answer.id == vote.answer_id);
+        found_question_answer.votes.push(vote);
     }
 }
 export default {
