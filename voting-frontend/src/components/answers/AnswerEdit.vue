@@ -46,9 +46,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["updateAnswerQuestion"]),
+    ...mapActions(["updateAnswerQuestion", "removeAnswerQuestion"]),
     remove() {
-      this.$emit("removeChoices", this.answer.id);
+      const ans = confirm("are you sure you want to remove this answer?");
+      if (ans) {
+        this.removeAnswerQuestion(this.answer);
+      }
     },
     update() {
       this.updateAnswerQuestion({

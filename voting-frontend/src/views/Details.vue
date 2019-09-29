@@ -37,7 +37,7 @@
           />
         </div>
         <!-- Edit Answers Starts -->
-        <AnswerEdit :answer="answer" @removeChoices="removeChoices" v-if="edit_mode" />
+        <AnswerEdit :answer="answer" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
       </div>
       <!-- Add Answers Starts -->
@@ -140,14 +140,6 @@ export default {
     },
     edit() {
       this.edit_mode = !this.edit_mode;
-    },
-    removeChoices(id) {
-      const answer = confirm("are you sure you want to remove this answer?");
-      if (answer) {
-        this.question_detail.answers = this.question_detail.answers.filter(
-          answer => answer.id != id
-        );
-      }
     },
     addChoice(answer) {
       this.question_detail.answers.push(answer);

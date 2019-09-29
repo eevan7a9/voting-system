@@ -10,7 +10,6 @@ const getters = {
 }
 const actions = {
     getQuestionDetails: ({ commit, state }, id) => {
-
         const found_question = state.questions.find(question => question.id == id);
         if (found_question) {
             commit("setQuestionDetails", found_question);
@@ -110,13 +109,22 @@ const actions = {
             })
     },
     updateAnswerQuestion: async ({ commit }, answer) => {
-        axios.put(`/answers/${answer.id}`, {
+        await axios.put(`/answers/${answer.id}`, {
             title: answer.title
         })
             .then(res => {
                 const updated_answer = res.data;
                 commit("updateQuestionAnswer", updated_answer);
                 // console.log(updated_answer);
+            })
+            .catch(err => {
+                alert(err);
+            })
+    },
+    removeAnswerQuestion: async ({ commit }, answer) => {
+        await axios.delete(`/answers/${answer.id}`)
+            .then(() => {
+                commit("removeQuestionAnswer", answer);
             })
             .catch(err => {
                 alert(err);
@@ -160,6 +168,15 @@ const mutations = {
             const found_question = state.questions.find(question => question.id == found_answer.question_id);
             const found_question_answer = found_question.answers.find(answer => answer.id == found_answer.id);
             found_question_answer.title = found_answer.title;
+        }
+    },
+    removeQuestionAnswer: (state, deleted_answer) => {
+        // remove answer from question details
+        state.question.answers = state.question.answers.filter(answer => answer.id != deleted_answer.id);
+        // remove answer from questions lists
+        const found_question = state.questions.find(question => question.id === deleted_answer.question_id);
+        if (found_question) {
+            found_question.answers = found_question.answers.filter(answer => answer.id !== deleted_answer.id);
         }
     }
 }
