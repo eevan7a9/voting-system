@@ -7,22 +7,22 @@
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
-        :question_id="questionDetail.id"
+        :question_id="question_detail.id"
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
-        <h2>{{ questionDetail.title }}</h2>
+        <h2>{{ question_detail.title }}</h2>
 
-        <p>{{ questionDetail.description }}</p>
+        <p>{{ question_detail.description }}</p>
       </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
-        :question="{id:questionDetail.id, title:questionDetail.title, description:questionDetail.description}"
+        :question="{id:question_detail.id, title:question_detail.title, description:question_detail.description}"
         v-if="edit_mode"
       />
       <!-- Edit Question Ends -->
       <div
         class="answers-cont mgt-1"
-        v-for="(answer, index) in questionDetail.answers"
+        v-for="(answer, index) in question_detail.answers"
         :key="index"
       >
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!edit_mode">
@@ -32,7 +32,7 @@
             class="pointer"
             type="radio"
             v-on:change="selected_answer = answer;"
-            :name="questionDetail.id"
+            :name="question_detail.id"
             :value="answer.id"
           />
         </div>
@@ -41,7 +41,7 @@
         <!-- Edit Answers Ends -->
       </div>
       <!-- Add Answers Starts -->
-      <AnswerAdd :question_id="questionDetail.id" @newAnswer="addChoice" v-if="edit_mode" />
+      <AnswerAdd :question_id="question_detail.id" @newAnswer="addChoice" v-if="edit_mode" />
       <!-- Add Answers Ends -->
       <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
@@ -90,7 +90,7 @@ export default {
       edit_mode: false
     };
   },
-  computed: mapGetters(["questionDetail"]),
+  computed: mapGetters(["question_detail"]),
   methods: {
     ...mapActions([
       "onLoader",
@@ -102,7 +102,7 @@ export default {
       // Return to Home
       this.$router.push({
         name: "home",
-        params: { scrollInto: `${this.questionDetail.id}` }
+        params: { scrollInto: `${this.question_detail.id}` }
       });
     },
     submit() {
@@ -114,7 +114,7 @@ export default {
         const vote = {
           answer_id: this.selected_answer.id,
           user_id: 1,
-          question_id: this.questionDetail.id
+          question_id: this.question_detail.id
         };
         axios
           .post(
@@ -144,13 +144,13 @@ export default {
     removeChoices(id) {
       const answer = confirm("are you sure you want to remove this answer?");
       if (answer) {
-        this.questionDetail.answers = this.questionDetail.answers.filter(
+        this.question_detail.answers = this.question_detail.answers.filter(
           answer => answer.id != id
         );
       }
     },
     addChoice(answer) {
-      this.questionDetail.answers.push(answer);
+      this.question_detail.answers.push(answer);
     }
   },
   created() {

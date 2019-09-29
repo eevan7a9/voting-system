@@ -2,7 +2,7 @@
   <div>
     <div
       class="wrapper bg-bluedient mgt-1 mgb-2"
-      v-for="(question, index) in allQuestions"
+      v-for="(question, index) in all_questions"
       :key="index"
     >
       <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
@@ -42,7 +42,7 @@ export default {
   props: {
     scrollInto: String
   },
-  computed: mapGetters(["allQuestions"]),
+  computed: mapGetters(["all_questions"]),
   methods: {
     ...mapActions(["getQuestions"]),
     scrollTo(id) {
@@ -61,7 +61,7 @@ export default {
   created() {
     // we are using Free limited server resource,
     // we want to get questions from server once
-    if (this.allQuestions.length < 1) {
+    if (this.all_questions.length < 1) {
       this.getQuestions();
     }
   }

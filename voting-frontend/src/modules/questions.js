@@ -5,8 +5,8 @@ const state = {
     question: {}
 }
 const getters = {
-    allQuestions: (state) => state.questions,
-    questionDetail: state => state.question
+    all_questions: (state) => state.questions,
+    question_detail: state => state.question
 }
 const actions = {
     getQuestionDetails: ({ commit }, id) => {
@@ -65,7 +65,7 @@ const actions = {
     deleteQuestion: async ({ commit }, id) => {
         await axios.delete(`/questions/${id}`)
             .then(res => {
-                // console.log(res)
+                console.log(res.data)
                 commit("removeQuestion", id);
             })
             .catch(err => {
@@ -84,6 +84,22 @@ const actions = {
             .catch(err => {
                 alert(err);
             })
+    },
+    addAnswerQuestion: async ({ commit }, answer) => {
+        axios.post('/answers', {
+            title: answer.title,
+            question_id: answer.question_id
+        })
+            .then(res => {
+                const new_answer = res.data;
+                new_answer.votes = [];
+                console.log(new_answer);
+                commit("updateQuestionAnswer", new_answer);
+
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 }
 const mutations = {
@@ -101,6 +117,14 @@ const mutations = {
             if (question.id == update_question.id) {
                 question.title = update_question.title;
                 question.description = update_question.description;
+            }
+        })
+    },
+    updateQuestionAnswer: (state, answer) => {
+        state.question.answers.push(answer);
+        state.questions.forEach(question => {
+            if (question.id == answer.question_id) {
+                question.answers.push(answer);
             }
         })
     }

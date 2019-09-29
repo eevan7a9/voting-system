@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "AnswerAdd",
@@ -40,23 +39,16 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader"]),
+    ...mapActions(["onLoader", "offLoader", "addAnswerQuestion"]),
     addChoices() {
       this.onLoader();
-      axios
-        .post(
-          `https://my-json-server.typicode.com/eevan7a9/voting-app-db/answers`,
-          {
-            title: this.title,
-            question_id: this.question_id
-          }
-        )
-        .then(res => {
-          const answer = res.data;
-          this.$emit("newAnswer", answer);
-          this.title = "";
-          this.offLoader();
-        });
+      this.addAnswerQuestion({
+        title: this.title,
+        question_id: this.question_id
+      });
+      // this.$emit("newAnswer", answer);
+      this.title = "";
+      this.offLoader();
     }
   }
 };
