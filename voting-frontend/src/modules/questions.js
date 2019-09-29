@@ -68,8 +68,8 @@ const actions = {
     },
     deleteQuestion: async ({ commit }, id) => {
         await axios.delete(`/questions/${id}`)
-            .then(res => {
-                console.log(res.data)
+            .then(() => {
+                alert("Delete Question, Successful")
                 commit("removeQuestion", id);
             })
             .catch(err => {
@@ -97,12 +97,12 @@ const actions = {
             .then(res => {
                 const new_answer = res.data;
                 new_answer.votes = [];
-                console.log(new_answer);
+                alert(new_answer);
                 commit("insertQuestionAnswer", new_answer);
 
             })
             .catch(err => {
-                console.error(err);
+                alert(err);
             })
     },
     updateAnswerQuestion: async ({ commit }, answer) => {
@@ -127,8 +127,21 @@ const actions = {
                 alert(err);
             })
     },
-    addVote: ({ commit }, vote) => {
-        commit("insertNewVote", vote);
+    addVote: async ({ commit }, vote) => {
+        await axios.post('votes/', {
+            answer_id: vote.answer_id,
+            user_id: vote.user_id,
+            question_id: vote.question_id
+        })
+            .then(res => {
+                const new_vote = res.data;
+                commit("insertNewVote", new_vote);
+                alert("Vote Submitted");
+            })
+            .catch(err => {
+                alert(err);
+            })
+
     }
 }
 const mutations = {

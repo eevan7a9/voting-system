@@ -72,7 +72,6 @@ import AnswerAdd from "../components/answers/AnswerAdd";
 import QuestionOptions from "../components/questions/QuestionOptions";
 import QuestionEdit from "../components/questions/QuestionEdit";
 import { mapGetters, mapActions } from "vuex";
-import axios from "axios";
 export default {
   name: "Details",
   components: {
