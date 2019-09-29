@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "addQuestion", "addAnswer"]),
+    ...mapActions(["onLoader", "offLoader", "addQuestion"]),
     addChoice() {
       if (this.choice) {
         this.answers.push({

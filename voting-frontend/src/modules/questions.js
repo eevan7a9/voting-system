@@ -50,7 +50,9 @@ const actions = {
                             question_id: new_question.id
                         })
                             .then((res) => {
-                                new_question.answers.push(res.data);
+                                const new_answer = res.data;
+                                new_answer.votes = [];
+                                new_question.answers.push(new_answer);
                                 ctr++;
                                 if (ctr == question.answers.length) {
                                     // if all are success we update the state
