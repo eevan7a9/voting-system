@@ -92,12 +92,7 @@ export default {
   },
   computed: mapGetters(["question_detail"]),
   methods: {
-    ...mapActions([
-      "onLoader",
-      "offLoader",
-      "getQuestionDetails",
-      "deleteQuestion"
-    ]),
+    ...mapActions(["onLoader", "offLoader", "getQuestionDetails", "addVote"]),
     cancel() {
       // Return to Home
       this.$router.push({
@@ -110,28 +105,12 @@ export default {
       if (!this.selected_answer) {
         alert("you have not selected any of the choices");
       } else {
-        // console.log(this.selected.title);
         const vote = {
           answer_id: this.selected_answer.id,
           user_id: 1,
           question_id: this.question_detail.id
         };
-        axios
-          .post(
-            `https://my-json-server.typicode.com/eevan7a9/voting-app-db/votes`,
-            {
-              answer_id: vote.answer_id,
-              user_id: vote.user_id,
-              question_id: vote.question_id
-            }
-          )
-          .then(res => {
-            const new_vote = res.data;
-            this.selected_answer.votes.push(new_vote);
-          })
-          .catch(err => {
-            alert(err);
-          });
+        this.addVote(vote);
       }
     },
     exitEditMode() {
@@ -146,7 +125,9 @@ export default {
     }
   },
   created() {
-    this.getQuestionDetails(this.questionId);
+    setTimeout(() => {
+      this.getQuestionDetails(this.questionId);
+    }, 3000);
   }
 };
 </script>
