@@ -46,11 +46,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["updateAnswerQuestion"]),
     remove() {
       this.$emit("removeChoices", this.answer.id);
     },
     update() {
-      this.answer.title = this.title;
+      this.updateAnswerQuestion({
+        id: this.answer.id,
+        title: this.title
+      });
       this.title = "";
     }
   }

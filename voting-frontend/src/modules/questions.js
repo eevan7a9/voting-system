@@ -94,7 +94,7 @@ const actions = {
             })
     },
     addAnswerQuestion: async ({ commit }, answer) => {
-        axios.post('/answers', {
+        await axios.post('/answers', {
             title: answer.title,
             question_id: answer.question_id
         })
@@ -102,11 +102,24 @@ const actions = {
                 const new_answer = res.data;
                 new_answer.votes = [];
                 console.log(new_answer);
-                commit("updateQuestionAnswer", new_answer);
+                commit("insertQuestionAnswer", new_answer);
 
             })
             .catch(err => {
                 console.error(err);
+            })
+    },
+    updateAnswerQuestion: async ({ commit }, answer) => {
+        axios.put(`/answers/${answer.id}`, {
+            title: answer.title
+        })
+            .then(res => {
+                const updated_answer = res.data;
+                commit("updateQuestionAnswer", updated_answer);
+                // console.log(updated_answer);
+            })
+            .catch(err => {
+                alert(err);
             })
     }
 }
@@ -118,23 +131,36 @@ const mutations = {
     },
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
     updateQuestion: (state, update_question) => {
-        state.question.title = update_question.title;
+        state.question.title = update_question.title; // we update question detail
         state.question.description = update_question.description;
-        console.log(update_question);
+        // console.log(update_question);
         state.questions.forEach(question => {
             if (question.id == update_question.id) {
+                // we update the lists of all questions
                 question.title = update_question.title;
                 question.description = update_question.description;
             }
         })
     },
-    updateQuestionAnswer: (state, answer) => {
-        state.question.answers.push(answer);
+    insertQuestionAnswer: (state, answer) => {
+        state.question.answers.push(answer); // we update the detailed question
         state.questions.forEach(question => {
             if (question.id == answer.question_id) {
+                // we update the lists of all questions
                 question.answers.push(answer);
             }
         })
+    },
+    updateQuestionAnswer: (state, updated_answer) => {
+        // we find the question_detail answer
+        const found_answer = state.question.answers.find(answer => answer.id == updated_answer.id);
+        if (found_answer) {
+            found_answer.title = updated_answer.title; // we update the found answer title
+            // we now have to find the question from lists of questions
+            const found_question = state.questions.find(question => question.id == found_answer.question_id);
+            const found_question_answer = found_question.answers.find(answer => answer.id == found_answer.id);
+            found_question_answer.title = found_answer.title;
+        }
     }
 }
 export default {
