@@ -9,15 +9,21 @@ const getters = {
     question_detail: state => state.question
 }
 const actions = {
-    getQuestionDetails: ({ commit }, id) => {
-        axios.get(`/questions/${id}`)
-            .then(res => {
-                const question = res.data
-                commit("setQuestionDetails", question);
-            })
-            .catch(err => {
-                alert(err);
-            })
+    getQuestionDetails: ({ commit, state }, id) => {
+
+        const found_question = state.questions.find(question => question.id == id);
+        if (found_question) {
+            commit("setQuestionDetails", found_question);
+        } else {
+            axios.get(`/questions/${id}`)
+                .then(res => {
+                    const question = res.data
+                    commit("setQuestionDetails", question);
+                })
+                .catch(err => {
+                    alert(err);
+                })
+        }
     },
     getQuestions: async ({ commit }) => {
         await axios.get('/questions')
