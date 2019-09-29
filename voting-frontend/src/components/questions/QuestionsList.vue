@@ -6,7 +6,7 @@
       :key="index"
     >
       <div class="question-container bg-lightdient dark pady-1 padx-2" :id="question.id">
-        <router-link :to="{ name:'details', params:{question:question}}">
+        <router-link :to="{ name:'details', params:{questionId:question.id}}">
           <h2 class="mgb-1">{{ question.title }}</h2>
           <p>{{ question.description }}</p>
         </router-link>
@@ -17,7 +17,7 @@
         class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
         v-if="question.answers.length > 2"
       >...</div>
-      <router-link :to="{ name:'details', params:{question:question}}">
+      <router-link :to="{ name:'details', params:{questionId:question.id}}">
         <div
           class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
           v-if="question.answers.length !== 0"

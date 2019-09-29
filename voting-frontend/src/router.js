@@ -31,10 +31,14 @@ export default new Router({
       component: () => import('./views/Login.vue'),
     },
     {
-      path: "/question/details",
+      path: "/question/:questionId/details",
       name: "details",
       component: () => import('./views/Details.vue'),
-      props:true
+      props(route) { // by doing this we can prevent the params.id Type 
+        let props = { ...route.params } // from changing when entered from url
+        props.questionId = parseInt(props.questionId);
+        return props
+      },
     },
     {
       path: "/create",

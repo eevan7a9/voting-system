@@ -31,9 +31,11 @@ export default {
     ...mapGetters(["loader"])
   },
   methods: {
-    ...mapActions(["offLoader"])
+    ...mapActions(["offLoader", "getQuestions"])
   },
   created() {
+    this.getQuestions();
+
     setTimeout(() => {
       this.offLoader();
     }, 3000);

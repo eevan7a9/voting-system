@@ -2,17 +2,22 @@ import axios from 'axios';
 
 const state = {
     questions: [],
+    question: {}
 }
 const getters = {
     allQuestions: (state) => state.questions,
-    // questionDetail: state => state.question
+    questionDetail: state => state.question
 }
 const actions = {
-    getQuestionDetails: ({ commit, state }, id) => {
-        setTimeout(() => {
-            const question = state.questions.find(question => question.id == id)
-            commit("setQuestionDetails", question);
-        }, 2000);
+    getQuestionDetails: ({ commit }, id) => {
+        axios.get(`/questions/${id}`)
+            .then(res => {
+                const question = res.data
+                commit("setQuestionDetails", question);
+            })
+            .catch(err => {
+                alert(err);
+            })
     },
     getQuestions: async ({ commit }) => {
         await axios.get('/questions')
@@ -89,6 +94,8 @@ const mutations = {
     },
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
     updateQuestion: (state, update_question) => {
+        state.question.title = update_question.title;
+        state.question.description = update_question.description;
         console.log(update_question);
         state.questions.forEach(question => {
             if (question.id == update_question.id) {

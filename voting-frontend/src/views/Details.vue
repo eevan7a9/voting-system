@@ -1,26 +1,30 @@
 <template>
   <div>
-    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient" v-if="question">
+    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
       <h2 class="reminder tx-upp pady-1" v-show="!edit_mode">Vote Wisely!!!</h2>
       <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
       <QuestionOptions
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
-        :question_id="question.id"
+        :question_id="questionDetail.id"
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
-        <h2>{{ question.title }}</h2>
+        <h2>{{ questionDetail.title }}</h2>
 
-        <p>{{ question.description }}</p>
+        <p>{{ questionDetail.description }}</p>
       </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
-        :question="{id:question.id, title:question.title, description:question.description}"
+        :question="{id:questionDetail.id, title:questionDetail.title, description:questionDetail.description}"
         v-if="edit_mode"
       />
       <!-- Edit Question Ends -->
-      <div class="answers-cont mgt-1" v-for="(answer, index) in question.answers" :key="index">
+      <div
+        class="answers-cont mgt-1"
+        v-for="(answer, index) in questionDetail.answers"
+        :key="index"
+      >
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!edit_mode">
           <p class="fs-18">{{ answer.title }}</p>
           <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
@@ -28,7 +32,7 @@
             class="pointer"
             type="radio"
             v-on:change="selected_answer = answer;"
-            :name="question.id"
+            :name="questionDetail.id"
             :value="answer.id"
           />
         </div>
@@ -37,7 +41,7 @@
         <!-- Edit Answers Ends -->
       </div>
       <!-- Add Answers Starts -->
-      <AnswerAdd :question_id="question.id" @newAnswer="addChoice" v-if="edit_mode" />
+      <AnswerAdd :question_id="questionDetail.id" @newAnswer="addChoice" v-if="edit_mode" />
       <!-- Add Answers Ends -->
       <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
@@ -67,7 +71,7 @@ import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
 import QuestionOptions from "../components/questions/QuestionOptions";
 import QuestionEdit from "../components/questions/QuestionEdit";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 export default {
   name: "Details",
@@ -78,7 +82,7 @@ export default {
     AnswerAdd
   },
   props: {
-    question: Object
+    questionId: Number
   },
   data() {
     return {
@@ -86,13 +90,19 @@ export default {
       edit_mode: false
     };
   },
+  computed: mapGetters(["questionDetail"]),
   methods: {
-    ...mapActions(["onLoader", "offLoader", "deleteQuestion"]),
+    ...mapActions([
+      "onLoader",
+      "offLoader",
+      "getQuestionDetails",
+      "deleteQuestion"
+    ]),
     cancel() {
       // Return to Home
       this.$router.push({
         name: "home",
-        params: { scrollInto: `${this.question.id}` }
+        params: { scrollInto: `${this.questionDetail.id}` }
       });
     },
     submit() {
@@ -104,7 +114,7 @@ export default {
         const vote = {
           answer_id: this.selected_answer.id,
           user_id: 1,
-          question_id: this.question.id
+          question_id: this.questionDetail.id
         };
         axios
           .post(
@@ -134,25 +144,17 @@ export default {
     removeChoices(id) {
       const answer = confirm("are you sure you want to remove this answer?");
       if (answer) {
-        this.question.answers = this.question.answers.filter(
+        this.questionDetail.answers = this.questionDetail.answers.filter(
           answer => answer.id != id
         );
       }
     },
     addChoice(answer) {
-      this.question.answers.push(answer);
+      this.questionDetail.answers.push(answer);
     }
   },
   created() {
-    if (this.question == undefined) {
-      this.$router.push("/");
-      // console.log(1);
-    } else {
-      this.onLoader();
-      setTimeout(() => {
-        this.offLoader();
-      }, 2000);
-    }
+    this.getQuestionDetails(this.questionId);
   }
 };
 </script>
