@@ -92,7 +92,13 @@ export default {
   },
   computed: mapGetters(["question_detail"]),
   methods: {
-    ...mapActions(["onLoader", "offLoader", "getQuestionDetails", "addVote"]),
+    ...mapActions([
+      "onLoader",
+      "offLoader",
+      "getQuestionDetails",
+      "resetQuestionDetails",
+      "addVote"
+    ]),
     cancel() {
       // Return to Home
       this.$router.push({
@@ -125,9 +131,10 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      this.getQuestionDetails(this.questionId);
-    }, 3000);
+    this.getQuestionDetails(this.questionId);
+  },
+  destroyed() {
+    this.resetQuestionDetails();
   }
 };
 </script>

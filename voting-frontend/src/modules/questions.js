@@ -18,6 +18,9 @@ const actions = {
             router.push("/")
         }
     },
+    resetQuestionDetails: ({ commit }) => {
+        commit("clearQuestionDetails")
+    },
     getQuestions: async ({ commit }) => {
         await axios.get('/questions')
             .then(res => {
@@ -134,6 +137,7 @@ const mutations = {
     setQuestionDetails: (state, question) => {
         state.question = question;
     },
+    clearQuestionDetails: (state) => state.question = {},
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
     updateQuestion: (state, update_question) => {
         state.question.title = update_question.title; // we update question detail
