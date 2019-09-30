@@ -102,6 +102,9 @@ export default {
 </script>
 
 <style scoped>
+input {
+  width: 90%;
+}
 .register {
   text-align: center;
 }
@@ -118,7 +121,7 @@ export default {
 .password-container,
 .confirm-container {
   display: grid;
-  grid-template-columns: minmax(100px, 200px) 1fr;
+  grid-template-columns: 150px 1fr;
   grid-template-rows: auto auto;
 }
 .username-container label,
@@ -134,6 +137,9 @@ export default {
   text-align: center;
 }
 @media (max-width: 600px) {
+  input {
+    width: 100%;
+  }
   .wrapper {
     width: 100%;
   }
@@ -148,6 +154,9 @@ export default {
   .password-container label,
   .confirm-container label {
     text-align: center;
+  }
+  .error {
+    grid-column-start: 1;
   }
 }
 </style>
