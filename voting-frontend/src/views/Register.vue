@@ -5,19 +5,27 @@
       <form @submit="submit">
         <div class="username-container mgt-2 padx-1">
           <label for="username" class="tx-upp padx-1 pady-1">username</label>
-          <input type="username" class="fs-20" v-model="username" id="username" />
+          <input type="username" class="fs-20" v-model="user.username" id="username" />
+          <p
+            class="error red pady-5-px tx-upp"
+            v-if="error.username.status"
+          >{{ this.error.username.message }}</p>
         </div>
+
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
-          <input type="email" class="fs-20" v-model="email" id="email" />
+          <input type="email" class="fs-20" v-model="user.email" id="email" />
+          <p class="error red tx-upp" v-if="error.email.status">{{ this.error.email.message }}</p>
         </div>
         <div class="password-container mgt-2 padx-1">
           <label for="password" class="tx-upp padx-1 pady-1">password</label>
-          <input type="password" class="fs-20" v-model="password" id="password" />
+          <input type="password" class="fs-20" v-model="user.password" id="password" />
+          <p class="error red tx-upp" v-if="error.password.status">{{ this.error.password.message }}</p>
         </div>
         <div class="confirm-container mgt-2 padx-1">
           <label for="confirm" class="tx-upp padx-1 pady-1">confirm</label>
-          <input type="password" class="fs-20" v-model="confirm" id="confirm" />
+          <input type="password" class="fs-20" v-model="user.confirm" id="confirm" />
+          <p class="error red tx-upp" v-if="error.confirm.status">{{ this.error.confirm.message }}</p>
         </div>
         <div class="submit-container pady-3">
           <button
@@ -35,35 +43,55 @@ export default {
   name: "Register",
   data() {
     return {
-      username: "",
-      email: "",
-      password: "",
-      confirm: "",
+      user: {
+        username: "",
+        email: "",
+        password: "",
+        confirm: ""
+      },
       error: {
-        username: 0,
-        email: 0,
-        password: 0
+        username: {
+          status: 0,
+          message: "USERNAME be atleast 6 characters long"
+        },
+        email: {
+          status: 0,
+          message: "valid EMAIL address required"
+        },
+        password: {
+          status: 0,
+          message: "PASSWORD must be atleast 6 characters long"
+        },
+        confirm: {
+          status: 0,
+          message: "PASSWORD is not confirmed"
+        }
       }
     };
   },
   methods: {
     validEmail() {
       let re = /\S+@\S+\.\S+/;
-      return re.test(this.email);
+      return re.test(this.user.email);
     },
     validate() {
-      this.error.username = this.username.trim().length < 6 ? 1 : 0;
-      this.error.email = !this.validEmail() ? 1 : 0;
-      this.error.password =
-        this.password.trim().length < 6 ||
-        this.password.trim().length != this.confirm.trim().length
+      this.error.username.status = this.user.username.trim().length < 6 ? 1 : 0;
+      this.error.email.status = !this.validEmail() ? 1 : 0;
+      this.error.password.status = this.user.password.trim().length < 6 ? 1 : 0;
+      this.error.confirm.status =
+        this.user.password.trim().length != this.user.confirm.trim().length
           ? 1
           : 0;
     },
     submit(e) {
       e.preventDefault();
       this.validate();
-      if (!this.error.username && !this.error.email && !this.error.password) {
+      if (
+        !this.error.username.status &&
+        !this.error.email.status &&
+        !this.error.password.status &&
+        !this.error.confirm.status
+      ) {
         console.log("no eror");
       } else {
         console.log("has Error");
@@ -91,12 +119,16 @@ export default {
 .confirm-container {
   display: grid;
   grid-template-columns: minmax(100px, 200px) 1fr;
+  grid-template-rows: auto auto;
 }
 .username-container label,
 .email-container label,
 .password-container label,
 .confirm-container label {
   text-align: right;
+}
+.error {
+  grid-column-start: 2;
 }
 .submit-container {
   text-align: center;
