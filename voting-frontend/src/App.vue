@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
+    <Alert />
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
         <div></div>
@@ -23,9 +24,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "./components/Navbar";
+import Alert from "./components/Alert";
 export default {
   components: {
-    Navbar
+    Navbar,
+    Alert
   },
   computed: {
     ...mapGetters(["loader"])

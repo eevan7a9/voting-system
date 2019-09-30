@@ -5,7 +5,7 @@ const state = {
     user: {},
     user_message: {
         message: "Some message",
-        error: 0
+        error: 1
     },
 };
 const getters = {
