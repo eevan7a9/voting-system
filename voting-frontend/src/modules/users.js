@@ -6,7 +6,7 @@ const state = {
     user_message: {
         message: "Some message",
         error: 0,
-        show: 1
+        show: 0
     },
 };
 const getters = {

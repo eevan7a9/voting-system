@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper pady-2 mgt-3 bg-lightdient borad-1">
+    <div class="wrapper pady-2 mgt-3 bg-white borad-1">
       <h1 class="login pady-1 padx-2 tx-upp blue">login</h1>
       <form @submit="submit">
         <div class="email-container mgt-2 padx-1">

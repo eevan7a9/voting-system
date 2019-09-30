@@ -86,6 +86,9 @@
     #404433
   );
 }
+.bg-white {
+  background: aliceblue;
+}
 .bg-danger {
   background-image: radial-gradient(
     circle 820px at -14.8% -18.7%,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper mgt-3 bg-lightdient borad-1">
+    <div class="wrapper mgt-3 bg-white borad-1">
       <h1 class="register pady-1 padx-2 tx-upp blue">Register</h1>
       <form @submit="submit">
         <div class="username-container mgt-2 padx-1">

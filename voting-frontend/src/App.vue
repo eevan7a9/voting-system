@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-lightdient">
     <Navbar />
     <Alert />
     <div id="loader" v-show="loader">
@@ -49,6 +49,7 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
   color: #2c3e50;
 }
 @media (max-width: 600px) {

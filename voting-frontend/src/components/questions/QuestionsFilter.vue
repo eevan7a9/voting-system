@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper pady-2 padx-2 bg-lightdient borad-2">
+    <div class="wrapper pady-2 padx-2 bg-white borad-2">
       <div class="sorter">
         <h2 class="tx-upp fs-large">sorter</h2>
         <hr class="mgy-1 mgx-1" />

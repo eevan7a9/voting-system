@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper mgt-3 bg-lightdient borad-1">
+    <div class="wrapper mgt-3 bg-white borad-1">
       <section id="question" v-if="!edit_answer">
         <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
         <div class="create-container pady-1 padx-3">
