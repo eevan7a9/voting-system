@@ -31,6 +31,11 @@ export default new Router({
       component: () => import('./views/Login.vue'),
     },
     {
+      path: "/logout",
+      name: "logout",
+      component: () => import('./views/Logout.vue'),
+    },
+    {
       path: "/question/:questionId/details",
       name: "details",
       component: () => import('./views/Details.vue'),

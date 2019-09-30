@@ -29,7 +29,7 @@
           <router-link to="/login" class="nav-item">
             <div class="light padx-1" @click="NavTrigger">Login</div>
           </router-link>
-          <router-link to="/about" class="nav-item">
+          <router-link to="/logout" class="nav-item">
             <div class="light padx-1" @click="NavTrigger">Logout</div>
           </router-link>
         </div>

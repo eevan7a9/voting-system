@@ -2,7 +2,7 @@ import axios from "axios";
 
 const state = {
     login: false,
-    user_token: "",
+    user_token: localStorage.getItem("auth") || null,
     user: {},
     user_message: {
         message: "Some message",
@@ -13,7 +13,8 @@ const state = {
 const getters = {
     current_user: state => state.user,
     is_login: state => state.login,
-    alert_user: state => state.user_message
+    alert_user: state => state.user_message,
+    getToken: state => state.user_token
 };
 const actions = {
     closeUserMessage: ({ commit }) => commit("clearUserMessage"),
@@ -32,6 +33,10 @@ const actions = {
             });
         commit("successRegister", new_user);
     },
+    welcomeUser: ({ commit, state }) => {
+        const message = state.user_token;
+        commit("setWelcomeMessage", message);
+    },
     loginUser: async ({ commit }, user) => {
         const result = await axios.post('https://reqres.in/api/login', {
             email: user.email,
@@ -47,6 +52,11 @@ const actions = {
             .catch(err => {
                 alert(err)
             })
+    },
+    logoutUser: async ({ commit }) => {
+        alert("logout");
+        localStorage.removeItem("auth");
+        commit("removeUserToken");
     }
 };
 const mutations = {
@@ -62,6 +72,14 @@ const mutations = {
     setUserToken: (state, user) => {
         state.user_token = user.token;
         state.user.email = user.email;
+    },
+    removeUserToken: (state) => {
+        state.user_token = null;
+        state.user = {}
+    },
+    setWelcomeMessage: (state, message) => {
+        state.user_message.message = message;
+        state.user_message.show = true;
     }
 };
 export default {
