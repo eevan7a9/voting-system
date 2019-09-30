@@ -38,13 +38,36 @@ export default {
       username: "",
       email: "",
       password: "",
-      confirm: ""
+      confirm: "",
+      error: {
+        username: 0,
+        email: 0,
+        password: 0
+      }
     };
   },
   methods: {
+    validEmail() {
+      let re = /\S+@\S+\.\S+/;
+      return re.test(this.email);
+    },
+    validate() {
+      this.error.username = this.username.trim().length < 6 ? 1 : 0;
+      this.error.email = !this.validEmail() ? 1 : 0;
+      this.error.password =
+        this.password.trim().length < 6 ||
+        this.password.trim().length != this.confirm.trim().length
+          ? 1
+          : 0;
+    },
     submit(e) {
       e.preventDefault();
-      alert(`${this.username} ${this.email} ${this.password} ${this.confirm}`);
+      this.validate();
+      if (!this.error.username && !this.error.email && !this.error.password) {
+        console.log("no eror");
+      } else {
+        console.log("has Error");
+      }
     }
   }
 };
