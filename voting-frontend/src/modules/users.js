@@ -2,33 +2,40 @@ import axios from "axios";
 
 const state = {
     login: false,
-    user: {}
-}
+    user: {},
+    user_message: {
+        message: "Some message",
+        error: 0
+    },
+};
 const getters = {
     current_user: state => state.user,
-    is_login: state => state.login
-}
+    is_login: state => state.login,
+    user_message: state => state.user_message
+};
 const actions = {
     registerUser: async ({ commit }, user) => {
-        await axios.post('users', {
-            name: user.username,
-            email: user.email,
-            password: user.password
-        })
+        const new_user = await axios
+            .post("users", {
+                name: user.username,
+                email: user.email,
+                password: user.password
+            })
             .then(res => {
-                console.log(res)
+                return res.data;
             })
             .catch(err => {
-                console.error(err);
-            })
+                alert(err);
+            });
+        commit("successRegister", new_user);
     }
-}
+};
 const mutations = {
-
-}
+    successRegister: (state, user) => (state.user_message = `${user.email} you are now  Registered!!!`)
+};
 export default {
     state,
     getters,
     actions,
     mutations
-}
+};

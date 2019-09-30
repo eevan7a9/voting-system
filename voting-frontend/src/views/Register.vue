@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Register",
   data() {
@@ -70,6 +71,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["registerUser"]),
+
     validEmail() {
       let re = /\S+@\S+\.\S+/;
       return re.test(this.user.email);
@@ -92,9 +95,8 @@ export default {
         !this.error.password.status &&
         !this.error.confirm.status
       ) {
-        console.log("no eror");
-      } else {
-        console.log("has Error");
+        this.registerUser(this.user);
+        this.$router.push({ name: "login" });
       }
     }
   }
