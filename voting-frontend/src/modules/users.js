@@ -2,6 +2,7 @@ import axios from "axios";
 
 const state = {
     login: false,
+    user_token: "",
     user: {},
     user_message: {
         message: "Some message",
@@ -30,6 +31,22 @@ const actions = {
                 alert(err);
             });
         commit("successRegister", new_user);
+    },
+    loginUser: async ({ commit }, user) => {
+        const result = await axios.post('https://reqres.in/api/login', {
+            email: user.email,
+            password: user.password
+        })
+            .then(res => {
+                const login_user = res.data;
+                login_user.email = user.email;
+                commit("setUserToken", login_user);
+                localStorage.setItem("auth", login_user.token);
+                // console.log(login_user);
+            })
+            .catch(err => {
+                alert(err)
+            })
     }
 };
 const mutations = {
@@ -42,6 +59,10 @@ const mutations = {
         state.user_message.message = "";
         state.user_message.show = 0;
     },
+    setUserToken: (state, user) => {
+        state.user_token = user.token;
+        state.user.email = user.email;
+    }
 };
 export default {
     state,

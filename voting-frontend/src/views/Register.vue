@@ -107,6 +107,9 @@ export default {
 input {
   width: 90%;
 }
+label {
+  width: 100%;
+}
 .register {
   text-align: center;
 }
@@ -123,8 +126,8 @@ input {
 .password-container,
 .confirm-container {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(100px, 150px) 1fr;
+  /* grid-template-rows: auto auto; */
 }
 .username-container label,
 .email-container label,

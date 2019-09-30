@@ -5,13 +5,13 @@
       <form @submit="submit">
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
-          <input type="email" class="fs-20" v-model="email" id="email" />
+          <input type="email" class="fs-20" v-model="user.email" id="email" />
         </div>
         <div class="password-container mgt-2 padx-1">
           <label for="password" class="tx-upp padx-1 pady-1">password</label>
-          <input type="password" class="fs-20" v-model="password" id="password" />
+          <input type="password" class="fs-20" v-model="user.password" id="password" />
         </div>
-        <div class="submit-container pady-3">
+        <div class="submit-container pady-2">
           <button
             type="submit"
             class="pady-1 padx-2 borad-1 bg-bluedient light fs-20 pointer"
@@ -22,19 +22,24 @@
   </div>
 </template>
 
-<script>
+<script scoped>
+import { mapActions } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: ""
+      user: {
+        email: "",
+        password: ""
+      }
     };
   },
   methods: {
+    ...mapActions(["loginUser"]),
     submit(e) {
       e.preventDefault();
-      alert(`${this.email} ${this.password}`);
+      this.loginUser(this.user);
+      this.$router.push("/");
     }
   }
 };
@@ -55,13 +60,17 @@ export default {
 .email-container,
 .password-container {
   display: grid;
-  grid-template-columns: minmax(100px, 200px) 1fr;
+  grid-template-columns: minmax(100px, 150px) 1fr;
+  padding-right: 50px;
 }
 .email-container label,
 .password-container label {
   text-align: right;
 }
 .submit-container {
+  text-align: center;
+}
+.error {
   text-align: center;
 }
 @media (max-width: 600px) {
