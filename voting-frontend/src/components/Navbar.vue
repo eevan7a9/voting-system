@@ -24,13 +24,13 @@
         </div>
         <div class="right-nav notTriggerNav" :class="{triggerNav: mobile_nav}">
           <router-link to="/register" class="nav-item">
-            <div class="light padx-1" @click="NavTrigger">Register</div>
+            <div class="light padx-1" @click="NavTrigger" v-show="!is_login">Register</div>
           </router-link>
           <router-link to="/login" class="nav-item">
-            <div class="light padx-1" @click="NavTrigger">Login</div>
+            <div class="light padx-1" @click="NavTrigger" v-show="!is_login">Login</div>
           </router-link>
           <router-link to="/logout" class="nav-item">
-            <div class="light padx-1" @click="NavTrigger">Logout</div>
+            <div class="light padx-1" @click="NavTrigger" v-show="is_login">Logout</div>
           </router-link>
         </div>
       </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Navbar",
   data() {
@@ -57,6 +58,7 @@ export default {
       // this.getWindowHeight();
     });
   },
+  computed: mapGetters(["is_login"]),
   destroyed() {
     window.removeEventListener("resize", this.myEventHandler);
   },
