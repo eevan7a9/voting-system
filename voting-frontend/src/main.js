@@ -8,7 +8,6 @@ Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if user_token exists
-    // if not, redirect to login page.
     if (!store.state.users.user_token) {
       next({
         path: '/',
@@ -18,7 +17,6 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     // this route requires visitor, check if not login
-    // if not, redirect to login page.
     if (store.state.users.user_token) {
       next({
         path: '/',
@@ -30,7 +28,14 @@ router.beforeEach((to, from, next) => {
     next() // make sure to always call next()!
   }
 })
-
+//  We add Filter for long texts
+Vue.filter('truncate', function (text, length, suffix) {
+  if (text.length > length) {
+    return text.substring(0, length) + suffix;
+  } else {
+    return text;
+  }
+});
 
 new Vue({
   router,

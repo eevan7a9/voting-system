@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "AnswerAdd",
   props: {
@@ -45,10 +45,10 @@ export default {
       this.addAnswerQuestion({
         title: this.title,
         question_id: this.question_id
+      }).then(() => {
+        this.title = "";
+        this.offLoader();
       });
-      // this.$emit("newAnswer", answer);
-      this.title = "";
-      this.offLoader();
     }
   }
 };

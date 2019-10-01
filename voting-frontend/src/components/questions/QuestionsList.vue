@@ -8,7 +8,7 @@
       <div class="question-container bg-white dark pady-1 padx-2" :id="question.id">
         <router-link :to="{ name:'details', params:{questionId:question.id}}">
           <h2 class="mgb-1">{{ question.title }}</h2>
-          <p>{{ question.description }}</p>
+          <p>{{ question.description | truncate(150,'...') }}</p>
         </router-link>
       </div>
       <hr class="blue" />
@@ -86,6 +86,9 @@ a {
 }
 .question-container h2:hover {
   color: #1583c7;
+}
+.question-container p {
+  letter-spacing: 2px;
 }
 .vote {
   max-width: 900px;
