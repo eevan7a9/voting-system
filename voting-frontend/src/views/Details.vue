@@ -12,7 +12,7 @@
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question_detail.title }}</h2>
 
-        <p>{{ question_detail.description }}</p>
+        <p class="ls-2 pady-2">{{ question_detail.description }}</p>
       </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
