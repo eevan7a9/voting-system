@@ -34,8 +34,19 @@ const actions = {
         commit("successRegister", new_user);
     },
     welcomeUser: ({ commit, state }) => {
-        const message = state.user_token;
-        commit("setWelcomeMessage", message);
+        let content = {};
+        if (state.user_token) {
+            content.message = `Welcome ${state.user.email} remember vote wisely`;
+            content.error = 0;
+        }
+        commit("setWelcomeMessage", content);
+
+    },
+    authError: ({ commit }, message) => {
+        let content = {};
+        content.message = message
+        content.error = 1;
+        commit("setWelcomeMessage", content);
     },
     loginUser: async ({ commit }, user) => {
         const result = await axios.post('https://reqres.in/api/login', {
@@ -47,11 +58,13 @@ const actions = {
                 login_user.email = user.email;
                 commit("setUserToken", login_user);
                 localStorage.setItem("auth", login_user.token);
-                // console.log(login_user);
+                return login_user;
             })
             .catch(err => {
                 alert(err)
+                return err;
             })
+        return result;
     },
     logoutUser: async ({ commit }) => {
         alert("logout");
@@ -77,8 +90,9 @@ const mutations = {
         state.user_token = null;
         state.user = {}
     },
-    setWelcomeMessage: (state, message) => {
-        state.user_message.message = message;
+    setWelcomeMessage: (state, content) => {
+        state.user_message.message = content.message;
+        state.user_message.error = content.error;
         state.user_message.show = true;
     }
 };

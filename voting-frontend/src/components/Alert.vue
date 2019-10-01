@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="alert container dark pady-1 padx-2 mgy-1 borad-2"
+      class="alert container dark pady-1 padx-2 mgy-1 mgt-2 borad-2"
       :class="alert_user.error ? 'danger':'success'"
       v-show="alert_user.show == 1"
     >

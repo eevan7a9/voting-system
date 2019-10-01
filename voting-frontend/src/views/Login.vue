@@ -35,11 +35,18 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "welcomeUser", "authError"]),
     submit(e) {
       e.preventDefault();
-      this.loginUser(this.user);
-      this.$router.push("/");
+      this.loginUser(this.user).then(res => {
+        if (res.token) {
+          this.welcomeUser();
+          this.$router.push("/");
+        } else {
+          const message = "Oops!!! Sorry, invalid credentials";
+          this.authError(message);
+        }
+      });
     }
   }
 };
