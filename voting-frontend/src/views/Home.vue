@@ -21,10 +21,10 @@ export default {
     scrollInto: String
   },
   methods: {
-    ...mapActions(["welcomeUser", "closeUserMessage"])
+    ...mapActions(["welcomeUser", "closeAlert"])
   },
   destroyed() {
-    this.closeUserMessage();
+    this.closeAlert();
   }
 };
 </script>

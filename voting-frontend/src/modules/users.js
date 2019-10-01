@@ -12,41 +12,31 @@ const state = {
 };
 const getters = {
     current_user: state => state.user,
-    is_login: state => state.login,
+    is_login: state => state.user_token,
     alert_user: state => state.user_message,
     getToken: state => state.user_token
 };
 const actions = {
-    closeUserMessage: ({ commit }) => commit("clearUserMessage"),
+    closeAlert: ({ commit }) => commit("clearAlert"),
+    showAlert: ({ commit }, content) => {
+        // content.message & content.error
+        commit("setAlert", content);
+    },
     registerUser: async ({ commit }, user) => {
-        const new_user = await axios
+        const result = await axios
             .post("users", {
                 name: user.username,
                 email: user.email,
                 password: user.password
             })
             .then(res => {
+                commit("successRegister", res.data);
                 return res.data;
             })
             .catch(err => {
                 alert(err);
             });
-        commit("successRegister", new_user);
-    },
-    welcomeUser: ({ commit, state }) => {
-        let content = {};
-        if (state.user_token) {
-            content.message = `Welcome ${state.user.email} remember vote wisely`;
-            content.error = 0;
-        }
-        commit("setWelcomeMessage", content);
-
-    },
-    authError: ({ commit }, message) => {
-        let content = {};
-        content.message = message;
-        content.error = 1;
-        commit("setWelcomeMessage", content);
+        return result;
     },
     loginUser: async ({ commit }, user) => {
         const result = await axios.post('https://reqres.in/api/login', {
@@ -78,10 +68,6 @@ const mutations = {
         state.user_message.message = `${user.email} you are now  Registered!!!`;
         state.user_message.error = 0;
     },
-    clearUserMessage: (state) => {
-        state.user_message.message = "";
-        state.user_message.show = 0;
-    },
     setUserToken: (state, user) => {
         state.user_token = user.token;
         state.user.email = user.email;
@@ -90,7 +76,11 @@ const mutations = {
         state.user_token = null;
         state.user = {}
     },
-    setWelcomeMessage: (state, content) => {
+    clearAlert: (state) => {
+        state.user_message.message = "";
+        state.user_message.show = 0;
+    },
+    setAlert: (state, content) => {
         state.user_message.message = content.message;
         state.user_message.error = content.error;
         state.user_message.show = true;

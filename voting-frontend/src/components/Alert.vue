@@ -70,9 +70,9 @@ export default {
   name: "Alert",
   computed: mapGetters(["alert_user"]),
   methods: {
-    ...mapActions(["closeUserMessage"]),
+    ...mapActions(["closeAlert"]),
     close() {
-      this.closeUserMessage();
+      this.closeAlert();
     }
   }
 };

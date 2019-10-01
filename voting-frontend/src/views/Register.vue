@@ -71,7 +71,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["registerUser"]),
+    ...mapActions(["registerUser", "showAlert"]),
 
     validEmail() {
       let re = /\S+@\S+\.\S+/;
@@ -95,8 +95,15 @@ export default {
         !this.error.password.status &&
         !this.error.confirm.status
       ) {
-        this.registerUser(this.user);
-        this.$router.push({ name: "login" });
+        this.registerUser(this.user).then(() => {
+          const content = {
+            message: `${this.user.email} you are now Registered!!!`,
+            error: 0
+          };
+          this.showAlert(content).then(() => {
+            this.$router.push({ name: "login" });
+          });
+        });
       }
     }
   }
