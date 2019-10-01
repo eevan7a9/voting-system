@@ -3,7 +3,34 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if user_token exists
+    // if not, redirect to login page.
+    if (!store.state.users.user_token) {
+      next({
+        path: '/',
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    // this route requires visitor, check if not login
+    // if not, redirect to login page.
+    if (store.state.users.user_token) {
+      next({
+        path: '/',
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
+
 
 new Vue({
   router,

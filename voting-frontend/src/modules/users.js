@@ -44,7 +44,7 @@ const actions = {
     },
     authError: ({ commit }, message) => {
         let content = {};
-        content.message = message
+        content.message = message;
         content.error = 1;
         commit("setWelcomeMessage", content);
     },
@@ -61,13 +61,13 @@ const actions = {
                 return login_user;
             })
             .catch(err => {
-                alert(err)
+                // alert(err)
                 return err;
             })
         return result;
     },
     logoutUser: async ({ commit }) => {
-        alert("logout");
+        // alert("logout");
         localStorage.removeItem("auth");
         commit("removeUserToken");
     }

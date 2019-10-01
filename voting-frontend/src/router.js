@@ -24,16 +24,19 @@ export default new Router({
       path: "/register",
       name: "register",
       component: () => import('./views/Register.vue'),
+      meta: { requiresVisitor: true }
     },
     {
       path: "/login",
       name: "login",
       component: () => import('./views/Login.vue'),
+      meta: { requiresVisitor: true }
     },
     {
       path: "/logout",
       name: "logout",
       component: () => import('./views/Logout.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: "/question/:questionId/details",
@@ -49,6 +52,7 @@ export default new Router({
       path: "/create",
       name: "create",
       component: () => import('./views/CreateQuestion.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })
