@@ -35,24 +35,33 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loginUser", "welcomeUser", "showAlert"]),
+    ...mapActions([
+      "onLoader",
+      "offLoader",
+      "loginUser",
+      "welcomeUser",
+      "showAlert"
+    ]),
     submit(e) {
       e.preventDefault();
+      this.onLoader();
       this.loginUser(this.user).then(res => {
         if (res.token) {
           const content = {
-            message: `Welcome ${this.user.email} remember Vote wisely`,
+            message: `Welcome ${this.user.email} and remember, Vote wisely`,
             error: 0
           };
           this.showAlert(content).then(() => {
-            this.$router.push("/");
+            this.$router.push("/").then(() => this.offLoader());
           });
         } else {
           const content = {
             message: "Oops!!! Sorry, invalid credentials",
             error: 1
           };
-          this.showAlert(content);
+          this.showAlert(content).then(() => {
+            this.offLoader();
+          });
         }
       });
     }

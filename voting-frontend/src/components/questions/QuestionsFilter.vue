@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "QuestionsFilter",
   data() {
@@ -54,6 +55,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["showAlert", "closeAlert"]),
     sortQuestions() {
       alert("sort");
     },
@@ -61,8 +63,18 @@ export default {
       alert("filter");
     },
     newQuestion() {
-      this.$router.push("create");
+      // console.log(1);
+      this.$router.push("create").catch(() => {
+        const content = {
+          message: "Sorry, only login users are allowed.",
+          error: 1
+        };
+        this.showAlert(content);
+      });
     }
+  },
+  destroyed() {
+    this.closeAlert();
   }
 };
 </script>

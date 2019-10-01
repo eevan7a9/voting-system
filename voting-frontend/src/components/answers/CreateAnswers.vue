@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "addQuestion"]),
+    ...mapActions(["onLoader", "offLoader", "addQuestion", "showAlert"]),
     addChoice() {
       if (this.choice) {
         this.answers.push({
@@ -75,8 +75,14 @@ export default {
           description: this.additional_info,
           answers: this.answers
         }).then(() => {
-          this.offLoader(); // turn loader off when request is done
-          this.$router.push({ name: "home" });
+          const content = {
+            message: `Success, new Question created.`,
+            error: 0
+          };
+          this.showAlert(content).then(() => {
+            this.$router.push({ name: "home" });
+            this.offLoader(); // turn loader off when request is done
+          });
         });
       }
     }
