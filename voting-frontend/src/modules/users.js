@@ -28,7 +28,11 @@ const actions = {
                 password: user.password
             })
             .then(res => {
-                commit("successRegister", res.data);
+                const content = {
+                    message: `${res.data.email} you are now Registered!!!`,
+                    error: 0
+                };
+                commit("setAlert", content);
                 return res.data;
             })
             .catch(err => {
@@ -72,11 +76,6 @@ const actions = {
     }
 };
 const mutations = {
-    successRegister: (state, user) => {
-        state.user_message.show = 1;
-        state.user_message.message = `${user.email} you are now  Registered!!!`;
-        state.user_message.error = 0;
-    },
     setUser: (state, user) => {
         state.user_token = user.token; // set user token
         state.user = user;
