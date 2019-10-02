@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="wrapper mgt-3 bg-white borad-1">
     <div class="dark pady-1 padx-2">
-      <h2>{{ title }}</h2>
-      <p>{{ additional_info }}</p>
+      <h2 class="mgt-1">{{ title }}</h2>
+      <p class="ls-2 pady-1">{{ additional_info }}</p>
     </div>
     <transition-group name="slide-fade">
       <div class="answers-cont mgt-3-px" v-for="(answer) in answers" :key="answer.id">

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="wrapper mgt-3 bg-white borad-1">
-      <section id="question" v-if="!edit_answer">
+    <div class="wrapper mgt-3 bg-white borad-1" v-if="!edit_answer">
+      <section id="question">
         <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
         <div class="create-container pady-1 padx-3">
           <div class="title-container">
@@ -32,10 +32,12 @@
           </div>
         </div>
       </section>
+    </div>
+    <transition name="fade">
       <section v-if="edit_answer">
         <CreateAnswers :title="title" :additional_info="additional_info" />
       </section>
-    </div>
+    </transition>
   </div>
 </template>
 

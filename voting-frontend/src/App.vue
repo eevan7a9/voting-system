@@ -1,7 +1,9 @@
 <template>
   <div id="app" class="bg-lightdient">
     <Navbar />
-    <Alert />
+    <transition name="fade" v-if="alert_user.show">
+      <Alert />
+    </transition>
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
         <div></div>
@@ -18,7 +20,9 @@
         <div></div>
       </div>
     </div>
-    <router-view class="container main-view" v-show="!loader" />
+    <transition name="fade" mode="out-in">
+      <router-view class="container main-view" v-if="!loader" />
+    </transition>
   </div>
 </template>
 <script>
@@ -31,7 +35,7 @@ export default {
     Alert
   },
   computed: {
-    ...mapGetters(["loader"])
+    ...mapGetters(["loader", "alert_user"])
   },
   methods: {
     ...mapActions(["offLoader"])
