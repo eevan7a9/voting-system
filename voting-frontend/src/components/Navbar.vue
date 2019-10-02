@@ -29,6 +29,9 @@
           <router-link to="/login" class="nav-item">
             <div class="light padx-1" @click="NavTrigger" v-show="!is_login">Login</div>
           </router-link>
+          <router-link to="/account" class="nav-item">
+            <div class="light padx-1" @click="NavTrigger" v-show="is_login">Account</div>
+          </router-link>
           <router-link to="/logout" class="nav-item">
             <div class="light padx-1" @click="NavTrigger" v-show="is_login">Logout</div>
           </router-link>
@@ -135,7 +138,10 @@ export default {
 .mobile-nav {
   display: none;
 }
-
+.user-email {
+  max-width: 150px;
+  overflow: hidden;
+}
 @media (max-width: 600px) {
   .container {
     padding: 0;
