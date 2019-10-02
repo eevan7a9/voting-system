@@ -25,6 +25,11 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
+        // we make validation to only allow user to vote only once per question
+        $check_vote = Vote::where('question_id', $request->question_id)
+            ->where('user_id', $request->user_id)
+            ->first();
+
         $request->validate([
             "question_id" => "required|integer",
             "answer_id" => "required|integer",
@@ -36,7 +41,17 @@ class VoteController extends Controller
         $vote->answer_id = $request->answer_id;
         $vote->user_id = $request->user_id;
         $vote->save();
-        return response()->json($vote);
+        if ($check_vote) {
+            $response = [
+                "message" => "You already voted for this question",
+                "error" => "Vote, already exists",
+            ];
+            return response()->json($response);
+        } else {
+            return response()->json($vote);
+
+        }
+
     }
 
     /**
