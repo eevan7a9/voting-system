@@ -25,7 +25,16 @@
         v-for="(answer, index) in question_detail.answers"
         :key="index"
       >
-        <AnswersItem :answer="answer" @selectedAnswer="setSelected" v-if="!edit_mode" />
+        <!-- We iterate the answers -->
+        <AnswersItem
+          :answer="answer"
+          :user="current_user"
+          :disable_radio="disable_radio"
+          @selectedAnswer="setSelected"
+          @disableSubmit="disableSubmit"
+          v-if="!edit_mode"
+        />
+        <!-- End of iteration -->
         <!-- Edit Answers Starts -->
         <AnswerEdit :answer="answer" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
@@ -39,8 +48,13 @@
           class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
         >cancel</button>
         <button
-          @click="submit"
+          v-if="!disable_btn"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
+          @click="submit"
+        >Submit</button>
+        <button
+          v-if="disable_btn"
+          class="disable-submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
         >Submit</button>
       </div>
       <!-- Edit Buttons Starts -->
@@ -78,10 +92,12 @@ export default {
   data() {
     return {
       selected_answer: null,
-      edit_mode: false
+      edit_mode: false,
+      disable_btn: false,
+      disable_radio: false
     };
   },
-  computed: mapGetters(["question_detail"]),
+  computed: mapGetters(["question_detail", "current_user"]),
   methods: {
     ...mapActions([
       "onLoader",
@@ -100,6 +116,12 @@ export default {
     setSelected(answer) {
       this.selected_answer = answer;
     },
+    disableSubmit() {
+      //  created() method of answer lists will $emit an event if user ID is found in votes
+      // will disable  submit button and radio if user already voted
+      this.disable_btn = true;
+      this.disable_radio = true;
+    },
     submit() {
       // Submittinga Vote
       if (!this.selected_answer) {
@@ -107,10 +129,15 @@ export default {
       } else {
         const vote = {
           answer_id: this.selected_answer.id,
-          user_id: 1,
+          user_id: this.current_user.id,
           question_id: this.question_detail.id
         };
-        this.addVote(vote);
+        this.onLoader();
+        this.addVote(vote).then(() => {
+          this.disable_btn = true; // after vote is successfull
+          this.disable_radio = true; // we disable submit and radio
+          this.offLoader();
+        });
       }
     },
     exitEditMode() {
@@ -179,6 +206,15 @@ export default {
 }
 .submit:hover {
   background: #1583c7;
+}
+.disable-submit {
+  cursor: not-allowed;
+  background: grey;
+  border: 0;
+}
+.disable-submit:hover {
+  cursor: not-allowed;
+  background: rgb(107, 107, 107);
 }
 @media (max-width: 600px) {
   textarea {

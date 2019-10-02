@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
+    <div
+      class="answers pady-1 padx-2 light fw-bold"
+      v-bind:class="[checked ? 'active-green' : 'bg-bluedient' ]"
+    >
       <p class="fs-18">{{ answer.title }}</p>
       <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
       <input
@@ -9,6 +12,8 @@
         v-on:change="selectedAnswer"
         :name="answer.question_id"
         :value="answer.id"
+        :checked="checked"
+        :disabled="disable_radio"
       />
     </div>
   </div>
@@ -18,11 +23,33 @@
 export default {
   name: "AnswersItem",
   props: {
-    answer: Object
+    answer: Object,
+    user: Object,
+    disable_radio: Boolean
+  },
+  data() {
+    return {
+      checked: false
+    };
   },
   methods: {
     selectedAnswer() {
       this.$emit("selectedAnswer", this.answer);
+    },
+    isVoted() {
+      return "bg-bluedient";
+    },
+    disableSubmit() {
+      this.$emit("disableSubmit");
+    }
+  },
+  created() {
+    const found_vote = this.answer.votes.find(
+      vote => vote.user_id == this.user.id
+    );
+    if (found_vote) {
+      this.checked = true;
+      this.disableSubmit();
     }
   }
 };
@@ -36,5 +63,10 @@ export default {
   margin-left: auto;
   display: grid;
   grid-template-columns: 1fr auto auto;
+}
+.active-green {
+  border: 3px solid #2bb110;
+  background: #76e296;
+  color: #289c10;
 }
 </style>
