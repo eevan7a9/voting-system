@@ -25,17 +25,7 @@
         v-for="(answer, index) in question_detail.answers"
         :key="index"
       >
-        <div class="answers pady-1 padx-2 bg-bluedient light fw-bold" v-if="!edit_mode">
-          <p class="fs-18">{{ answer.title }}</p>
-          <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
-          <input
-            class="pointer"
-            type="radio"
-            v-on:change="selected_answer = answer;"
-            :name="question_detail.id"
-            :value="answer.id"
-          />
-        </div>
+        <AnswersItem :answer="answer" @selectedAnswer="setSelected" v-if="!edit_mode" />
         <!-- Edit Answers Starts -->
         <AnswerEdit :answer="answer" v-if="edit_mode" />
         <!-- Edit Answers Ends -->
@@ -67,6 +57,7 @@
 </template>
 
 <script>
+import AnswersItem from "../components/answers/AnswersItem";
 import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
 import QuestionOptions from "../components/questions/QuestionOptions";
@@ -77,6 +68,7 @@ export default {
   components: {
     QuestionEdit,
     QuestionOptions,
+    AnswersItem,
     AnswerEdit,
     AnswerAdd
   },
@@ -104,6 +96,9 @@ export default {
         name: "home",
         params: { scrollInto: `${this.question_detail.id}` }
       });
+    },
+    setSelected(answer) {
+      this.selected_answer = answer;
     },
     submit() {
       // Submittinga Vote
