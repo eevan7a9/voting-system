@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const state = {
-    login: false,
     user_token: localStorage.getItem("auth") || null,
     user: {},
     user_message: {
@@ -14,7 +13,6 @@ const getters = {
     current_user: state => state.user,
     is_login: state => state.user_token,
     alert_user: state => state.user_message,
-    getToken: state => state.user_token
 };
 const actions = {
     closeAlert: ({ commit }) => commit("clearAlert"),
@@ -45,8 +43,9 @@ const actions = {
         })
             .then(res => {
                 const login_user = res.data;
+                login_user.id = 7;
                 login_user.email = user.email;
-                commit("setUserToken", login_user);
+                commit("setUser", login_user);
                 localStorage.setItem("auth", login_user.token);
                 return login_user;
             })
@@ -60,6 +59,16 @@ const actions = {
         // alert("logout");
         localStorage.removeItem("auth");
         commit("removeUserToken");
+    },
+    getUserInfo: async ({ commit, state }) => {
+        if (state.user_token) {
+            const user = {}
+            user.token = state.user_token;
+            user.id = 7;
+            user.email = "eve.holt@reqres.in";
+            commit("setUser", user);
+            // console.log("getting user info");
+        }
     }
 };
 const mutations = {
@@ -68,9 +77,9 @@ const mutations = {
         state.user_message.message = `${user.email} you are now  Registered!!!`;
         state.user_message.error = 0;
     },
-    setUserToken: (state, user) => {
-        state.user_token = user.token;
-        state.user.email = user.email;
+    setUser: (state, user) => {
+        state.user_token = user.token; // set user token
+        state.user = user;
     },
     removeUserToken: (state) => {
         state.user_token = null;

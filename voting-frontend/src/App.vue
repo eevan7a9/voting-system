@@ -4,6 +4,7 @@
     <transition name="fade" v-if="alert_user.show">
       <Alert />
     </transition>
+    <h3>{{ current_user }} s</h3>
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
         <div></div>
@@ -35,15 +36,23 @@ export default {
     Alert
   },
   computed: {
-    ...mapGetters(["loader", "alert_user"])
+    ...mapGetters(["loader", "alert_user", "current_user", "is_login"])
   },
   methods: {
-    ...mapActions(["offLoader"])
+    ...mapActions(["offLoader", "getUserInfo"])
   },
   created() {
-    setTimeout(() => {
-      this.offLoader();
-    }, 3000);
+    if (this.is_login) {
+      // check is user is login
+      if (Object.keys(this.current_user).length == 0) {
+        // get user's info
+        this.getUserInfo().then(() => this.offLoader());
+      }
+    } else {
+      setTimeout(() => {
+        this.offLoader();
+      }, 3000);
+    }
   }
 };
 </script>
