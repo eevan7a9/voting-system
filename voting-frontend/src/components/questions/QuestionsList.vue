@@ -12,7 +12,11 @@
         </router-link>
       </div>
       <hr class="blue" />
-      <AnswersList :answers="question.answers" />
+      <div class="mgb-2-px" v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
+        <div class="answers pady-1 padx-2 bg-lightdient">
+          <p class="fs-18">{{ answer.title }}</p>
+        </div>
+      </div>
       <div
         class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
         v-if="question.answers.length > 2"
@@ -32,13 +36,9 @@
 </template>
 
 <script>
-import AnswersList from "../answers/AnswersList";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "QuestionsList",
-  components: {
-    AnswersList
-  },
   props: {
     scrollInto: String
   },
@@ -86,6 +86,13 @@ a {
 }
 .question-container h2:hover {
   color: #1583c7;
+}
+.answers {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 .vote {
   max-width: 900px;
