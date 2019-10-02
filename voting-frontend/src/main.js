@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './filter/myFilter';
 
 Vue.config.productionTip = false;
 
@@ -28,14 +29,6 @@ router.beforeEach((to, from, next) => {
     next() // make sure to always call next()!
   }
 })
-//  We add Filter for long texts
-Vue.filter('truncate', function (text, length, suffix) {
-  if (text.length > length) {
-    return text.substring(0, length) + suffix;
-  } else {
-    return text;
-  }
-});
 
 new Vue({
   router,
