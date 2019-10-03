@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
 
 class QuestionController extends Controller
 {
-    public  function __construct()
+    public function __construct()
     {
         $this->middleware('auth:api')->except(['index', 'show']);
     }
@@ -22,7 +21,7 @@ class QuestionController extends Controller
     {
         $questions = Question::all();
         foreach ($questions as $question) {
-            $question->answers; // we want to show the hasMany retationship of question
+            $question->answers->makeHidden('votes'); // we want to show the hasMany retationship of question
         }
         return response()->json($questions);
     }
@@ -66,7 +65,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        $question->answersWithVotes; // to show the hasMany relationship of questions
+        $question->answers; // to show the hasMany relationship of questions
         $question->user; // we want to show the belongsTo retationship of question
         return response()->json($question);
     }
