@@ -12,6 +12,10 @@ class Question extends Model
     }
     public function answers()
     {
+        return $this->hasMany(Answer::class, 'question_id');
+    }
+    public function answersWithVotes()
+    {
         return $this->hasMany(Answer::class, 'question_id')->with('votes');
     }
     public function votes()
