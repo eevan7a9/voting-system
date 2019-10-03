@@ -2,7 +2,7 @@
   <div>
     <div
       class="answers pady-1 padx-2 light fw-bold"
-      v-bind:class="[checked ? 'active-green' : 'bg-bluedient' ]"
+      v-bind:class="[checked|| selected_answer.id == answer.id? 'active-green' : 'bg-bluedient' ]"
     >
       <p class="fs-18">{{ answer.title }}</p>
       <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
@@ -25,7 +25,8 @@ export default {
   props: {
     answer: Object,
     user: Object,
-    disable_radio: Boolean
+    disable_radio: Boolean,
+    selected_answer: Object
   },
   data() {
     return {

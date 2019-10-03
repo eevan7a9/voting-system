@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg-lightdient">
     <Navbar />
-    <transition name="fade" v-if="alert_user.show">
+    <transition name="fade" v-show="alert_user.show">
       <Alert />
     </transition>
     <h3>{{ current_user }} s</h3>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <transition name="fade" mode="out-in">
-      <router-view class="container main-view" v-if="!loader" />
+      <router-view class="container main-view" />
     </transition>
   </div>
 </template>

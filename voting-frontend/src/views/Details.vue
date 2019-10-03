@@ -29,6 +29,7 @@
         <AnswersItem
           :answer="answer"
           :user="current_user"
+          :selected_answer="selected_answer"
           :disable_radio="disable_radio"
           @selectedAnswer="setSelected"
           @disableSubmit="disableSubmit"
@@ -91,7 +92,7 @@ export default {
   },
   data() {
     return {
-      selected_answer: null,
+      selected_answer: {},
       edit_mode: false,
       disable_btn: false,
       disable_radio: false
@@ -152,7 +153,8 @@ export default {
     }
   },
   created() {
-    this.getQuestionDetails(this.questionId);
+    this.onLoader();
+    this.getQuestionDetails(this.questionId).then(() => this.offLoader());
   },
   destroyed() {
     this.resetQuestionDetails();
