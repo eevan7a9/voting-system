@@ -99,14 +99,15 @@ export default {
       disable_radio: false
     };
   },
-  computed: mapGetters(["question_detail", "current_user"]),
+  computed: mapGetters(["question_detail", "current_user", "is_login"]),
   methods: {
     ...mapActions([
       "onLoader",
       "offLoader",
       "getQuestionDetails",
       "resetQuestionDetails",
-      "addVote"
+      "addVote",
+      "showAlert"
     ]),
     cancel() {
       // Return to Home
@@ -156,6 +157,14 @@ export default {
   created() {
     this.onLoader();
     this.getQuestionDetails(this.questionId).then(() => this.offLoader());
+    if (!this.is_login) {
+      this.disableSubmit();
+      const content = {
+        message: `Ooops only "Logged in" users are allowed to vote.`,
+        error: 1
+      };
+      this.showAlert(content);
+    }
   },
   destroyed() {
     this.resetQuestionDetails();

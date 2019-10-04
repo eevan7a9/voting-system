@@ -38,8 +38,8 @@
         <hr class="mgy-1 mgx-1" />
         <button
           class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer"
-          @click="newQuestion"
-        >New Question</button>
+          @click="newSurvey"
+        >New Survey</button>
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@ export default {
     filterQuestions() {
       alert("filter");
     },
-    newQuestion() {
+    newSurvey() {
       // console.log(1);
       this.$router.push("create").catch(() => {
         const content = {
