@@ -7,7 +7,8 @@
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
-        :question_id="question_detail.id"
+        :question="question_detail"
+        :user="current_user"
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question_detail.title }}</h2>

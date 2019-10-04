@@ -23,9 +23,9 @@
       >...</div>
       <router-link :to="{ name:'details', params:{questionId:question.id}}">
         <div
-          class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
+          class="vote pady-1 padx-2 bg-lightdient fw-bolder tx-upp pointer"
           v-if="question.answers.length !== 0"
-        >Vote Now!</div>
+        >view</div>
       </router-link>
       <div
         class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
@@ -75,14 +75,14 @@ a {
 }
 .wrapper {
   border: 3px solid #1583c7;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
 .question-container {
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 .question-container h2:hover {
   color: #1583c7;

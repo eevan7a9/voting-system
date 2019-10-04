@@ -39,20 +39,20 @@ export default {
     ...mapGetters(["loader", "alert_user", "current_user", "is_login"])
   },
   methods: {
-    ...mapActions(["offLoader", "getUserInfo"])
+    ...mapActions(["onLoader", "offLoader", "getUserInfo"])
   },
   created() {
+    this.onLoader();
     if (this.is_login) {
       // check is user is login
       if (Object.keys(this.current_user).length == 0) {
         // get user's info
         this.getUserInfo().then(() => this.offLoader());
       }
-    } else {
-      setTimeout(() => {
-        this.offLoader();
-      }, 3000);
     }
+    setTimeout(() => {
+      this.offLoader();
+    }, 3000);
   }
 };
 </script>

@@ -68,7 +68,7 @@ const actions = {
         if (state.user_token) {
             const user = {}
             user.token = state.user_token;
-            user.id = 7;
+            user.id = 1;
             user.email = "eve.holt@reqres.in";
             commit("setUser", user);
             // console.log("getting user info");

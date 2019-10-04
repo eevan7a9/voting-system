@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "CreateAnswers",
   props: {
@@ -46,6 +46,7 @@ export default {
       answers: []
     };
   },
+  computed: mapGetters(["current_user"]),
   methods: {
     ...mapActions(["onLoader", "offLoader", "addQuestion", "showAlert"]),
     addChoice() {
@@ -70,7 +71,7 @@ export default {
       } else {
         this.onLoader(); // turn loader on while sending request
         this.addQuestion({
-          user_id: 1, // for testing
+          user_id: this.current_user.id, // for testing
           title: this.title,
           description: this.additional_info,
           answers: this.answers

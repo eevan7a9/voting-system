@@ -29,7 +29,7 @@ const actions = {
     },
     addQuestion: async ({ commit }, question) => {
         await axios.post('/questions', {
-            user_id: 1,
+            user_id: question.user_id,
             title: question.title,
             description: question.description
         })
