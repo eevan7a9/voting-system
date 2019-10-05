@@ -46,7 +46,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["updateAnswerQuestion", "removeAnswerQuestion"]),
+    ...mapActions([
+      "updateAnswerQuestion",
+      "removeAnswerQuestion",
+      "onLoader",
+      "offLoader",
+      "showAlert"
+    ]),
     remove() {
       const ans = confirm("are you sure you want to remove this answer?");
       if (ans) {
@@ -54,11 +60,26 @@ export default {
       }
     },
     update() {
+      this.onLoader();
       this.updateAnswerQuestion({
         id: this.answer.id,
         title: this.title
+      }).then(res => {
+        if (res.request.statusText === "OK") {
+          this.title = "";
+          this.showAlert({
+            message: "Answer, updated successfully",
+            error: 0
+          });
+          this.offLoader();
+        } else {
+          const content = {
+            message: res.data.errors.title[0],
+            error: true
+          };
+          this.showAlert(content).then(() => this.offLoader());
+        }
       });
-      this.title = "";
     }
   }
 };

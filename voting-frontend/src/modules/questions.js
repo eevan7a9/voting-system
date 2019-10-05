@@ -126,17 +126,22 @@ const actions = {
                 alert(err);
             })
     },
-    updateAnswerQuestion: async ({ commit }, answer) => {
-        await axios.put(`/answers/${answer.id}`, {
+    updateAnswerQuestion: async ({ commit, rootState }, answer) => {
+        return await axios.put(`/answers/${answer.id}`, {
             title: answer.title
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
         })
             .then(res => {
                 const updated_answer = res.data;
                 commit("updateQuestionAnswer", updated_answer);
-                // console.log(updated_answer);
+                return res;
             })
             .catch(err => {
-                alert(err);
+                return err.response;
             })
     },
     removeAnswerQuestion: async ({ commit }, answer) => {
