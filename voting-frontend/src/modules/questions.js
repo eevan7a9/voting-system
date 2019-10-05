@@ -2,8 +2,8 @@ import axios from 'axios';
 import router from "../router";
 
 const state = {
-    questions: [],
-    question: {}
+    questions: [], // lists of questions from database
+    question: {} // single question for details
 }
 const getters = {
     all_questions: (state) => state.questions,
@@ -35,44 +35,47 @@ const actions = {
                 commit("setQuestions", res.data);
             });
     },
-    addQuestion: async ({ commit }, question) => {
-        await axios.post('/questions', {
+    addQuestion: async ({ commit, rootState }, question) => {
+        const new_question = await axios.post('/questions', {
             user_id: question.user_id,
             title: question.title,
             description: question.description
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
         })
             .then(res => {
-                const new_question = res.data;
-                new_question.answers = [];
-                // we check if we success in creating question
-                if (new_question.id) {
-                    let ctr = 0;
-                    // we now create answers
-                    question.answers.forEach(answer => {
-                        axios.post(`/answers`, {
-                            title: answer.title,
-                            question_id: new_question.id
-                        })
-                            .then((res) => {
-                                const new_answer = res.data;
-                                new_answer.votes = [];
-                                new_question.answers.push(new_answer);
-                                ctr++;
-                                if (ctr == question.answers.length) {
-                                    // if all are success we update the state
-                                    commit("insertQuestion", new_question);
-                                    // console.log(new_question);
-                                }
-                            })
-                            .catch(err => {
-                                alert(err);
-                            });
-                    });
-                }
+                // console.log(res);
+                return res.data;
             })
             .catch(err => {
                 alert(err);
             })
+        // we check if we success in creating question
+        if (new_question.id) {
+            question.answers.forEach(answer => answer.question_id = new_question.id);
+            // we now create answers
+            axios.post(`/answers/multiple`, {
+                answers: question.answers,
+            }, {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${rootState.users.user_token}`
+                }
+            })
+                .then((res) => {
+                    const answer = res.data;
+                    answer.votes = [];
+                    new_question.answers = answer
+                    commit("insertQuestion", new_question);    // if all are success we update the state
+                    // console.log(new_question);
+                })
+                .catch(err => {
+                    alert(err);
+                });
+        }
     },
     deleteQuestion: async ({ commit }, id) => {
         await axios.delete(`/questions/${id}`)

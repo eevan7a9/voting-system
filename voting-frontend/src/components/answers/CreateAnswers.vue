@@ -5,7 +5,11 @@
       <p class="ls-2 pady-1">{{ additional_info }}</p>
     </div>
     <transition-group name="slide-fade">
-      <div class="answers-cont mgt-3-px" v-for="(answer) in answers" :key="answer.id">
+      <div
+        class="answers-cont mgt-3-px"
+        v-for="(answer, index) in answers"
+        :key="answer.title + index"
+      >
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
           <p class="fs-18">{{ answer.title }}</p>
         </div>
@@ -41,7 +45,6 @@ export default {
   },
   data() {
     return {
-      id: 1,
       choice: "",
       answers: []
     };
@@ -52,10 +55,8 @@ export default {
     addChoice() {
       if (this.choice) {
         this.answers.push({
-          id: this.id,
           title: this.choice
         });
-        this.id++;
         this.choice = "";
       }
     },
