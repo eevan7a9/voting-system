@@ -14,7 +14,7 @@ class AddDescriptionToQuestions extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->text("description");
+            $table->text("description")->nullable();
         });
     }
 

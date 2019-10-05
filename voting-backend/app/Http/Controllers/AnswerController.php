@@ -31,7 +31,7 @@ class AnswerController extends Controller
     {
         $request->validate([
             "title" => "required|string",
-            "question_id" => "required|integer"
+            "question_id" => "required|integer",
         ]);
         $answer = new Answer();
         $answer->title = $request->title;
@@ -61,7 +61,7 @@ class AnswerController extends Controller
     public function update(Request $request, Answer $answer)
     {
         $request->validate([
-            "title" => "required"
+            "title" => "required",
         ]);
         $answer->title = $request->title;
         $answer->update();
