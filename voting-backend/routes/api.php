@@ -20,7 +20,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/logout', 'AuthController@logout');
     Route::get('/user', 'AuthController@user');
     // Resource Controller fpr Vote
-    Route::resource('vote', 'VoteController');
+    Route::resource('votes', 'VoteController');
     // our route for saving multiple answers
     Route::post('answer/multiple', function (Request $request) {
         // we validate arrays of objects
@@ -44,6 +44,6 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 // Resource Controller for Questions
-Route::resource('question', 'QuestionController');
+Route::resource('questions', 'QuestionController');
 // Resource Controller for Ansers
-Route::resource('answer', 'AnswerController');
+Route::resource('answers', 'AnswerController');
