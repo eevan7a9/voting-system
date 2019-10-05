@@ -1,7 +1,13 @@
 <template>
   <div class="wrapper-edit-question dark pady-1 padx-2">
-    <input class="fs-25 bg-lightdient pady-1 padx-1 mgb-1" type="text" v-model="edit_title" />
+    <input
+      @focus="saved = false"
+      class="fs-25 bg-lightdient pady-1 padx-1 mgb-1"
+      type="text"
+      v-model="edit_title"
+    />
     <textarea
+      @focus="saved = false"
       class="bg-lightdient pady-1 padx-1 fs-18 mgb-1"
       v-model="edit_description"
       cols="10"
@@ -32,15 +38,32 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["editQuestion"]),
+    ...mapActions(["editQuestion", "onLoader", "offLoader", "showAlert"]),
     save() {
+      this.onLoader();
       // Save Edits of title and description
-
       this.question.title = this.edit_title;
       this.question.description = this.edit_description;
-      this.editQuestion(this.question);
-
-      this.saved = true;
+      this.editQuestion(this.question).then(res => {
+        if (!res.error) {
+          this.saved = true;
+          const content = {
+            message: "Question, Updated successfully",
+            error: false
+          };
+          this.showAlert(content).then(() => {
+            this.offLoader();
+          });
+        } else {
+          const content = {
+            message: res.message,
+            error: true
+          };
+          this.showAlert(content).then(() => {
+            this.offLoader();
+          });
+        }
+      });
     }
   },
   created() {

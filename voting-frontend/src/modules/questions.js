@@ -88,7 +88,7 @@ const actions = {
             })
     },
     editQuestion: async ({ commit, rootState }, question) => {
-        await axios.put(`/questions/${question.id}`, {
+        return await axios.put(`/questions/${question.id}`, {
             title: question.title,
             description: question.description
         }, {
@@ -100,9 +100,14 @@ const actions = {
             .then(res => {
                 const updated_question = res.data;
                 commit("updateQuestion", updated_question);
+                return res.data
             })
             .catch(err => {
-                alert(err);
+                const res = {
+                    message: err,
+                    error: true
+                }
+                return res;
             })
     },
     addAnswerQuestion: async ({ commit }, answer) => {
