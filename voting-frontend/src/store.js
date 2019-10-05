@@ -6,7 +6,9 @@ import questions from './modules/questions';
 import users from './modules/users';
 
 Vue.use(Vuex)
-axios.defaults.baseURL = "https://my-json-server.typicode.com/eevan7a9/voting-app-db/";
+// axios.defaults.baseURL = "https://my-json-server.typicode.com/eevan7a9/voting-app-db/";
+axios.defaults.baseURL = "http://localhost:8000/api/";
+
 export default new Vuex.Store({
   modules: {
     loader,

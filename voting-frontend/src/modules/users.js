@@ -41,17 +41,17 @@ const actions = {
         return result;
     },
     loginUser: async ({ commit }, user) => {
-        const result = await axios.post('https://reqres.in/api/login', {
+        const result = await axios.post('/login', {
             email: user.email,
             password: user.password
         })
             .then(res => {
-                const login_user = res.data;
-                login_user.id = 7;
+                const login_user = {};
+                login_user.token = res.data.access_token;
                 login_user.email = user.email;
                 commit("setUser", login_user);
                 localStorage.setItem("auth", login_user.token);
-                return login_user;
+                return res;
             })
             .catch(err => {
                 // alert(err)
@@ -66,12 +66,25 @@ const actions = {
     },
     getUserInfo: async ({ commit, state }) => {
         if (state.user_token) {
-            const user = {}
-            user.token = state.user_token;
-            user.id = 1;
-            user.email = "eve.holt@reqres.in";
-            commit("setUser", user);
-            // console.log("getting user info");
+            axios.get(`/user`, {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${state.user_token}`
+                }
+            })
+                .then(res => {
+                    const user = {}
+                    user.token = state.user_token;
+                    user.id = res.data.id;
+                    user.email = res.data.email;
+                    user.username = res.data.name;
+                    commit("setUser", user);
+                    // console.log("getting user info");
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
         }
     }
 };

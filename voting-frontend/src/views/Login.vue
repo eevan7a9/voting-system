@@ -39,18 +39,19 @@ export default {
       "onLoader",
       "offLoader",
       "loginUser",
-      "welcomeUser",
+      "getUserInfo",
       "showAlert"
     ]),
     submit(e) {
       e.preventDefault();
       this.onLoader();
       this.loginUser(this.user).then(res => {
-        if (res.token) {
+        if (res.data) {
           const content = {
             message: `Welcome ${this.user.email} and remember, Vote wisely`,
             error: 0
           };
+          this.getUserInfo();
           this.showAlert(content).then(() => {
             this.$router.push("/").then(() => this.offLoader());
           });
