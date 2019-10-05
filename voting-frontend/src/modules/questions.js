@@ -87,10 +87,15 @@ const actions = {
                 alert(err);
             })
     },
-    editQuestion: async ({ commit }, question) => {
+    editQuestion: async ({ commit, rootState }, question) => {
         await axios.put(`/questions/${question.id}`, {
             title: question.title,
             description: question.description
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
         })
             .then(res => {
                 const updated_question = res.data;
@@ -164,8 +169,15 @@ const mutations = {
     clearQuestionDetails: (state) => state.question = {},
     removeQuestion: (state, id) => state.questions = state.questions.filter(question => question.id != id),
     updateQuestion: (state, update_question) => {
-        state.question.title = update_question.title; // we update question detail
+        // we update question detail
+        state.question.title = update_question.title;
         state.question.description = update_question.description;
+        // we update the lists of questions
+        const found_question = state.questions.find(question => question.id === update_question.id);
+        if (found_question) {
+            found_question.title = update_question.title;
+            found_question.description = update_question.description;
+        }
     },
     insertQuestionAnswer: (state, answer) => {
         state.question.answers.push(answer); // we update the detailed question
