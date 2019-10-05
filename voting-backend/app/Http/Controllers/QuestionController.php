@@ -94,8 +94,9 @@ class QuestionController extends Controller
             "title" => "required|string",
         ]);
         $question->title = $request->title;
+        $question->description = $request->description;
         $question->update();
-        return response()->json(["message" => "Success", "data" => $question]);
+        return response()->json($question);
     }
 
     /**

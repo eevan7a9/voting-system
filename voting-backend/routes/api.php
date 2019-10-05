@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Resource Controller fpr Vote
     Route::resource('votes', 'VoteController');
     // our route for saving multiple answers
-    Route::post('answer/multiple', function (Request $request) {
+    Route::post('answers/multiple', function (Request $request) {
         // we validate arrays of objects
         $request->validate([
             'answers' => 'present|array',
