@@ -110,20 +110,24 @@ const actions = {
                 return res;
             })
     },
-    addAnswerQuestion: async ({ commit }, answer) => {
-        await axios.post('/answers', {
+    addAnswerQuestion: async ({ commit, rootState }, answer) => {
+        return await axios.post('/answers', {
             title: answer.title,
             question_id: answer.question_id
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
         })
             .then(res => {
                 const new_answer = res.data;
                 new_answer.votes = [];
-                alert(new_answer);
                 commit("insertQuestionAnswer", new_answer);
-
+                return "New answer successfully added.";
             })
             .catch(err => {
-                alert(err);
+                return err.response.data;
             })
     },
     updateAnswerQuestion: async ({ commit, rootState }, answer) => {

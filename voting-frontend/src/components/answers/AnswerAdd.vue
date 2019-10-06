@@ -2,7 +2,12 @@
   <div>
     <!-- Add Answers Starts -->
     <div class="answers mgt-1 pady-5-px padx-2 bg-bluedient light fw-bold">
-      <input class="fs-normal pady-1-px padx-5-px" type="text" v-model="title" />
+      <input
+        class="fs-normal pady-1-px padx-5-px"
+        type="text"
+        v-model="title"
+        placeholder="Add answer"
+      />
       <span @click="addChoices" class="pady-5-px padx-1 pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +27,7 @@
         </svg>
       </span>
     </div>
+    <p class="red mgt-1" v-if="error_answer">Adding new Answer failed, Invalid content.</p>
     <!-- Add Answers Ends -->
   </div>
 </template>
@@ -35,18 +41,28 @@ export default {
   },
   data() {
     return {
-      title: ""
+      title: "",
+      error_answer: 0
     };
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "addAnswerQuestion"]),
+    ...mapActions(["onLoader", "offLoader", "addAnswerQuestion", "showAlert"]),
     addChoices() {
       this.onLoader();
       this.addAnswerQuestion({
         title: this.title,
         question_id: this.question_id
-      }).then(() => {
-        this.title = "";
+      }).then(res => {
+        if (!res.errors) {
+          this.title = "";
+          this.showAlert({
+            message: res,
+            error: false
+          });
+          this.error_answer = false;
+        } else {
+          this.error_answer = true;
+        }
         this.offLoader();
       });
     }
@@ -62,5 +78,8 @@ export default {
   margin-left: auto;
   display: grid;
   grid-template-columns: 1fr auto;
+}
+p {
+  text-align: center;
 }
 </style>
