@@ -104,7 +104,7 @@ const actions = {
             })
             .catch(err => {
                 const res = {
-                    message: err,
+                    message: err.response.data.errors.title[0],
                     error: true
                 }
                 return res;
