@@ -56,7 +56,19 @@ export default {
     remove() {
       const ans = confirm("are you sure you want to remove this answer?");
       if (ans) {
-        this.removeAnswerQuestion(this.answer);
+        this.removeAnswerQuestion(this.answer).then(res => {
+          if (res.success) {
+            this.showAlert({
+              message: res.success,
+              error: 0
+            });
+          }else{
+            this.showAlert({
+              message: res.error,
+              error: 1
+            });
+          }
+        });
       }
     },
     update() {

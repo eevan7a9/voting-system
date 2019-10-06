@@ -153,13 +153,20 @@ const actions = {
                 return err.response;
             })
     },
-    removeAnswerQuestion: async ({ commit }, answer) => {
-        await axios.delete(`/answers/${answer.id}`)
-            .then(() => {
-                commit("removeQuestionAnswer", answer);
+    removeAnswerQuestion: async ({ commit, rootState }, answer) => {
+        return await axios.delete(`/answers/${answer.id}`, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
+        })
+            .then((res) => {
+                commit("removeQuestionAnswer", res.data);
+                return { success: "Remove answer, successful" };
             })
             .catch(err => {
                 alert(err);
+                return { error: "Something went wrong!!!" };
             })
     },
     addVote: async ({ commit }, vote) => {
@@ -213,6 +220,8 @@ const mutations = {
         }
     },
     removeQuestionAnswer: (state, deleted_answer) => {
+        // remove answer from question details
+        state.question.answers = state.question.answers.filter(answer => answer.id != deleted_answer.id);
         // remove answer from questions lists
         const found_question = state.questions.find(question => question.id === deleted_answer.question_id);
         if (found_question) {
