@@ -169,21 +169,24 @@ const actions = {
                 return { error: "Something went wrong!!!" };
             })
     },
-    addVote: async ({ commit }, vote) => {
+    addVote: async ({ commit, rootState }, vote) => {
         await axios.post('votes/', {
             answer_id: vote.answer_id,
             user_id: vote.user_id,
             question_id: vote.question_id
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
         })
             .then(res => {
-                const new_vote = res.data;
-                commit("insertNewVote", new_vote);
+                commit("insertNewVote", res.data);
                 alert("Vote Submitted");
             })
             .catch(err => {
                 alert(err);
-            })
-
+            });
     }
 }
 const mutations = {
@@ -229,10 +232,11 @@ const mutations = {
         }
     },
     insertNewVote: (state, vote) => {
-        // we update the question fron questions
-        const found_question = state.questions.find(question => question.id == vote.question_id);
-        const found_question_answer = found_question.answers.find(answer => answer.id == vote.answer_id);
-        found_question_answer.votes.push(vote);
+        // we update question answer's votes
+        const found_answer = state.question.answers.find(answer => answer.id === vote.answer_id);
+        if (found_answer) {
+            found_answer.votes.push(vote);
+        }
     }
 }
 export default {
