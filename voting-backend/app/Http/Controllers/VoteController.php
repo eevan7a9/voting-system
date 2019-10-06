@@ -36,11 +36,7 @@ class VoteController extends Controller
             "user_id" => "required|integer",
 
         ]);
-        $vote = new Vote();
-        $vote->question_id = $request->question_id;
-        $vote->answer_id = $request->answer_id;
-        $vote->user_id = $request->user_id;
-        $vote->save();
+
         if ($check_vote) {
             $response = [
                 "message" => "You already voted for this question",
@@ -48,8 +44,13 @@ class VoteController extends Controller
             ];
             return response()->json($response);
         } else {
-            return response()->json($vote);
+            $vote = new Vote();
+            $vote->question_id = $request->question_id;
+            $vote->answer_id = $request->answer_id;
+            $vote->user_id = $request->user_id;
+            $vote->save();
 
+            return response()->json($vote);
         }
 
     }
