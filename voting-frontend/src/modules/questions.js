@@ -77,11 +77,16 @@ const actions = {
                 });
         }
     },
-    deleteQuestion: async ({ commit }, id) => {
-        await axios.delete(`/questions/${id}`)
-            .then(() => {
-                alert("Delete Question, Successful")
-                commit("removeQuestion", id);
+    deleteQuestion: async ({ commit, rootState }, id) => {
+        return await axios.delete(`/questions/${id}`, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
+        })
+            .then((res) => {
+                commit("removeQuestion", res.data.id);
+                return "Delete survey, successful";
             })
             .catch(err => {
                 alert(err);

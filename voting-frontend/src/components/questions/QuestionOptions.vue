@@ -1,8 +1,8 @@
 <template>
   <div class="question-options">
     <ul>
-      <li class="padx-1 dark pady-1 pointer">
-        <button :disabled="question.user_id != user.id" @click="editQuestion">
+      <li class="padx-1 dark pady-1">
+        <button class="pointer" :disabled="question.user_id != user.id" @click="editQuestion">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -21,7 +21,7 @@
         </button>
       </li>
       <li class="padx-1 dark pady-1 pointer">
-        <button :disabled="question.user_id != user.id" @click="remove">
+        <button class="pointer" :disabled="question.user_id != user.id" @click="remove">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -73,21 +73,24 @@ export default {
     user: Object
   },
   methods: {
-    ...mapActions(["deleteQuestion"]),
+    ...mapActions(["deleteQuestion", "showAlert"]),
     editQuestion() {
       this.$emit("edit");
     },
     remove() {
       // Removing the question and all it's answers
-      const answer = confirm("Are you sure you want to Delete this question?");
+      const answer = confirm("Are you sure you want to Delete this Survey?");
       answer
-        ? this.deleteQuestion(this.question.id).then(() => {
-            this.$router.push({ name: "home" });
+        ? this.deleteQuestion(this.question.id).then(res => {
+            this.showAlert({
+              message: res,
+              error: 0
+            }).then(() => this.$router.push({ name: "home" }));
           })
         : "";
     },
     reportQuestion() {
-      alert("Are you sure you want to Report this question?");
+      confirm("Are you sure you want to Report this Survey?");
     }
   }
 };

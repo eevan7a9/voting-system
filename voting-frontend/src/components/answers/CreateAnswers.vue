@@ -78,7 +78,7 @@ export default {
           answers: this.answers
         }).then(() => {
           const content = {
-            message: `Success, new Question created.`,
+            message: `Success, new Survey created.`,
             error: 0
           };
           this.showAlert(content).then(() => {

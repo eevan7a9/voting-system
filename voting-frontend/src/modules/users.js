@@ -94,7 +94,7 @@ const actions = {
                     // console.log("getting user info");
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert(err.response.data.message);
                 })
 
         }
