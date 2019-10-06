@@ -59,10 +59,22 @@ const actions = {
             })
         return result;
     },
-    logoutUser: async ({ commit }) => {
-        // alert("logout");
-        localStorage.removeItem("auth");
-        commit("removeUserToken");
+    logoutUser: async ({ commit, rootState }) => {
+        return await axios.get(`/logout`, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
+        })
+            .then(res => {
+                localStorage.removeItem("auth");
+                commit("removeUsersData");
+                return res.data;
+            })
+            .catch(err => {
+                return err.response;
+            })
+
     },
     getUserInfo: async ({ commit, state }) => {
         if (state.user_token) {
@@ -93,7 +105,7 @@ const mutations = {
         state.user_token = user.token; // set user token
         state.user = user;
     },
-    removeUserToken: (state) => {
+    removeUsersData: (state) => {
         state.user_token = null;
         state.user = {}
     },

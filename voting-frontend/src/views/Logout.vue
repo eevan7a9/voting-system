@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Logout</h1>
+    <h1>...</h1>
   </div>
 </template>
 
@@ -9,11 +9,14 @@ import { mapActions } from "vuex";
 export default {
   name: "Logout",
   methods: {
-    ...mapActions(["logoutUser"])
+    ...mapActions(["logoutUser", "showAlert"])
   },
   created() {
-    this.logoutUser().then(() => {
-      this.$router.push({ name: "login" });
+    this.logoutUser().then(res => {
+      this.showAlert({
+        message: res,
+        error: 0
+      }).then(() => this.$router.push({ name: "login" }));
     });
   }
 };
