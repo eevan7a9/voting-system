@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDescriptionToQuestions extends Migration
+class AddAdditionalInfoToQuestions extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddDescriptionToQuestions extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->text("description")->after("title")->nullable();
+            $table->text("additional_info")->after('description')->nullable();
+
         });
     }
 
@@ -26,7 +27,8 @@ class AddDescriptionToQuestions extends Migration
     public function down()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn("description");
+            $table->dropColumn("additional_info");
+
         });
     }
 }
