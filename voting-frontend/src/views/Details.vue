@@ -12,8 +12,8 @@
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question_detail.title }}</h2>
-
-        <p class="ls-2 pady-2">{{ question_detail.description }}</p>
+        <viewer :value="question_detail.description" />
+        <!-- <p class="ls-2 pady-2">{{ question_detail.description }}</p> -->
       </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
@@ -73,6 +73,11 @@
 </template>
 
 <script>
+// Importing Viewer for WYSIWYG
+import "tui-editor/dist/tui-editor-contents.css";
+import "highlight.js/styles/github.css";
+import { Viewer } from "@toast-ui/vue-editor";
+// viewer imports ends
 import AnswersItem from "../components/answers/AnswersItem";
 import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
@@ -86,7 +91,8 @@ export default {
     QuestionOptions,
     AnswersItem,
     AnswerEdit,
-    AnswerAdd
+    AnswerAdd,
+    viewer: Viewer // Viewer compnent
   },
   props: {
     questionId: Number

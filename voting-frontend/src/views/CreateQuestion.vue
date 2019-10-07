@@ -11,13 +11,23 @@
           </div>
           <div class="additional-info">
             <label for="additional_info" class="pady-1 fs-13 tx-upp">additional info (optional):</label>
-            <textarea
+            <editor
+              class="editor"
+              v-model="additional_info"
+              :options="editorOptions"
+              :html="editorHtml"
+              :visible="editorVisible"
+              previewStyle="vertical"
+              height="500px"
+              mode="wysiwyg"
+            />
+            <!-- <textarea
               class="borad-1 pady-1 padx-1 fs-18"
               v-model="additional_info"
               id="additional_info"
               cols="30"
               rows="10"
-            ></textarea>
+            ></textarea>-->
           </div>
           <div class="submit-container">
             <button
@@ -42,11 +52,16 @@
 </template>
 
 <script>
+import "tui-editor/dist/tui-editor.css";
+import "tui-editor/dist/tui-editor-contents.css";
+import "codemirror/lib/codemirror.css";
+import { Editor } from "@toast-ui/vue-editor";
 import CreateAnswers from "../components/answers/CreateAnswers";
 export default {
   name: "CreateQuestion",
   components: {
-    CreateAnswers
+    CreateAnswers,
+    editor: Editor
   },
   data() {
     return {
@@ -55,7 +70,40 @@ export default {
       error: {
         message: ""
       },
-      edit_answer: 0
+      edit_answer: 0,
+      // set editor default options
+      editorOptions: {
+        minHeight: "200px",
+        language: "en_US",
+        useCommandShortcut: true,
+        useDefaultHTMLSanitizer: true,
+        usageStatistics: false,
+        hideModeSwitch: false,
+        toolbarItems: [
+          "heading",
+          "bold",
+          "italic",
+          "strike",
+          "divider",
+          "hr",
+          "quote",
+          "divider",
+          "ul",
+          "ol",
+          "task",
+          "indent",
+          "outdent",
+          "divider",
+          "table",
+          // "image",
+          "link",
+          "divider",
+          "code",
+          "codeblock"
+        ]
+      },
+      editorHtml: "",
+      editorVisible: true
     };
   },
   methods: {
@@ -117,7 +165,7 @@ label {
   display: flex;
   flex-direction: column;
 }
-.additional-info textarea {
+.additional-info .editor {
   width: 100%;
   border: 3px solid #1583c7;
 }
