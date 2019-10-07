@@ -2,7 +2,8 @@
   <div class="wrapper mgt-3 bg-white borad-1">
     <div class="dark pady-1 padx-2">
       <h2 class="mgt-1">{{ title }}</h2>
-      <p class="ls-2 pady-1">{{ additional_info }}</p>
+      <p class="ls-2 pady-1">{{ description }}</p>
+      <viewer :value="additional_info" />
     </div>
     <transition-group name="slide-fade">
       <div
@@ -36,11 +37,20 @@
 </template>
 
 <script>
+// Importing Viewer for WYSIWYG
+import "tui-editor/dist/tui-editor-contents.css";
+import "highlight.js/styles/github.css";
+import { Viewer } from "@toast-ui/vue-editor";
+// viewer imports ends
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "CreateAnswers",
+  components: {
+    viewer: Viewer // Viewer compnent
+  },
   props: {
     title: String,
+    description: String,
     additional_info: String
   },
   data() {
@@ -74,7 +84,8 @@ export default {
         this.addQuestion({
           user_id: this.current_user.id, // for testing
           title: this.title,
-          description: this.additional_info,
+          description: this.description,
+          additional_info: this.additional_info,
           answers: this.answers
         }).then(() => {
           const content = {

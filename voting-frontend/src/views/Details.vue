@@ -12,12 +12,12 @@
       />
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
         <h2>{{ question_detail.title }}</h2>
-        <viewer :value="question_detail.description" />
-        <!-- <p class="ls-2 pady-2">{{ question_detail.description }}</p> -->
+        <p class="ls-2 pady-2">{{ question_detail.description }}</p>
+        <viewer :value="question_detail.additional_info" />
       </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
-        :question="{id:question_detail.id, title:question_detail.title, description:question_detail.description}"
+        :question="{id:question_detail.id, title:question_detail.title, description:question_detail.description, additional_info:question_detail.additional_info}"
         v-if="edit_mode"
       />
       <!-- Edit Question Ends -->

@@ -2,17 +2,27 @@
   <div class="wrapper-edit-question dark pady-1 padx-2">
     <input
       @focus="saved = false"
-      class="fs-25 bg-lightdient pady-1 padx-1 mgb-1"
+      class="fs-25 pady-1 padx-1 mgb-1"
       type="text"
       v-model="edit_title"
     />
     <textarea
       @focus="saved = false"
-      class="bg-lightdient pady-1 padx-1 fs-18 mgb-1"
+      class="pady-1 padx-1 fs-18 mgb-1"
       v-model="edit_description"
       cols="10"
       rows="3"
     ></textarea>
+    <editor
+      class="additional_info pady-1 padx-1 fs-18 mgb-1"
+      v-model="edit_additional_info"
+      :options="editorOptions"
+      :html="editorHtml"
+      :visible="editorVisible"
+      previewStyle="vertical"
+      height="500px"
+      mode="wysiwyg"
+    />
     <div class="save-container">
       <p class="pady-5-px green" v-show="saved">Successfully Saved</p>
       <button
@@ -24,9 +34,16 @@
 </template>
 
 <script>
+import "tui-editor/dist/tui-editor.css";
+import "tui-editor/dist/tui-editor-contents.css";
+import "codemirror/lib/codemirror.css";
+import { Editor } from "@toast-ui/vue-editor";
 import { mapActions } from "vuex";
 export default {
   name: "QuestionEdit",
+  components: {
+    editor: Editor
+  },
   props: {
     question: Object
   },
@@ -34,7 +51,40 @@ export default {
     return {
       saved: false,
       edit_title: "",
-      edit_description: ""
+      edit_description: "",
+      edit_additional_info: "",
+      editorOptions: {
+        minHeight: "200px",
+        language: "en_US",
+        useCommandShortcut: true,
+        useDefaultHTMLSanitizer: true,
+        usageStatistics: false,
+        hideModeSwitch: false,
+        toolbarItems: [
+          "heading",
+          "bold",
+          "italic",
+          "strike",
+          "divider",
+          "hr",
+          "quote",
+          "divider",
+          "ul",
+          "ol",
+          "task",
+          "indent",
+          "outdent",
+          "divider",
+          "table",
+          // "image",
+          "link",
+          "divider",
+          "code",
+          "codeblock"
+        ]
+      },
+      editorHtml: "",
+      editorVisible: true
     };
   },
   methods: {
@@ -44,6 +94,7 @@ export default {
       // Save Edits of title and description
       this.question.title = this.edit_title;
       this.question.description = this.edit_description;
+      this.question.additional_info = this.edit_additional_info;
       this.editQuestion(this.question).then(res => {
         if (!res.error) {
           this.saved = true;
@@ -69,6 +120,7 @@ export default {
   created() {
     this.edit_title = this.question.title;
     this.edit_description = this.question.description;
+    this.edit_additional_info = this.question.additional_info;
   }
 };
 </script>
@@ -78,8 +130,11 @@ input {
   border: 0px solid #1583c7;
   border-bottom: 3px solid #1583c7;
   width: 100%;
+  background: #ffffff;
 }
-textarea {
+textarea,
+.additional_info {
+  background: #ffffff;
   border: 0px solid #1583c7;
   border-bottom: 3px solid #1583c7;
   width: 100%;

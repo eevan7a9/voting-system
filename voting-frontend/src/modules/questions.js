@@ -39,7 +39,8 @@ const actions = {
         const new_question = await axios.post('/questions', {
             user_id: question.user_id,
             title: question.title,
-            description: question.description
+            description: question.description,
+            additional_info: question.additional_info
         }, {
             headers: {
                 "Accept": "application/json",
@@ -95,7 +96,8 @@ const actions = {
     editQuestion: async ({ commit, rootState }, question) => {
         return await axios.put(`/questions/${question.id}`, {
             title: question.title,
-            description: question.description
+            description: question.description,
+            additional_info: question.additional_info
         }, {
             headers: {
                 "Accept": "application/json",
@@ -201,11 +203,13 @@ const mutations = {
         // we update question detail
         state.question.title = update_question.title;
         state.question.description = update_question.description;
+        state.question.additional_info = update_question.additional_info;
         // we update the lists of questions
         const found_question = state.questions.find(question => question.id === update_question.id);
         if (found_question) {
             found_question.title = update_question.title;
             found_question.description = update_question.description;
+            found_question.additional_info = update_question.additional_info;
         }
     },
     insertQuestionAnswer: (state, answer) => {

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wrapper mgt-3 bg-white borad-1" v-if="!edit_answer">
+  <div class="pady-3">
+    <div class="wrapper pady-2 bg-white borad-1" v-if="!edit_answer">
       <section id="question">
         <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
         <div class="create-container pady-1 padx-3">
@@ -9,7 +9,16 @@
             <input type="text" class="fs-18 pady-1 padx-1 borad-1" v-model="title" id="title" />
             <p class="red" v-show="error.message">Error: {{ error.message }}</p>
           </div>
+
           <div class="additional-info">
+            <label for="description" class="pady-1 fs-13 tx-upp">description (optional):</label>
+            <textarea
+              class="borad-1 pady-1 padx-1"
+              v-model="description"
+              id="description"
+              cols="30"
+              rows="4"
+            ></textarea>
             <label for="additional_info" class="pady-1 fs-13 tx-upp">additional info (optional):</label>
             <editor
               class="editor"
@@ -21,23 +30,16 @@
               height="500px"
               mode="wysiwyg"
             />
-            <!-- <textarea
-              class="borad-1 pady-1 padx-1 fs-18"
-              v-model="additional_info"
-              id="additional_info"
-              cols="30"
-              rows="10"
-            ></textarea>-->
           </div>
           <div class="submit-container">
             <button
               @click="cancel"
               type="button"
-              class="cancel blue pady-1 mgt-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
+              class="cancel blue pady-1 mgy-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
             >Cancel</button>
             <button
-              @click="create"
-              class="pady-1 mgt-3 padx-2 borad-1 bg-bluedient light fs-20 pointer"
+              @click="next"
+              class="pady-1 mgy-3 padx-2 borad-1 bg-bluedient light fs-20 pointer"
             >continue</button>
           </div>
         </div>
@@ -45,7 +47,11 @@
     </div>
     <transition name="fade">
       <section v-if="edit_answer">
-        <CreateAnswers :title="title" :additional_info="additional_info" />
+        <CreateAnswers
+          :title="title"
+          :description="description"
+          :additional_info="additional_info"
+        />
       </section>
     </transition>
   </div>
@@ -65,8 +71,9 @@ export default {
   },
   data() {
     return {
-      title: "test Title",
-      additional_info: "Test additional info",
+      title: "Question Title",
+      description: "Description here",
+      additional_info: "Additional info",
       error: {
         message: ""
       },
@@ -118,7 +125,7 @@ export default {
         this.error.message = "title must not be empty";
       }
     },
-    create() {
+    next() {
       this.validate();
       if (!this.error.message) {
         this.edit_answer = 1;
@@ -146,7 +153,7 @@ label {
   border: 3px solid #1583c7;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 85%;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
@@ -165,13 +172,17 @@ label {
   display: flex;
   flex-direction: column;
 }
-.additional-info .editor {
+.additional-info .editor,
+.additional-info textarea {
   width: 100%;
   border: 3px solid #1583c7;
 }
 .submit-container {
   display: flex;
   justify-content: space-around;
+}
+.editor {
+  background: #ffffff;
 }
 @media (max-width: 600px) {
   .wrapper {
