@@ -4,7 +4,7 @@
     <transition name="fade" v-show="alert_user.show">
       <Alert />
     </transition>
-    <h3>{{ current_user }} s</h3>
+    <!-- <h3>{{ current_user }} user session</h3> -->
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
         <div></div>

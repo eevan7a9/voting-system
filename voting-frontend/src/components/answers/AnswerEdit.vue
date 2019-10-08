@@ -62,7 +62,7 @@ export default {
               message: res.success,
               error: 0
             });
-          }else{
+          } else {
             this.showAlert({
               message: res.error,
               error: 1

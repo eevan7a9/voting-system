@@ -1,8 +1,13 @@
 <template>
   <div>
-    <div class="wrapper padx-1 pady-2 mgt-3 mgb-2 borad-1 bg-lightdient">
-      <h2 class="reminder tx-upp pady-1" v-show="!edit_mode">Vote Wisely!!!</h2>
+    <div class="wrapper padx-3 pady-2 mgt-3 mgb-2 borad-1 bg-white">
       <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
+
+      <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
+        <h2>{{ question_detail.title }}</h2>
+        <p class="ls-2 pady-2">{{ question_detail.description }}</p>
+        <viewer class="viewer" :value="question_detail.additional_info" />
+      </div>
       <QuestionOptions
         class="option-icons"
         v-show="!edit_mode"
@@ -10,11 +15,6 @@
         :question="question_detail"
         :user="current_user"
       />
-      <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
-        <h2>{{ question_detail.title }}</h2>
-        <p class="ls-2 pady-2">{{ question_detail.description }}</p>
-        <viewer :value="question_detail.additional_info" />
-      </div>
       <!-- Edit Question Starts -->
       <QuestionEdit
         :question="{id:question_detail.id, title:question_detail.title, description:question_detail.description, additional_info:question_detail.additional_info}"
@@ -189,18 +189,13 @@ export default {
   margin-right: auto;
   margin-left: auto;
 }
-.reminder {
-  max-width: 900px;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
-}
 .question-cont {
-  border: 3px solid #1583c7;
-  max-width: 900px;
+  border-bottom: 3px solid #1583c7;
+  max-width: 100%;
+  padding-bottom: 100px;
   margin-right: auto;
   margin-left: auto;
-  background: white;
+  background: #ffffff;
 }
 .answers {
   border: 3px solid #1583c7;
@@ -234,6 +229,9 @@ export default {
   cursor: not-allowed;
   background: rgb(107, 107, 107);
 }
+.viewer {
+  font-size: 30px;
+}
 @media (max-width: 600px) {
   textarea {
     padding: 0;
@@ -242,6 +240,13 @@ export default {
   input {
     padding: 0;
     font-size: 15px;
+  }
+  .wrapper {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .question-cont {
+    padding: 10px;
   }
   .edit-mode {
     padding: 0;
