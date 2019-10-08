@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="bg-lightdient">
     <Navbar />
-    <transition name="fade" v-show="alert_user.show">
-      <Alert />
-    </transition>
+    <!-- <transition name="fade"> -->
+    <Alert />
+    <!-- </transition> -->
     <!-- <h3>{{ current_user }} user session</h3> -->
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
@@ -36,7 +36,7 @@ export default {
     Alert
   },
   computed: {
-    ...mapGetters(["loader", "alert_user", "current_user", "is_login"])
+    ...mapGetters(["loader", "current_user", "is_login"])
   },
   methods: {
     ...mapActions(["onLoader", "offLoader", "getUserInfo"])
