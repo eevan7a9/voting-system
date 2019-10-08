@@ -52,7 +52,7 @@ const actions = {
             })
             .catch(err => {
                 // alert(err)
-                return err;
+                return err.response;
             })
         return result;
     },

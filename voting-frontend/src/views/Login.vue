@@ -5,11 +5,23 @@
       <form @submit="submit">
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
-          <input type="email" class="fs-20" v-model="user.email" id="email" />
+          <input
+            type="email"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.email"
+            id="email"
+            placeholder="EMAIL"
+          />
         </div>
         <div class="password-container mgt-2 padx-1">
           <label for="password" class="tx-upp padx-1 pady-1">password</label>
-          <input type="password" class="fs-20" v-model="user.password" id="password" />
+          <input
+            type="password"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.password"
+            id="password"
+            placeholder="PASSWORD"
+          />
         </div>
         <div class="submit-container pady-2">
           <button
@@ -46,7 +58,7 @@ export default {
       e.preventDefault();
       this.onLoader();
       this.loginUser(this.user).then(res => {
-        if (res.data) {
+        if (!res.data.error) {
           const content = {
             message: `Welcome ${this.user.email} and remember, Vote wisely`,
             error: 0
@@ -57,7 +69,7 @@ export default {
           });
         } else {
           const content = {
-            message: "Oops!!! Sorry, invalid credentials",
+            message: res.data.message,
             error: 1
           };
           this.showAlert(content).then(() => {
@@ -71,9 +83,12 @@ export default {
 </script>
 
 <style scoped>
+input {
+  border: 3px solid #1583c7;
+}
 .wrapper {
   border: 3px solid #1583c7;
-  width: 80%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
@@ -88,8 +103,7 @@ export default {
   grid-template-columns: minmax(100px, 150px) 1fr;
   padding-right: 50px;
 }
-.email-container label,
-.password-container label {
+label {
   text-align: right;
 }
 .submit-container {
@@ -98,17 +112,24 @@ export default {
 .error {
   text-align: center;
 }
-@media (max-width: 600px) {
-  .wrapper {
+@media (max-width: 800px) {
+  label {
+    text-align: center;
+  }
+  input {
+    padding: 20px;
+    text-align: center;
     width: 100%;
   }
   .email-container,
   .password-container {
     grid-template-columns: 1fr;
+    padding: 10px;
   }
-  .email-container label,
-  .password-container label {
-    text-align: center;
+}
+@media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
   }
 }
 </style>

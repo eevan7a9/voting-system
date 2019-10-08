@@ -43,7 +43,7 @@
             <line x1="12" y1="17" x2="12" y2="17" />
           </svg>
         </span>
-        <p class="fs-20">{{ alert_user.message }}</p>
+        <p class="fs-20 tx-cap">{{ alert_user.message }}</p>
         <span class="pointer" @click="close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +85,7 @@ export default {
   text-align: center;
   display: flex;
   justify-content: space-between;
+  width: 80%;
 }
 .success {
   border: 3px solid #2bb110;
