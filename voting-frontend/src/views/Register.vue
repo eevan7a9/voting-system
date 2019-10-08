@@ -95,7 +95,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["registerUser", "onLoader", "offLoader"]),
+    ...mapActions(["registerUser", "onLoader", "offLoader", "showAlert"]),
 
     validEmail() {
       let re = /\S+@\S+\.\S+/;
@@ -120,8 +120,24 @@ export default {
         !this.error.confirm.status
       ) {
         this.onLoader();
-        this.registerUser(this.user).then(() => {
-          this.$router.push({ name: "login" }).then(() => this.offLoader());
+        this.registerUser(this.user).then(res => {
+          if (res.errors) {
+            // console.log(res, "has error");
+            const alert = [];
+            for (const key in res.errors) {
+              if (res.errors.hasOwnProperty(key)) {
+                const element = res.errors[key];
+                alert.push({
+                  message: element[0],
+                  error: true
+                });
+              }
+            }
+            this.showAlert(alert);
+            this.offLoader();
+          } else {
+            this.$router.push({ name: "login" }).then(() => this.offLoader());
+          }
         });
       }
     }

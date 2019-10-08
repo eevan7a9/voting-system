@@ -3,16 +3,12 @@ import axios from "axios";
 const state = {
     user_token: localStorage.getItem("auth") || null,
     user: {},
-    user_message: {
-        message: "Some message",
-        error: 0,
-        show: 0
-    },
+    user_message: [],
 };
 const getters = {
     current_user: state => state.user,
     is_login: state => state.user_token,
-    alert_user: state => state.user_message,
+    alert_users: state => state.user_message,
 };
 const actions = {
     closeAlert: ({ commit }) => commit("clearAlert"),
@@ -22,21 +18,22 @@ const actions = {
     },
     registerUser: async ({ commit }, user) => {
         const result = await axios
-            .post("users", {
+            .post("/register", {
                 name: user.username,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                password_confirmation: user.confirm
             })
             .then(res => {
                 const content = {
-                    message: `${res.data.email} you are now Registered!!!`,
+                    message: res.data.message,
                     error: 0
                 };
                 commit("setAlert", content);
                 return res.data;
             })
             .catch(err => {
-                alert(err);
+                return err.response.data;
             });
         return result;
     },
@@ -110,13 +107,16 @@ const mutations = {
         state.user = {}
     },
     clearAlert: (state) => {
-        state.user_message.message = "";
-        state.user_message.show = 0;
+        state.user_message = [];
     },
-    setAlert: (state, content) => {
-        state.user_message.message = content.message;
-        state.user_message.error = content.error;
-        state.user_message.show = true;
+    setAlert: (state, alert) => {
+        state.user_message = [];
+        if (alert.constructor == Object) {
+            state.user_message.push(alert);
+        } else {
+            state.user_message = alert;
+        }
+
     }
 };
 export default {

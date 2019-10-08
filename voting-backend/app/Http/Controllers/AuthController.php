@@ -38,7 +38,7 @@ class AuthController extends Controller
             'oauth/token',
             'POST'
         );
-        return  Route::dispatch($proxy);
+        return Route::dispatch($proxy);
     }
     /**
      * Register new user.
@@ -60,8 +60,8 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        // $user->save();
-        $success = ['message' => 'You have successully registered'];
+        $user->save();
+        $success = ["message" => "$user->email have successully registered"];
         return response()->json($success, 200);
     }
     /**
