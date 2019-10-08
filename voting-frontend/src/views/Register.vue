@@ -5,7 +5,13 @@
       <form @submit="submit">
         <div class="username-container mgt-2 padx-1">
           <label for="username" class="tx-upp padx-1 pady-1">username</label>
-          <input type="username" class="fs-20" v-model="user.username" id="username" />
+          <input
+            type="username"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.username"
+            id="username"
+            placeholder="USERNAME"
+          />
           <p
             class="error red pady-5-px tx-upp"
             v-if="error.username.status"
@@ -14,17 +20,35 @@
 
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
-          <input type="email" class="fs-20" v-model="user.email" id="email" />
+          <input
+            type="email"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.email"
+            id="email"
+            placeholder="EMAIL ADDRESS"
+          />
           <p class="error red tx-upp" v-if="error.email.status">{{ this.error.email.message }}</p>
         </div>
         <div class="password-container mgt-2 padx-1">
           <label for="password" class="tx-upp padx-1 pady-1">password</label>
-          <input type="password" class="fs-20" v-model="user.password" id="password" />
+          <input
+            type="password"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.password"
+            id="password"
+            placeholder="PASSWORD"
+          />
           <p class="error red tx-upp" v-if="error.password.status">{{ this.error.password.message }}</p>
         </div>
         <div class="confirm-container mgt-2 padx-1">
           <label for="confirm" class="tx-upp padx-1 pady-1">confirm</label>
-          <input type="password" class="fs-20" v-model="user.confirm" id="confirm" />
+          <input
+            type="password"
+            class="fs-20 padx-1 borad-2"
+            v-model="user.confirm"
+            id="confirm"
+            placeholder="CONFIRM PASSWORD"
+          />
           <p class="error red tx-upp" v-if="error.confirm.status">{{ this.error.confirm.message }}</p>
         </div>
         <div class="submit-container pady-3">
@@ -108,6 +132,7 @@ export default {
 <style scoped>
 input {
   width: 90%;
+  border: 3px solid #1583c7;
 }
 label {
   width: 100%;
@@ -146,6 +171,8 @@ label {
 @media (max-width: 600px) {
   input {
     width: 100%;
+    padding: 20px;
+    text-align: center;
   }
   .wrapper {
     width: 100%;
@@ -160,7 +187,7 @@ label {
   .email-container label,
   .password-container label,
   .confirm-container label {
-    text-align: center;
+    display: none;
   }
   .error {
     grid-column-start: 1;
