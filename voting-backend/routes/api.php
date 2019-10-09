@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+// custom controller for our Questions resouce controller for :filtering and sorting
+Route::get('questions/filter/{sort?}/{filter?}', 'QuestionController@filtered');
 // Resource Controller for Questions
 Route::resource('questions', 'QuestionController');
 // Resource Controller for Ansers
