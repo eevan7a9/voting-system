@@ -16,12 +16,26 @@
         </div>
       </div>
     </div>
-    <div class="activity">
-      <div class="voted-questions">
-        <h1>Questions Here</h1>
+    <div class="activity mgt-1">
+      <div class="voted-questions pady-2 padx-1">
+        <h2 class="pady-1 tx-upp">Recently voted surveys</h2>
+        <div class="inner-voted bg-lightdient pady-1 padx-5-px">
+          <div class="mgt-1 pady1" v-for="(question, index) in current_user.votes" :key="index">
+            <router-link :to="{ name:'details', params:{questionId:question.question.id}}">
+              <h4 class="pointer">{{ question.question.title }}</h4>
+            </router-link>
+          </div>
+        </div>
       </div>
-      <div class="asked-question">
-        <h1>Questions Here</h1>
+      <div class="asked-questions pady-2 padx-1">
+        <h2 class="pady-1 tx-upp">Recently asked surveys</h2>
+        <div class="inner-asked bg-lightdient pady-1 padx-5-px">
+          <div class="mgt-1 pady1" v-for="(question, index) in current_user.questions" :key="index">
+            <router-link :to="{ name:'details', params:{questionId:question.id}}">
+              <h4 class="pointer">{{ question.title }}</h4>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -44,13 +58,15 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: #333;
+}
 .settings {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.settings button {
 }
 .creadentials {
   display: grid;
@@ -79,6 +95,21 @@ export default {
 .activity {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+.activity .voted-questions,
+.activity .asked-questions {
+  position: relative;
+  border: 3px solid #1583c7;
+  background: #fff;
+}
+.inner-voted,
+.inner-asked {
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  border-bottom: 3px solid #1583c7;
+  border-top: 3px solid #1583c7;
 }
 @media (max-width: 600px) {
   .creadentials {
