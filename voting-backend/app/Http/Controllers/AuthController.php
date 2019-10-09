@@ -87,11 +87,13 @@ class AuthController extends Controller
     /**
      * We get the basic information of the current user
      */
-    public function user()
+    public function user($account = null)
     {
         $user = Auth::user();
-        $user->questions; // to show questins user created
-        $user->votes; // to show all the votes users made
+        if ($account) {
+            $user->questions; // to show questins user created
+            $user->votes; // to show all the votes users made
+        }
         return response()->json($user);
     }
 }

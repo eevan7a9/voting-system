@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 // });
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/logout', 'AuthController@logout');
-    Route::get('/user', 'AuthController@user');
+    Route::get('/user/{account?}', 'AuthController@user');
     // Resource Controller fpr Vote
     Route::resource('votes', 'VoteController');
     // our route for saving multiple answers
