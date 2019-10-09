@@ -95,6 +95,23 @@ const actions = {
                 })
 
         }
+    },
+    getAccountInfo: async ({ commit, state }) => {
+        await axios.get(`/user/account`, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${state.user_token}`
+            }
+        })
+            .then(res => {
+                const user = res.data;
+                user.token = state.user_token;
+                commit("setUser", user);
+                // console.log("getting user info");
+            })
+            .catch(err => {
+                alert(err.response.data.message);
+            });
     }
 };
 const mutations = {

@@ -53,6 +53,12 @@ export default new Router({
       name: "create",
       component: () => import('./views/CreateQuestion.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: "/account",
+      name: "account",
+      component: () => import('./views/Account.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })
