@@ -1,5 +1,5 @@
 const state = {
-    loader: true
+    loader: false
 }
 const getters = {
     loader: (state) => state.loader,

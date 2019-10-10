@@ -191,7 +191,6 @@ const actions = {
             });
     },
     filterQuestions: async ({ commit, rootState }, operation) => {
-        console.log(operation);
         if (operation.sorter == "newest" && operation.filter == "all") {
             return await axios.get('/questions')
                 .then(res => {

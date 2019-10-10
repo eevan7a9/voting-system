@@ -44,7 +44,7 @@ export default {
   },
   computed: mapGetters(["all_questions"]),
   methods: {
-    ...mapActions(["getQuestions"]),
+    ...mapActions(["getQuestions", "onLoader", "offLoader"]),
     scrollTo(id) {
       document.getElementById(`${id}`).scrollIntoView({
         behavior: "auto",
@@ -62,7 +62,8 @@ export default {
     // we are using Free limited server resource,
     // we want to get questions from server once
     if (this.all_questions.length < 1) {
-      this.getQuestions();
+      this.onLoader();
+      this.getQuestions().then(() => this.offLoader());
     }
   }
 };

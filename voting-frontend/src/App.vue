@@ -42,17 +42,18 @@ export default {
     ...mapActions(["onLoader", "offLoader", "getUserInfo"])
   },
   created() {
-    this.onLoader();
     if (this.is_login) {
+      this.onLoader();
       // check is user is login
       if (Object.keys(this.current_user).length == 0) {
         // get user's info
-        this.getUserInfo().then(() => this.offLoader());
+        this.getUserInfo().then(() =>
+          setTimeout(() => {
+            this.offLoader();
+          }, 1000)
+        );
       }
     }
-    setTimeout(() => {
-      this.offLoader();
-    }, 3000);
   }
 };
 </script>
