@@ -62,9 +62,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["showAlert", "closeAlert"]),
+    ...mapActions(["showAlert", "closeAlert", "filterQuestions"]),
     getQuestion() {
       alert(this.sorter + " " + this.filter);
+      this.filterQuestions({ sorter: this.sorter, filter: this.filter });
     },
     newSurvey() {
       // console.log(1);

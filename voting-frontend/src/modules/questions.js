@@ -189,6 +189,32 @@ const actions = {
             .catch(err => {
                 alert(err);
             });
+    },
+    filterQuestions: async ({ commit, rootState }, operation) => {
+        console.log(operation);
+        if (operation.sorter == "newest" && operation.filter == "all") {
+            return await axios.get('/questions')
+                .then(res => {
+                    commit("setQuestions", res.data);
+                    return "success";
+                });
+        } else {
+            return await axios.get(`questions/filter/${operation.sorter}/${operation.filter}`, {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${rootState.users.user_token}`
+                }
+            })
+                .then(res => {
+                    // console.log(res)
+                    commit("setQuestions", res.data);
+                    return { message: "Success", error: true };
+                })
+                .catch(err => {
+                    alert(err);
+                    return { message: "Something went wrong", error: true };
+                })
+        }
     }
 }
 const mutations = {
