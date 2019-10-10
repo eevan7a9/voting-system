@@ -39,7 +39,7 @@
           </li>
         </ul>
       </div>
-      <div class="Options">
+      <div class="create">
         <h2 class="tx-upp fs-large">Create</h2>
         <hr class="mgy-1 mgx-1" />
         <button
@@ -91,7 +91,7 @@ export default {
 }
 .sorter h2,
 .filter h2,
-.options h2 {
+.create h2 {
   width: 100px;
   text-align: right;
 }
@@ -115,6 +115,30 @@ export default {
 @media (max-width: 600px) {
   .wrapper {
     margin-top: 30px;
+  }
+}
+@media (max-width: 490px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+  .sorter li,
+  .filter li {
+    display: flex;
+    justify-content: center;
+  }
+  .sorter li p,
+  .filter li p {
+    width: 100px;
+    text-align: right;
+  }
+  .create {
+    position: relative;
+  }
+  .create button {
+    display: block;
+    width: 200px;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 </style>
