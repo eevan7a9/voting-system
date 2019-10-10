@@ -3,11 +3,13 @@ import router from "../router";
 
 const state = {
     questions: [], // lists of questions from database
-    question: {} // single question for details
+    question: {}, // single question for details
+    filtered: { sorter: "newest", filter: "all" }
 }
 const getters = {
-    all_questions: (state) => state.questions,
-    question_detail: state => state.question
+    all_questions: state => state.questions,
+    question_detail: state => state.question,
+    onFilter: state => state.filtered
 }
 const actions = {
     getQuestionDetails: ({ commit, state }, id) => {
@@ -34,6 +36,9 @@ const actions = {
             .then(res => {
                 commit("setQuestions", res.data);
             });
+    },
+    resetQuestions: ({ commit }) => {
+        commit("clearQuestions");
     },
     addQuestion: async ({ commit, rootState }, question) => {
         const new_question = await axios.post('/questions', {
@@ -171,7 +176,7 @@ const actions = {
                 return { error: "Something went wrong!!!" };
             })
     },
-    addVote: async ({ commit, rootState }, vote) => {
+    addVote: async ({ commit, state, rootState }, vote) => {
         await axios.post('votes/', {
             answer_id: vote.answer_id,
             user_id: vote.user_id,
@@ -183,7 +188,12 @@ const actions = {
             }
         })
             .then(res => {
-                commit("insertNewVote", res.data);
+                if (state.filtered.filter == "all") {
+                    commit("insertNewVote", res.data);
+                } else {
+                    commit("insertNewVote", res.data);
+                    commit("removeQuestion", res.data.question_id);
+                }
                 alert("Vote Submitted");
             })
             .catch(err => {
@@ -195,6 +205,7 @@ const actions = {
             return await axios.get('/questions')
                 .then(res => {
                     commit("setQuestions", res.data);
+                    commit("setFilter", { sorter: operation.sorter, filter: operation.filter });
                     return "success";
                 });
         } else {
@@ -207,17 +218,22 @@ const actions = {
                 .then(res => {
                     // console.log(res)
                     commit("setQuestions", res.data);
-                    return { message: "Success", error: true };
+                    commit("setFilter", { sorter: operation.sorter, filter: operation.filter }); // set state filter to true
+                    return { message: `Success, sorted to: ${operation.sorter} and filtered by ${operation.filter}`, error: false };
                 })
                 .catch(err => {
                     alert(err);
                     return { message: "Something went wrong", error: true };
                 })
         }
+    },
+    toggleFilter: ({ commit }, status) => {
+        commit("setFilter", status);
     }
 }
 const mutations = {
     setQuestions: (state, questions) => state.questions = questions,
+    clearQuestions: (state) => state.questions = [],
     insertQuestion: (state, question) => state.questions.unshift(question),
     setQuestionDetails: (state, question) => {
         state.question = question;
@@ -266,7 +282,8 @@ const mutations = {
         if (found_answer) {
             found_answer.votes.push(vote);
         }
-    }
+    },
+    setFilter: (state, status) => state.filtered = status
 }
 export default {
     state,

@@ -105,7 +105,12 @@ export default {
       disable_radio: false
     };
   },
-  computed: mapGetters(["question_detail", "current_user", "is_login"]),
+  computed: mapGetters([
+    "question_detail",
+    "current_user",
+    "is_login",
+    "onFilter"
+  ]),
   methods: {
     ...mapActions([
       "onLoader",
@@ -126,7 +131,7 @@ export default {
       this.selected_answer = answer;
     },
     disableSubmit() {
-      //  created() method of answer lists will $emit an event if user ID is found in votes
+      //  created() method of AnswersItem will $emit an event if user ID is found in votes
       // will disable  submit button and radio if user already voted
       this.disable_btn = true;
       this.disable_radio = true;
@@ -145,6 +150,12 @@ export default {
         this.addVote(vote).then(() => {
           this.disable_btn = true; // after vote is successfull
           this.disable_radio = true; // we disable submit and radio
+          if (this.onFilter.filter == "not-voted") {
+            // if the user returned to not-voted lists survey
+            // the question will be remove from the not voted lists,
+            this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
+          }
+
           this.offLoader();
         });
       }
@@ -162,7 +173,11 @@ export default {
   },
   created() {
     this.onLoader();
-    this.getQuestionDetails(this.questionId).then(() => this.offLoader());
+    this.getQuestionDetails(this.questionId).then(() => {
+      setTimeout(() => {
+        this.offLoader();
+      }, 1000);
+    });
     if (!this.is_login) {
       this.disableSubmit();
       const content = {

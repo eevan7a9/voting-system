@@ -44,13 +44,15 @@ export default {
   },
   computed: mapGetters(["all_questions"]),
   methods: {
-    ...mapActions(["getQuestions", "onLoader", "offLoader"]),
+    ...mapActions(["getQuestions", "onLoader", "offLoader", "onFilter"]),
     scrollTo(id) {
-      document.getElementById(`${id}`).scrollIntoView({
-        behavior: "auto",
-        block: "center",
-        inline: "center"
-      });
+      if (this.scrollInto != 0) {
+        document.getElementById(`${id}`).scrollIntoView({
+          behavior: "auto",
+          block: "center",
+          inline: "center"
+        });
+      }
     }
   },
   mounted() {

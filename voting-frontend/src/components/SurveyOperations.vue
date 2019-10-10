@@ -7,11 +7,25 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">newest</p>
-            <input type="radio" name="sorter" v-model="sorter" value="newest" @change="getQuestion" />
+            <input
+              type="radio"
+              name="sorter"
+              v-model="sorter"
+              :disabled="!is_login"
+              value="newest"
+              @change="getQuestion"
+            />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">oldest</p>
-            <input type="radio" name="sorter" v-model="sorter" value="oldest" @change="getQuestion" />
+            <input
+              type="radio"
+              name="sorter"
+              v-model="sorter"
+              :disabled="!is_login"
+              value="oldest"
+              @change="getQuestion"
+            />
           </li>
         </ul>
       </div>
@@ -21,7 +35,14 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">all</p>
-            <input type="radio" name="filter" v-model="filter" value="all" @change="getQuestion" />
+            <input
+              type="radio"
+              name="filter"
+              v-model="filter"
+              :disabled="!is_login"
+              value="all"
+              @change="getQuestion"
+            />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">not voted</p>
@@ -29,13 +50,21 @@
               type="radio"
               name="filter"
               v-model="filter"
+              :disabled="!is_login"
               value="not-voted"
               @change="getQuestion"
             />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">voted</p>
-            <input type="radio" name="filter" v-model="filter" value="voted" @change="getQuestion" />
+            <input
+              type="radio"
+              name="filter"
+              v-model="filter"
+              :disabled="!is_login"
+              value="voted"
+              @change="getQuestion"
+            />
           </li>
         </ul>
       </div>
@@ -52,7 +81,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "QuestionsFilter",
   data() {
@@ -61,11 +90,30 @@ export default {
       filter: "all"
     };
   },
+  computed: mapGetters(["is_login", "onFilter"]),
   methods: {
-    ...mapActions(["showAlert", "closeAlert", "filterQuestions"]),
+    ...mapActions([
+      "showAlert",
+      "closeAlert",
+      "filterQuestions",
+      "onLoader",
+      "offLoader"
+    ]),
     getQuestion() {
-      alert(this.sorter + " " + this.filter);
-      this.filterQuestions({ sorter: this.sorter, filter: this.filter });
+      this.onLoader();
+      if (this.is_login) {
+        this.filterQuestions({ sorter: this.sorter, filter: this.filter }).then(
+          res => {
+            this.showAlert(res);
+            this.offLoader();
+          }
+        );
+      } else {
+        this.showAlert({
+          message: "Only loged in users can use Sorter and Filter",
+          error: true
+        }).then(() => this.offLoader());
+      }
     },
     newSurvey() {
       // console.log(1);
@@ -77,6 +125,10 @@ export default {
         this.showAlert(content);
       });
     }
+  },
+  created() {
+    this.sorter = this.onFilter.sorter;
+    this.filter = this.onFilter.filter;
   },
   destroyed() {
     this.closeAlert();

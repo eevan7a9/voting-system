@@ -22,7 +22,7 @@
         <div class="inner-voted bg-lightdient pady-1 padx-5-px">
           <div class="mgt-1 pady1" v-for="(question, index) in current_user.votes" :key="index">
             <router-link :to="{ name:'details', params:{questionId:question.question.id}}">
-              <h4 class="pointer">{{ question.question.title }}</h4>
+              <h4 class="pointer ls-1">{{ question.question.title }}</h4>
             </router-link>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="inner-asked bg-lightdient pady-1 padx-5-px">
           <div class="mgt-1 pady1" v-for="(question, index) in current_user.questions" :key="index">
             <router-link :to="{ name:'details', params:{questionId:question.id}}">
-              <h4 class="pointer">{{ question.title }}</h4>
+              <h4 class="pointer ls-1">{{ question.title }}</h4>
             </router-link>
           </div>
         </div>

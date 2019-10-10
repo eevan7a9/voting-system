@@ -4,6 +4,7 @@
     <!-- <transition name="fade"> -->
     <Alert />
     <!-- </transition> -->
+    <h3>{{ onFilter }}</h3>
     <!-- <h3>{{ current_user }} user session</h3> -->
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
@@ -36,7 +37,7 @@ export default {
     Alert
   },
   computed: {
-    ...mapGetters(["loader", "current_user", "is_login"])
+    ...mapGetters(["loader", "current_user", "is_login", "onFilter"])
   },
   methods: {
     ...mapActions(["onLoader", "offLoader", "getUserInfo"])
