@@ -124,15 +124,21 @@ class QuestionController extends Controller
         $order = $sort == "newest" ? "desc" : "asc"; // check if not newest then sort to oldest
 
         switch ($filter) {
+            case 'all':
+                $questions = Question::orderBy('created_at', $order)->get(); // order by newest
+                foreach ($questions as $question) {
+                    $question->answers->makeHidden('votes'); // we want to show the hasMany retationship of question
+                }
+                break;
             case 'not-voted': // we get if user did not vote on the question
-                $questions = Question::whereDoesntHave('votes', function ($vote) {
+                $questions = Question::with('answers')->whereDoesntHave('votes', function ($vote) {
                     $user_id = Auth::user()->id;
                     $vote->where('user_id', $user_id);
                 })->orderBy('created_at', $order)->get();
 
                 break;
             default: // we get if user voted on the question
-                $questions = Question::whereHas('votes', function ($vote) {
+                $questions = Question::with('answers')->whereHas('votes', function ($vote) {
                     $user_id = Auth::user()->id;
                     $vote->where('user_id', $user_id);
                 })->orderBy('created_at', $order)->get();
