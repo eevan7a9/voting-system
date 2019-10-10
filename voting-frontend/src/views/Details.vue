@@ -8,7 +8,7 @@
         <p class="ls-2 pady-2">{{ question_detail.description }}</p>
         <viewer class="viewer" :value="question_detail.additional_info" />
       </div>
-      <surveyOptions
+      <SurveyOptions
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
@@ -81,14 +81,14 @@ import { Viewer } from "@toast-ui/vue-editor";
 import AnswersItem from "../components/answers/AnswersItem";
 import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
-import surveyOptions from "../components/surveyOptions";
+import SurveyOptions from "../components/SurveyOptions";
 import QuestionEdit from "../components/questions/QuestionEdit";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Details",
   components: {
     QuestionEdit,
-    surveyOptions,
+    SurveyOptions,
     AnswersItem,
     AnswerEdit,
     AnswerAdd,

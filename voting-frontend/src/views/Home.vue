@@ -1,20 +1,20 @@
 <template>
   <div class="home pady-1">
-    <QuestionsFilter />
+    <SurveyOperations />
     <QuestionsList :scrollInto="scrollInto" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import QuestionsFilter from "../components/questions/QuestionsFilter";
+import SurveyOperations from "../components/SurveyOperations";
 import QuestionsList from "../components/questions/QuestionsList";
 import { mapActions } from "vuex";
 
 export default {
   name: "home",
   components: {
-    QuestionsFilter,
+    SurveyOperations,
     QuestionsList
   },
   props: {

@@ -7,11 +7,11 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">newest</p>
-            <input type="radio" name="sorter" id @change="sortQuestions" />
+            <input type="radio" name="sorter" v-model="sorter" value="newest" @change="getQuestion" />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">oldest</p>
-            <input type="radio" name="sorter" id @change="sortQuestions" />
+            <input type="radio" name="sorter" v-model="sorter" value="oldest" @change="getQuestion" />
           </li>
         </ul>
       </div>
@@ -21,20 +21,26 @@
         <ul>
           <li>
             <p class="pady-8-px tx-cap fs-18">all</p>
-            <input type="radio" name="sorter" id @change="filterQuestions" />
+            <input type="radio" name="filter" v-model="filter" value="all" @change="getQuestion" />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">not voted</p>
-            <input type="radio" name="sorter" id @change="filterQuestions" />
+            <input
+              type="radio"
+              name="filter"
+              v-model="filter"
+              value="not-voted"
+              @change="getQuestion"
+            />
           </li>
           <li>
             <p class="pady-8-px tx-cap fs-18">voted</p>
-            <input type="radio" name="sorter" id @change="filterQuestions" />
+            <input type="radio" name="filter" v-model="filter" value="voted" @change="getQuestion" />
           </li>
         </ul>
       </div>
       <div class="Options">
-        <h2 class="tx-upp fs-large">options</h2>
+        <h2 class="tx-upp fs-large">Create</h2>
         <hr class="mgy-1 mgx-1" />
         <button
           class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer"
@@ -51,16 +57,14 @@ export default {
   name: "QuestionsFilter",
   data() {
     return {
-      test: "Hello World"
+      sorter: "newest",
+      filter: "all"
     };
   },
   methods: {
     ...mapActions(["showAlert", "closeAlert"]),
-    sortQuestions() {
-      alert("sort");
-    },
-    filterQuestions() {
-      alert("filter");
+    getQuestion() {
+      alert(this.sorter + " " + this.filter);
     },
     newSurvey() {
       // console.log(1);

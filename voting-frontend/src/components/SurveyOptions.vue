@@ -67,7 +67,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "surveyOptions",
+  name: "SurveyOptions",
   props: {
     question: Object,
     user: Object
