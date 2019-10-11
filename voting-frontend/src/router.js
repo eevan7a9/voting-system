@@ -59,6 +59,12 @@ export default new Router({
       name: "account",
       component: () => import('./views/Account.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: "/updatepassword",
+      name: "updatepassword",
+      component: () => import('./views/UpdatePassword.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })

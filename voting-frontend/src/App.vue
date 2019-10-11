@@ -4,7 +4,6 @@
     <!-- <transition name="fade"> -->
     <Alert />
     <!-- </transition> -->
-    <h3>{{ onFilter }}</h3>
     <!-- <h3>{{ current_user }} user session</h3> -->
     <div id="loader" v-show="loader">
       <div class="lds-spinner">

@@ -12,7 +12,9 @@
       <div class="settings">
         <div class="inner-setting">
           <label class="padx-1">Reset Password</label>
-          <button class="pady-1 fs-18 light borad-1 padx-1 bg-bluedient pointer">Reset Password</button>
+          <router-link :to="{name:'updatepassword'}">
+            <button class="pady-1 fs-18 light borad-1 padx-1 bg-bluedient pointer">Reset Password</button>
+          </router-link>
         </div>
       </div>
     </div>
