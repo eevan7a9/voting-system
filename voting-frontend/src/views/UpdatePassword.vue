@@ -8,7 +8,7 @@
           <input
             type="password"
             class="fs-20 padx-1 borad-2"
-            v-model="user.currentPassword"
+            v-model="password.current"
             id="password"
             placeholder="CURRENT PASSWORD"
           />
@@ -18,20 +18,28 @@
           <input
             type="password"
             class="fs-20 padx-1 borad-2"
-            v-model="user.newPassword"
+            v-model="password.new"
             id="password"
             placeholder="NEW PASSWORD"
           />
+          <p
+            class="red mgt-1 fs-small tx-upp"
+            v-if="error.new"
+          >Error : new password must be atleast 6 char long</p>
         </div>
         <div class="password-container mgt-2 padx-1">
           <label for="password" class="tx-upp padx-1 pady-1">confirm password</label>
           <input
             type="password"
             class="fs-20 padx-1 borad-2"
-            v-model="user.confirmPassword"
+            v-model="password.confirm"
             id="password"
             placeholder="CONFIRM PASSWORD"
           />
+          <p
+            class="red mgt-1 fs-small tx-upp"
+            v-if="error.confirm"
+          >Error : password confirmation failed</p>
         </div>
         <div class="submit-container pady-2">
           <button
@@ -44,20 +52,71 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "UpdatePassword",
   data() {
     return {
-      user: {
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: ""
+      password: {
+        current: "",
+        new: "",
+        confirm: ""
+      },
+      error: {
+        new: 0,
+        confirm: 0
       }
     };
   },
+  computed: mapGetters(["current_user"]),
   methods: {
-    submit() {
-      alert("submit toggled");
+    ...mapActions(["showAlert", "onLoader", "offLoader"]),
+    validate() {
+      this.error.new = this.password.new.trim().length < 6 ? 1 : 0;
+      this.error.confirm = this.password.confirm != this.password.new ? 1 : 0;
+    },
+    async submit() {
+      this.onLoader();
+      this.validate();
+      if (!this.error.new && !this.error.confirm) {
+        await axios
+          .post(
+            "http://localhost:8000/api/update/password",
+            {
+              current: this.password.current,
+              new: this.password.new,
+              new_confirmation: this.password.confirm
+            },
+            {
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${this.current_user.token}`
+              }
+            }
+          )
+          .then(res => {
+            this.showAlert({
+              message: res.data.message,
+              error: false
+            }).then(() => this.offLoader());
+          })
+          .catch(err => {
+            const alert = [];
+            for (const key in err.response.data.errors) {
+              if (err.response.data.errors.hasOwnProperty(key)) {
+                const element = err.response.data.errors[key];
+                alert.push({
+                  message: element[0],
+                  error: true
+                });
+              }
+            }
+            this.showAlert(alert).then(() => this.offLoader());
+          });
+      } else {
+        this.offLoader();
+      }
     }
   }
 };
@@ -82,6 +141,9 @@ input {
   display: grid;
   grid-template-columns: minmax(100px, 250px) 1fr;
   padding-right: 50px;
+}
+p {
+  grid-column: 2/3;
 }
 label {
   text-align: right;
