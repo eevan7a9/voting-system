@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         return response()->json($request->answers);
     });
+    Route::post('/update/password', 'AuthController@updatePassword');
 });
 
 Route::post('/login', 'AuthController@login');
