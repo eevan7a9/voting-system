@@ -50,3 +50,7 @@ Route::get('questions/filter/{sort?}/{filter?}', 'QuestionController@filtered');
 Route::resource('questions', 'QuestionController');
 // Resource Controller for Ansers
 Route::resource('answers', 'AnswerController');
+//  Email Verification
+Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
+//  Resend Email Verification
+Route::post('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');

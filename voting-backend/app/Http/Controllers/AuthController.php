@@ -25,20 +25,28 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-
-        $request->request->add([
-            'grant_type' => 'password',
-            'client_id' => $this->client->id,
-            'client_secret' => $this->client->secret,
-            'username' => $request->email,
-            'password' => $request->password,
-            'scope' => '*',
-        ]);
-        $proxy = Request::create(
-            'oauth/token',
-            'POST'
-        );
-        return Route::dispatch($proxy);
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+            $user = Auth::user();
+            if ($user->email_verified_at !== null) {
+                $request->request->add([
+                    'grant_type' => 'password',
+                    'client_id' => $this->client->id,
+                    'client_secret' => $this->client->secret,
+                    'username' => $request->email,
+                    'password' => $request->password,
+                    'scope' => '*',
+                ]);
+                $proxy = Request::create(
+                    'oauth/token',
+                    'POST'
+                );
+                return Route::dispatch($proxy);
+            } else {
+                return response()->json(['error' => 'Please Verify Email'], 401);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorised'], 401);
+        }
     }
     /**
      * Register new user.
@@ -61,6 +69,8 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+
+        $user->sendApiEmailVerificationNotification(); // we send email verification notice
         $success = ["message" => "$user->email have successully registered"];
         return response()->json($success, 200);
     }
