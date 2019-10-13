@@ -52,7 +52,8 @@ export default {
       "offLoader",
       "loginUser",
       "getUserInfo",
-      "showAlert"
+      "showAlert",
+      "unverifiedEmail"
     ]),
     submit(e) {
       e.preventDefault();
@@ -74,7 +75,8 @@ export default {
           };
           this.showAlert(content).then(() => {
             if (res.data.error === "email") {
-              alert("email");
+              this.unverifiedEmail(this.user.email);
+              this.$router.push({ name: "resendverification" });
             }
             this.offLoader();
           });

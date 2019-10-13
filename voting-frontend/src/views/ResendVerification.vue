@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ResendVerification",
   data() {
@@ -33,19 +34,43 @@ export default {
       email: ""
     };
   },
+  computed: mapGetters(["email_to_verify"]),
   methods: {
-    ...mapActions(["unverifiedEmail"]),
+    ...mapActions(["showAlert", "onLoader", "offLoader"]),
     validEmail() {
       let re = /\S+@\S+\.\S+/;
       return re.test(this.email);
     },
     submit() {
       if (this.validEmail()) {
-        alert("submit");
+        this.onLoader();
+        axios
+          .post("email/resend", {
+            email: this.email
+          })
+          .then(res => {
+            this.showAlert({
+              message: res.data.message,
+              error: 0
+            });
+            if (res.data.success === "verified") {
+              this.$router.push({ name: "login" });
+            }
+            this.offLoader();
+          })
+          .catch(err => {
+            this.showAlert({
+              message: err.response.data.message,
+              error: 1
+            }).then(() => this.offLoader());
+          });
       } else {
         alert("email invalid");
       }
     }
+  },
+  created() {
+    this.email = this.email_to_verify;
   }
 };
 </script>

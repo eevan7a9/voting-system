@@ -4,7 +4,7 @@ const state = {
     user_token: localStorage.getItem("auth") || null,
     user: {},
     user_message: [],
-    unverified_email: "myemail@email.com"
+    unverified_email: ""
 };
 const getters = {
     current_user: state => state.user,
@@ -117,7 +117,7 @@ const actions = {
     },
     unverifiedEmail: async ({ commit }, email) => {
         commit("setUnverifiedEmail", email);
-    }
+    },
 };
 const mutations = {
     setUser: (state, user) => {
