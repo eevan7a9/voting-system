@@ -65,6 +65,12 @@ export default new Router({
       name: "updatepassword",
       component: () => import('./views/UpdatePassword.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: "/resendVerification",
+      name: "resendverification",
+      component: () => import("./views/ResendVerification.vue"),
+      meta: { requiresVisitor: true }
     }
   ]
 })

@@ -4,11 +4,13 @@ const state = {
     user_token: localStorage.getItem("auth") || null,
     user: {},
     user_message: [],
+    unverified_email: "myemail@email.com"
 };
 const getters = {
     current_user: state => state.user,
     is_login: state => state.user_token,
     alert_users: state => state.user_message,
+    email_to_verify: state => state.unverified_email
 };
 const actions = {
     closeAlert: ({ commit }) => commit("clearAlert"),
@@ -112,6 +114,9 @@ const actions = {
             .catch(err => {
                 alert(err.response.data.message);
             });
+    },
+    unverifiedEmail: async ({ commit }, email) => {
+        commit("setUnverifiedEmail", email);
     }
 };
 const mutations = {
@@ -134,7 +139,8 @@ const mutations = {
             state.user_message = alert;
         }
 
-    }
+    },
+    setUnverifiedEmail: (state, email) => state.unverified_email = email
 };
 export default {
     state,
