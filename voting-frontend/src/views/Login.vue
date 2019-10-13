@@ -73,6 +73,9 @@ export default {
             error: 1
           };
           this.showAlert(content).then(() => {
+            if (res.data.error === "email") {
+              alert("email");
+            }
             this.offLoader();
           });
         }

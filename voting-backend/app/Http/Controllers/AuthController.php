@@ -42,10 +42,13 @@ class AuthController extends Controller
                 );
                 return Route::dispatch($proxy);
             } else {
-                return response()->json(['error' => 'Please Verify Email'], 401);
+                $message = ['error' => 'email', 'message' => 'Please Verify Email'];
+                return response()->json($message, 401);
             }
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            $message = ['error' => 'credentials', 'message' => 'invalid credentials'];
+
+            return response()->json($message, 401);
         }
     }
     /**
