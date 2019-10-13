@@ -36,7 +36,7 @@ export default {
     Alert
   },
   computed: {
-    ...mapGetters(["loader", "current_user", "is_login", "onFilter"])
+    ...mapGetters(["loader", "current_user", "is_login"])
   },
   methods: {
     ...mapActions(["onLoader", "offLoader", "getUserInfo"])

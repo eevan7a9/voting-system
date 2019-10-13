@@ -85,7 +85,6 @@ export default {
   text-align: center;
   display: flex;
   justify-content: space-between;
-  width: 80%;
 }
 .success {
   border: 3px solid #2bb110;

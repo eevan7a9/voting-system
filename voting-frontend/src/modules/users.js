@@ -27,11 +27,17 @@ const actions = {
                 password_confirmation: user.confirm
             })
             .then(res => {
-                const content = {
-                    message: res.data.message,
-                    error: 0
-                };
-                commit("setAlert", content);
+                const alert = [
+                    {
+                        message: res.data.message,
+                        error: 0
+                    },
+                    {
+                        message: "we sent email verification",
+                        error: 0
+                    }
+                ];
+                commit("setAlert", alert);
                 return res.data;
             })
             .catch(err => {
