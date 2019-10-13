@@ -2,7 +2,7 @@
   <div>
     <div class="wrapper pady-2 mgt-3 bg-white borad-1">
       <h1 class="login pady-1 padx-2 tx-upp blue">login</h1>
-      <form @submit="submit">
+      <form @submit.prevent="submit">
         <div class="email-container mgt-2 padx-1">
           <label for="email" class="tx-upp padx-1 pady-1">email</label>
           <input
@@ -55,8 +55,7 @@ export default {
       "showAlert",
       "unverifiedEmail"
     ]),
-    submit(e) {
-      e.preventDefault();
+    submit() {
       this.onLoader();
       this.loginUser(this.user).then(res => {
         if (!res.data.error) {
