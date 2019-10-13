@@ -66,11 +66,21 @@ class VerificationApiController extends Controller
     public function resend(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if ($user->hasVerifiedEmail()) { // if user is already verified
-            return response()->json(["message" => 'User already have verified email!'], 422);
+        if ($user) {
+            if ($user->hasVerifiedEmail()) { // if user is already verified
+                return response()->json([
+                    "message" => 'User already have verified email!',
+                    "success" => "verified",
+                ], 200);
+            }
+            $user->sendApiEmailVerificationNotification(); // resend if user is not yet verified
+            return response()->json([
+                "message" => 'The notification has been resubmitted',
+                "success" => 'sent',
+            ]);
+        } else {
+            return response()->json(["message" => 'Email Unregistered'], 500);
         }
-        $user->sendApiEmailVerificationNotification(); // resend if user is not yet verified
-        return response()->json(["message" => 'The notification has been resubmitted']);
     }
 
 }
