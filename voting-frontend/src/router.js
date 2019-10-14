@@ -73,6 +73,13 @@ export default new Router({
       meta: { requiresVisitor: true }
     },
     {
+      path: "/password/reset/:token/:email",
+      name: "resetPassword",
+      component: () => import('./views/ResetPassword.vue'),
+      meta: { requiresVisitor: true },
+      props: true
+    },
+    {
       path: "/resend-verification",
       name: "resendverification",
       component: () => import("./views/ResendVerification.vue"),
