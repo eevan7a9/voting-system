@@ -54,6 +54,7 @@ Route::resource('answers', 'Api\AnswerController');
 Route::get('email/verify/{id}', 'Api\VerificationApiController@verify')->name('verificationapi.verify');
 //  Resend Email Verification
 Route::post('email/resend', 'Api\VerificationApiController@resend')->name('verificationapi.resend');
-// Passwrod Reset Notification
-Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail');
-Route::post('/password/reset', 'Api\ResetPasswordController@reset');
+// Send Passwrod Reset Notification
+Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail'); // req: email
+// Reset Password Form
+Route::post('/password/reset', 'Api\ResetPasswordController@reset'); // req: token || email || password|| password_confirmation

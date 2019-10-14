@@ -37,7 +37,7 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $urlToResetForm = "http: //localhost:8080/reset-password-form/?token=" . $this->token;
+        $urlToResetForm = "http://localhost:8080/#/password/reset/?token=" . $this->token;
         return (new MailMessage)
             ->subject(Lang::get('Hey! Reset Password Notification'))
             ->line(Lang::get('You requested here you go!'))
