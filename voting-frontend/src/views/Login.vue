@@ -28,6 +28,10 @@
             type="submit"
             class="pady-1 padx-2 borad-1 bg-bluedient light fs-20 pointer"
           >Submit</button>
+
+          <p class="pady-1">
+            <router-link to="/password/email" class="blue">Forgot Password?</router-link>
+          </p>
         </div>
       </form>
     </div>
@@ -115,6 +119,14 @@ label {
 }
 .error {
   text-align: center;
+}
+a {
+  text-decoration: none;
+}
+p {
+  width: 200px;
+  margin-right: auto;
+  margin-left: auto;
 }
 @media (max-width: 800px) {
   label {

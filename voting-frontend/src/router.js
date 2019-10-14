@@ -61,13 +61,19 @@ export default new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: "/updatepassword",
+      path: "/password/update",
       name: "updatepassword",
       component: () => import('./views/UpdatePassword.vue'),
       meta: { requiresAuth: true }
     },
     {
-      path: "/resendVerification",
+      path: "/password/email",
+      name: "emailPassword",
+      component: () => import('./views/EmailPassword.vue'),
+      meta: { requiresVisitor: true }
+    },
+    {
+      path: "/resend-verification",
       name: "resendverification",
       component: () => import("./views/ResendVerification.vue"),
       meta: { requiresVisitor: true }
