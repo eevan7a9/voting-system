@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyApiEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,5 +52,9 @@ class User extends Authenticatable
 
         $this->notify(new VerifyApiEmail); // my notification
 
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token)); // send password reset notification
     }
 }
