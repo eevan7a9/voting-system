@@ -15,8 +15,9 @@ class PasswordResetNotification extends Notification
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($token, $email)
     {
+        $this->email = $email;
         $this->token = $token;
     }
     /**
@@ -37,10 +38,10 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $urlToResetForm = "http://localhost:8080/#/password/reset/?token=" . $this->token;
+        $urlToResetForm = "http://localhost:8080/#/password/reset/" . $this->token . "/" . $this->email;
         return (new MailMessage)
-            ->subject(Lang::get('Hey! Reset Password Notification'))
-            ->line(Lang::get('You requested here you go!'))
+            ->subject(Lang::get('Reset Password Notification'))
+            ->line(Lang::get('You requested  Password reset, here you go!'))
             ->action(Lang::get('Reset Password'), $urlToResetForm)
             ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::get('If you did not request a password reset, no further action is required. Token: ==>' . $this->token));
