@@ -99,7 +99,10 @@ export default {
             this.showAlert({
               message: res.data.message,
               error: false
-            }).then(() => this.offLoader());
+            }).then(() => {
+              this.offLoader();
+              this.$router.push({ name: "account" });
+            });
           })
           .catch(err => {
             const alert = [];
