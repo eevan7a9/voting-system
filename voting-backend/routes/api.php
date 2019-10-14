@@ -17,10 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/logout', 'AuthController@logout');
-    Route::get('/user/{account?}', 'AuthController@user');
+    Route::get('/logout', 'Api\AuthController@logout');
+    Route::get('/user/{account?}', 'Api\AuthController@user');
     // Resource Controller fpr Vote
-    Route::resource('votes', 'VoteController');
+    Route::resource('votes', 'Api\VoteController');
     // our route for saving multiple answers
     Route::post('answers/multiple', function (Request $request) {
         // we validate arrays of objects
@@ -39,18 +39,18 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         return response()->json($request->answers);
     });
-    Route::post('/update/password', 'AuthController@updatePassword');
+    Route::post('/update/password', 'Api\AuthController@updatePassword');
 });
 
-Route::post('/login', 'AuthController@login');
-Route::post('/register', 'AuthController@register');
+Route::post('/login', 'Api\AuthController@login');
+Route::post('/register', 'Api\AuthController@register');
 // custom controller for our Questions resouce controller for :filtering and sorting
-Route::get('questions/filter/{sort?}/{filter?}', 'QuestionController@filtered');
+Route::get('questions/filter/{sort?}/{filter?}', 'Api\QuestionController@filtered');
 // Resource Controller for Questions
-Route::resource('questions', 'QuestionController');
+Route::resource('questions', 'Api\QuestionController');
 // Resource Controller for Ansers
-Route::resource('answers', 'AnswerController');
+Route::resource('answers', 'Api\AnswerController');
 //  Email Verification
-Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
+Route::get('email/verify/{id}', 'Api\VerificationApiController@verify')->name('verificationapi.verify');
 //  Resend Email Verification
-Route::post('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');
+Route::post('email/resend', 'Api\VerificationApiController@resend')->name('verificationapi.resend');
