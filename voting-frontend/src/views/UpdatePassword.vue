@@ -82,7 +82,7 @@ export default {
       if (!this.error.new && !this.error.confirm) {
         await axios
           .post(
-            "http://localhost:8000/api/update/password",
+            "update/password",
             {
               current: this.password.current,
               new: this.password.new,

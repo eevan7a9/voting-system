@@ -61,7 +61,13 @@ export default {
   },
   computed: mapGetters(["current_user"]),
   methods: {
-    ...mapActions(["onLoader", "offLoader", "addQuestion", "showAlert"]),
+    ...mapActions([
+      "onLoader",
+      "offLoader",
+      "addQuestion",
+      "showAlert",
+      "closeAlert"
+    ]),
     addChoice() {
       if (this.choice) {
         this.answers.push({
@@ -73,12 +79,15 @@ export default {
     cancel() {
       const x = confirm("Are you sure you want to cancel?");
       if (x) {
-        this.$router.push("/");
+        this.$emit("returnCreateQuestion");
       }
     },
     submit() {
       if (this.answers.length < 2) {
-        alert("must Provide atleast two choices");
+        this.showAlert({
+          message: "must Provide atleast two choices",
+          error: true
+        });
       } else {
         this.onLoader(); // turn loader on while sending request
         this.addQuestion({
@@ -99,6 +108,11 @@ export default {
         });
       }
     }
+  },
+  destroyed() {
+    this.choice = "";
+    this.answers = [];
+    this.closeAlert();
   }
 };
 </script>

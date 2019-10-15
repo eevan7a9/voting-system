@@ -51,6 +51,7 @@
           :title="title"
           :description="description"
           :additional_info="additional_info"
+          @returnCreateQuestion="edit_answer = 0"
         />
       </section>
     </transition>
