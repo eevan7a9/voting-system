@@ -1,7 +1,9 @@
 <template>
   <div class="home pady-1">
     <SurveyOperations />
+    <SurveyPagination />
     <QuestionsList :scrollInto="scrollInto" />
+    <SurveyPagination />
   </div>
 </template>
 
@@ -9,13 +11,15 @@
 // @ is an alias to /src
 import SurveyOperations from "../components/SurveyOperations";
 import QuestionsList from "../components/questions/QuestionsList";
+import SurveyPagination from "../components/SurveyPagination";
 import { mapActions } from "vuex";
 
 export default {
   name: "home",
   components: {
     SurveyOperations,
-    QuestionsList
+    QuestionsList,
+    SurveyPagination
   },
   props: {
     scrollInto: String

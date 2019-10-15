@@ -18,7 +18,8 @@ const state = {
 const getters = {
     all_questions: state => state.questions,
     question_detail: state => state.question,
-    onFilter: state => state.filtered
+    onFilter: state => state.filtered,
+    pagination: state => state.paginate
 }
 const actions = {
     getQuestionDetails: ({ commit, state }, id) => {
@@ -43,6 +44,7 @@ const actions = {
     getQuestions: async ({ commit }) => {
         await axios.get('/questions')
             .then(res => {
+                commit("setPagination", res.data);
                 commit("setQuestions", res.data.data);
             });
     },
@@ -215,6 +217,7 @@ const actions = {
                 .then(res => {
                     commit("setQuestions", res.data.data);
                     commit("setFilter", { sorter: operation.sorter, filter: operation.filter });
+                    commit("setPagination", res.data);
                     return "success";
                 });
         } else {
@@ -225,9 +228,9 @@ const actions = {
                 }
             })
                 .then(res => {
-                    // console.log(res)
                     commit("setQuestions", res.data.data);
                     commit("setFilter", { sorter: operation.sorter, filter: operation.filter }); // set state filter to true
+                    commit("setPagination", res.data);
                     return { message: `Success, sorted to: ${operation.sorter} and filtered by ${operation.filter}`, error: false };
                 })
                 .catch(err => {
@@ -236,9 +239,6 @@ const actions = {
                 })
         }
     },
-    toggleFilter: ({ commit }, status) => {
-        commit("setFilter", status);
-    }
 }
 const mutations = {
     setQuestions: (state, questions) => state.questions = questions,
@@ -292,7 +292,16 @@ const mutations = {
             found_answer.votes.push(vote);
         }
     },
-    setFilter: (state, status) => state.filtered = status
+    setFilter: (state, status) => state.filtered = status,
+    setPagination: (state, data) => {
+        state.paginate.current_page = data.current_page;
+        state.paginate.first_page_url = data.first_page_url;
+        state.paginate.last_page = data.last_page;
+        state.paginate.last_page_url = data.last_page_url;
+        state.paginate.next_page_url = data.next_page_url;
+        state.paginate.path = data.path;
+        state.paginate.prev_page_url = data.prev_page_url;
+    }
 }
 export default {
     state,
