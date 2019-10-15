@@ -18,10 +18,10 @@
         </div>
         <hr class="blue" />
       </div>
-      <div
-        class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
-        v-if="question.answers.length > 2"
-      >...</div>
+      <div v-if="question.answers.length > 2">
+        <div class="more pady-1 padx-2 bg-lightdient fw-bolder">...</div>
+        <hr class="blue" />
+      </div>
       <router-link :to="{ name:'details', params:{questionId:question.id}}">
         <div
           class="vote pady-1 padx-2 bg-lightdient fw-bolder tx-upp pointer"

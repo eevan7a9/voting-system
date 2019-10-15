@@ -183,7 +183,7 @@ const actions = {
             })
     },
     addVote: async ({ commit, state, rootState }, vote) => {
-        await axios.post('votes/', {
+        return axios.post('votes/', {
             answer_id: vote.answer_id,
             user_id: vote.user_id,
             question_id: vote.question_id
@@ -200,7 +200,7 @@ const actions = {
                     commit("insertNewVote", res.data);
                     commit("removeQuestion", res.data.question_id);
                 }
-                alert("Vote Submitted");
+                return res.data.message
             })
             .catch(err => {
                 alert(err);

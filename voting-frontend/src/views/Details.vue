@@ -50,14 +50,13 @@
           class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
         >cancel</button>
         <button
-          v-if="!disable_btn"
+          :disabled="disable_btn"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
           @click="submit"
-        >Submit</button>
-        <button
-          v-if="disable_btn"
-          class="disable-submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
-        >Submit</button>
+        >
+          <span v-if="!disable_btn">Submit</span>
+          <span v-if="disable_btn">Voted</span>
+        </button>
       </div>
       <!-- Edit Buttons Starts -->
       <div class="buttons-container pady-1">
@@ -146,8 +145,12 @@ export default {
     },
     submit() {
       // Submittinga Vote
-      if (!this.selected_answer) {
-        alert("you have not selected any of the choices");
+      if (!this.selected_answer.id) {
+        // if user did not select any answers
+        this.showAlert({
+          message: "you have not selected any of the choices",
+          error: true
+        });
       } else {
         const vote = {
           answer_id: this.selected_answer.id,
@@ -155,7 +158,7 @@ export default {
           question_id: this.question_detail.id
         };
         this.onLoader();
-        this.addVote(vote).then(() => {
+        this.addVote(vote).then(res => {
           this.disable_btn = true; // after vote is successfull
           this.disable_radio = true; // we disable submit and radio
           const found_question = this.all_questions.find(
@@ -165,8 +168,7 @@ export default {
             // we check if the question id exists in the questios lists
             this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
           }
-
-          this.offLoader();
+          this.showAlert({ message: res }).then(() => this.offLoader());
         });
       }
     },
@@ -245,14 +247,14 @@ export default {
 .submit:hover {
   background: #1583c7;
 }
-.disable-submit {
+button:disabled {
   cursor: not-allowed;
-  background: grey;
-  border: 0;
+  border: 3px solid #2bb110;
+  background: #76e296;
+  color: #289c10;
 }
-.disable-submit:hover {
-  cursor: not-allowed;
-  background: rgb(107, 107, 107);
+button:disabled:hover {
+  background: #76e296;
 }
 .viewer {
   font-size: 30px;
