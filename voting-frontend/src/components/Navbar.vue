@@ -66,7 +66,7 @@ export default {
     window.removeEventListener("resize", this.myEventHandler);
   },
   methods: {
-    getWindowWidth(event) {
+    getWindowWidth() {
       let windowWidth = document.documentElement.clientWidth;
       if (windowWidth < 601) {
         this.mobile_nav = 0;
@@ -89,6 +89,7 @@ export default {
   box-shadow: 4px 9px 14px -8px #000000;
   top: 0;
   position: sticky;
+  /* overflow: hidden; */
   z-index: 2;
   /* width: 100%; */
 }
@@ -184,11 +185,13 @@ export default {
     background: #1583c7;
     transform: translateX(100%);
     transition: transform 0.5s ease-in-out;
+    overflow: hidden;
   }
   .triggerNav {
     /* display: block; */
     /* transition-delay: 1s; */
     transform: translateX(0%);
+    overflow: visible;
   }
   .nav-item div {
     padding: 50px;

@@ -1,21 +1,22 @@
 <template>
   <div>
     <div
-      class="wrapper bg-bluedient mgt-1 mgb-2"
+      class="wrapper bg-bluedient mgt-2 mgb-1"
       v-for="(question, index) in all_questions"
       :key="index"
     >
       <div class="question-container bg-white dark pady-1 padx-2" :id="question.id">
         <router-link :to="{ name:'details', params:{questionId:question.id}}">
-          <h2 class="mgb-1">{{ question.title }}</h2>
+          <h2 class="mgb-5-px">{{ question.title }}</h2>
           <p class="ls-2 pady-1">{{ question.description | truncate(150,'...') }}</p>
         </router-link>
       </div>
       <hr class="blue" />
-      <div class="mgb-2-px" v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
+      <div v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
         <div class="answers pady-1 padx-2 bg-lightdient">
           <p class="fs-18">{{ answer.title }}</p>
         </div>
+        <hr class="blue" />
       </div>
       <div
         class="more pady-1 padx-2 bg-lightdient fw-bolder mgb-2-px"
@@ -33,7 +34,26 @@
       >None</div>
     </div>
     <div class="empty" v-if="all_questions.length === 0">
-      <h1>EMPTY</h1>
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="124"
+          height="124"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-frown"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+          <line x1="9" y1="9" x2="9.01" y2="9" />
+          <line x1="15" y1="9" x2="15.01" y2="9" />
+        </svg>
+        <h1>EMPTY</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -79,6 +99,10 @@ a {
   text-decoration: none;
   color: #333;
 }
+hr {
+  max-width: 900px;
+  margin: auto;
+}
 .wrapper {
   border: 3px solid #1583c7;
   border-top-right-radius: 10px;
@@ -113,9 +137,12 @@ a {
   margin-right: auto;
 }
 .empty {
-  height: 200px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.empty h1 {
+  margin-right: 5px;
 }
 </style>

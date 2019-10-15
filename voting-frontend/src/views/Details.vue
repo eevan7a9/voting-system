@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper padx-3 pady-2 mgt-3 mgb-2 borad-1 bg-white">
+    <div class="wrapper padx-3 pady-2 mgt-2 mgb-2 borad-1 bg-white">
       <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
 
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">

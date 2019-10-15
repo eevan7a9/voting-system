@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper pady-2 padx-2 bg-white borad-2">
+    <div class="wrapper pady-2 padx-2 bg-white borad-2 mgt-1 mgb-1">
       <div class="sorter">
         <h2 class="tx-upp fs-large">sorter</h2>
         <hr class="mgy-1 mgx-1" />
@@ -72,9 +72,29 @@
         <h2 class="tx-upp fs-large">Create</h2>
         <hr class="mgy-1 mgx-1" />
         <button
-          class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer"
+          class="pady-1 padx-1 mgt-1 bg-bluedient light fw-bolder pointer borad-1"
           @click="newSurvey"
-        >New Survey</button>
+        >
+          <div>
+            <p class="padx-5-px tx-upp">Survey</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-plus-square"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+          </div>
+        </button>
       </div>
     </div>
   </div>
@@ -178,9 +198,19 @@ export default {
 .filter li input {
   margin-left: 5px;
 }
+button div {
+  display: flex;
+}
+button p {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 @media (max-width: 600px) {
   .wrapper {
     margin-top: 30px;
+  }
+  button div {
+    justify-content: center;
   }
 }
 @media (max-width: 490px) {

@@ -1,9 +1,7 @@
 <template>
   <div id="app" class="bg-lightdient">
-    <Navbar />
-    <!-- <transition name="fade"> -->
+    <Navbar class="navbar" />
     <Alert />
-    <!-- </transition> -->
     <!-- <h3>{{ current_user }} user session</h3> -->
     <div id="loader" v-show="loader">
       <div class="lds-spinner">
@@ -24,16 +22,19 @@
     <transition name="fade" mode="out-in">
       <router-view class="container main-view" />
     </transition>
+    <Footer />
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
+import Footer from "./components/Footer";
 export default {
   components: {
     Navbar,
-    Alert
+    Alert,
+    Footer
   },
   computed: {
     ...mapGetters(["loader", "current_user", "is_login"])
@@ -63,8 +64,15 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* overflow-x: hidden; */
+}
+.main-view {
+  width: 100%;
+  flex-grow: 1;
 }
 @media (max-width: 600px) {
   .main-view {

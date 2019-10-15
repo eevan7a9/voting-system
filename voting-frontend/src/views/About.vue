@@ -51,6 +51,17 @@
     </div>
   </div>
 </template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions(["closeAlert"])
+  },
+  created() {
+    this.closeAlert();
+  }
+};
+</script>
 <style scoped>
 .about {
   min-height: 100vh;

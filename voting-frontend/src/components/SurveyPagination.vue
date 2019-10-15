@@ -1,5 +1,5 @@
 <template>
-  <main class="wrapper mgt-2">
+  <main class="wrapper mgt-1">
     <button
       class="prev pady-1 padx-1 blue tx-upp bg-lightdient pointer"
       @click="prev"
@@ -46,8 +46,6 @@ export default {
 <style scoped>
 button {
   border: 3px solid #1583c7;
-  -webkit-box-shadow: 3px 2px 11px -2px #000000;
-  box-shadow: 3px 2px 11px -2px #000000;
 }
 button:disabled {
   border: 3px solid grey;

@@ -420,10 +420,10 @@
 }
 /*                                  transition animation                         */
 .bounce-enter-active {
-  animation: bounce-in 0.3s;
+  animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  position: absolute;
+  animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {

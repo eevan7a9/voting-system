@@ -2,7 +2,7 @@
   <div class="home pady-1">
     <SurveyOperations />
     <SurveyPagination />
-    <QuestionsList :scrollInto="scrollInto" />
+    <QuestionsList class="question-lists" :scrollInto="scrollInto" />
     <SurveyPagination />
   </div>
 </template>
@@ -33,4 +33,11 @@ export default {
 };
 </script>
 <style scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+}
+.question-lists {
+  flex-grow: 1;
+}
 </style>
