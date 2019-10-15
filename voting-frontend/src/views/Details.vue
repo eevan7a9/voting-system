@@ -8,7 +8,7 @@
         <p class="ls-2 pady-2">{{ question_detail.description }}</p>
         <viewer class="viewer" :value="question_detail.additional_info" />
       </div>
-      <SurveyOptions
+      <SurveyDetailOptions
         class="option-icons"
         v-show="!edit_mode"
         @edit="edit"
@@ -81,14 +81,14 @@ import { Viewer } from "@toast-ui/vue-editor";
 import AnswersItem from "../components/answers/AnswersItem";
 import AnswerEdit from "../components/answers/AnswerEdit";
 import AnswerAdd from "../components/answers/AnswerAdd";
-import SurveyOptions from "../components/SurveyOptions";
+import SurveyDetailOptions from "../components/SurveyDetailOptions";
 import QuestionEdit from "../components/questions/QuestionEdit";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Details",
   components: {
     QuestionEdit,
-    SurveyOptions,
+    SurveyDetailOptions,
     AnswersItem,
     AnswerEdit,
     AnswerAdd,
@@ -107,6 +107,7 @@ export default {
   },
   computed: mapGetters([
     "question_detail",
+    "all_questions",
     "current_user",
     "is_login",
     "onFilter"
@@ -122,6 +123,13 @@ export default {
     ]),
     cancel() {
       // Return to Home
+      const found_question = this.all_questions.find(
+        question => question.id == this.question_detail.id
+      );
+      if (!found_question) {
+        // we check if the question id exists in the questios lists
+        this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
+      }
       this.$router.push({
         name: "home",
         params: { scrollInto: `${this.question_detail.id}` }
@@ -150,9 +158,11 @@ export default {
         this.addVote(vote).then(() => {
           this.disable_btn = true; // after vote is successfull
           this.disable_radio = true; // we disable submit and radio
-          if (this.onFilter.filter == "not-voted") {
-            // if the user returned to not-voted lists survey
-            // the question will be remove from the not voted lists,
+          const found_question = this.all_questions.find(
+            question => question.id == this.question_detail.id
+          );
+          if (!found_question) {
+            // we check if the question id exists in the questios lists
             this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
           }
 

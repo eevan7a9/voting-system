@@ -1,5 +1,4 @@
 import axios from 'axios';
-import router from "../router";
 
 const state = {
     questions: [], // lists of questions from database
@@ -22,21 +21,16 @@ const getters = {
     pagination: state => state.paginate
 }
 const actions = {
-    getQuestionDetails: ({ commit, state }, id) => {
-        const found_question = state.questions.find(question => question.id == id);
-        if (found_question) {
-            axios.get(`questions/${found_question.id}`)
-                .then(res => {
-                    const question = res.data
-                    commit("setQuestionDetails", question);
-                })
-                .catch(err => {
-                    alert(err);
-                })
+    getQuestionDetails: ({ commit }, id) => {
+        axios.get(`questions/${id}`)
+            .then(res => {
+                const question = res.data
+                commit("setQuestionDetails", question);
+            })
+            .catch(err => {
+                alert(err);
+            })
 
-        } else {
-            router.push("/")
-        }
     },
     resetQuestionDetails: ({ commit }) => {
         commit("clearQuestionDetails")

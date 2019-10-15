@@ -152,6 +152,8 @@ export default {
   border: 3px solid #1583c7;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  -webkit-box-shadow: 4px 9px 17px -8px #000000;
+  box-shadow: 4px 9px 17px -8px #000000;
 }
 .sorter h2,
 .filter h2,

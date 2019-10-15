@@ -32,6 +32,9 @@
         v-if="question.answers.length == 0"
       >None</div>
     </div>
+    <div class="empty" v-if="all_questions.length === 0">
+      <h1>EMPTY</h1>
+    </div>
   </div>
 </template>
 
@@ -108,5 +111,11 @@ a {
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+}
+.empty {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
