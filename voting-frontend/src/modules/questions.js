@@ -4,7 +4,16 @@ import router from "../router";
 const state = {
     questions: [], // lists of questions from database
     question: {}, // single question for details
-    filtered: { sorter: "newest", filter: "all" }
+    filtered: { sorter: "newest", filter: "all" },
+    paginate: {
+        current_page: null,
+        first_page_url: null,
+        last_page: null,
+        last_page_url: null,
+        next_page_url: null,
+        path: null,
+        prev_page_url: null,
+    }
 }
 const getters = {
     all_questions: state => state.questions,
@@ -34,7 +43,7 @@ const actions = {
     getQuestions: async ({ commit }) => {
         await axios.get('/questions')
             .then(res => {
-                commit("setQuestions", res.data);
+                commit("setQuestions", res.data.data);
             });
     },
     resetQuestions: ({ commit }) => {
@@ -204,7 +213,7 @@ const actions = {
         if (operation.sorter == "newest" && operation.filter == "all") {
             return await axios.get('/questions')
                 .then(res => {
-                    commit("setQuestions", res.data);
+                    commit("setQuestions", res.data.data);
                     commit("setFilter", { sorter: operation.sorter, filter: operation.filter });
                     return "success";
                 });
@@ -217,7 +226,7 @@ const actions = {
             })
                 .then(res => {
                     // console.log(res)
-                    commit("setQuestions", res.data);
+                    commit("setQuestions", res.data.data);
                     commit("setFilter", { sorter: operation.sorter, filter: operation.filter }); // set state filter to true
                     return { message: `Success, sorted to: ${operation.sorter} and filtered by ${operation.filter}`, error: false };
                 })
