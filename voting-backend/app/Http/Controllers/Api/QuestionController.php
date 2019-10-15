@@ -20,7 +20,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('created_at', 'desc')->get(); // order by newest
+        $questions = Question::orderBy('created_at', 'desc')->paginate(3); // order by newest
         foreach ($questions as $question) {
             $question->answers->makeHidden('votes'); // we want to show the hasMany retationship of question
         }
