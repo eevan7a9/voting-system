@@ -96,18 +96,29 @@ export default {
       "showAlert",
       "closeAlert",
       "filterQuestions",
+      "getQuestions",
       "onLoader",
       "offLoader"
     ]),
     getQuestion() {
       this.onLoader();
       if (this.is_login) {
-        this.filterQuestions({ sorter: this.sorter, filter: this.filter }).then(
-          res => {
+        if (this.sorter == "newest" && this.filter == "all") {
+          this.getQuestions().then(() => {
+            this.showAlert({
+              message: "Success, sorted to: newest and filtered by all"
+            });
+            this.offLoader();
+          });
+        } else {
+          this.filterQuestions({
+            sorter: this.sorter,
+            filter: this.filter
+          }).then(res => {
             this.showAlert(res);
             this.offLoader();
-          }
-        );
+          });
+        }
       } else {
         this.showAlert({
           message: "Only loged in users can use Sorter and Filter",

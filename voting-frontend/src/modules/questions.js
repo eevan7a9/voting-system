@@ -41,8 +41,9 @@ const actions = {
     resetQuestionDetails: ({ commit }) => {
         commit("clearQuestionDetails")
     },
-    getQuestions: async ({ commit }) => {
-        await axios.get('/questions')
+    getQuestions: async ({ commit }, path) => {
+        const url = path || '/questions';
+        await axios.get(url)
             .then(res => {
                 commit("setPagination", res.data);
                 commit("setQuestions", res.data.data);
@@ -212,32 +213,24 @@ const actions = {
             });
     },
     filterQuestions: async ({ commit, rootState }, operation) => {
-        if (operation.sorter == "newest" && operation.filter == "all") {
-            return await axios.get('/questions')
-                .then(res => {
-                    commit("setQuestions", res.data.data);
-                    commit("setFilter", { sorter: operation.sorter, filter: operation.filter });
-                    commit("setPagination", res.data);
-                    return "success";
-                });
-        } else {
-            return await axios.get(`questions/filter/${operation.sorter}/${operation.filter}`, {
-                headers: {
-                    "Accept": "application/json",
-                    "Authorization": `Bearer ${rootState.users.user_token}`
-                }
+        const url = operation.url || `questions/filter/${operation.sorter}/${operation.filter}`;
+        return await axios.get(url, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.users.user_token}`
+            }
+        })
+            .then(res => {
+                commit("setQuestions", res.data.data);
+                commit("setFilter", { sorter: operation.sorter, filter: operation.filter }); // set state filter to true
+                commit("setPagination", res.data);
+                return { message: `Success, sorted to: ${operation.sorter} and filtered by ${operation.filter}`, error: false };
             })
-                .then(res => {
-                    commit("setQuestions", res.data.data);
-                    commit("setFilter", { sorter: operation.sorter, filter: operation.filter }); // set state filter to true
-                    commit("setPagination", res.data);
-                    return { message: `Success, sorted to: ${operation.sorter} and filtered by ${operation.filter}`, error: false };
-                })
-                .catch(err => {
-                    alert(err);
-                    return { message: "Something went wrong", error: true };
-                })
-        }
+            .catch(err => {
+                alert(err);
+                return { message: "Something went wrong", error: true };
+            })
+
     },
 }
 const mutations = {
