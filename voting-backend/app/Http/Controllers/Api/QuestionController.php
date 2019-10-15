@@ -20,7 +20,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('created_at', 'desc')->paginate(3); // order by newest
+        $questions = Question::orderBy('created_at', 'desc')->paginate(4); // order by newest
         foreach ($questions as $question) {
             $question->answers->makeHidden('votes'); // we want to show the hasMany retationship of question
         }
@@ -126,7 +126,7 @@ class QuestionController extends Controller
 
         switch ($filter) {
             case 'all':
-                $questions = Question::orderBy('created_at', $order)->get(); // order by newest
+                $questions = Question::orderBy('created_at', $order)->paginate(4); // order by newest
                 foreach ($questions as $question) {
                     $question->answers->makeHidden('votes'); // we want to show the hasMany retationship of question
                 }
@@ -135,14 +135,14 @@ class QuestionController extends Controller
                 $questions = Question::with('answers')->whereDoesntHave('votes', function ($vote) {
                     $user_id = Auth::user()->id;
                     $vote->where('user_id', $user_id);
-                })->orderBy('created_at', $order)->get();
+                })->orderBy('created_at', $order)->paginate(4);
 
                 break;
             default: // we get if user voted on the question
                 $questions = Question::with('answers')->whereHas('votes', function ($vote) {
                     $user_id = Auth::user()->id;
                     $vote->where('user_id', $user_id);
-                })->orderBy('created_at', $order)->get();
+                })->orderBy('created_at', $order)->paginate(4);
 
                 break;
         }

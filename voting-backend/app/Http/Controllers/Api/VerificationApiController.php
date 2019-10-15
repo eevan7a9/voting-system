@@ -49,7 +49,7 @@ class VerificationApiController extends Controller
         $user->email_verified_at = $date; // to enable the “email_verified_at"
 
         $user->save();
-        return redirect('https://survey-maker.netlify.com/#/login'); // redirect to the application
+        return redirect('http://localhost:8080/#/login'); // redirect to the application
     }
 
     /**

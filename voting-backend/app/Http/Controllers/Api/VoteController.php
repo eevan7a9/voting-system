@@ -50,10 +50,9 @@ class VoteController extends Controller
             $vote->answer_id = $request->answer_id;
             $vote->user_id = $request->user_id;
             $vote->save();
-
+            $vote->message = "Success, Vote submitted";
             return response()->json($vote);
         }
-
     }
 
     /**
