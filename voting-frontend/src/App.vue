@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-lightdient">
+  <div id="app" class="bg-white">
     <Navbar class="navbar" />
     <Alert />
     <!-- <h3>{{ current_user }} user session</h3> -->
@@ -37,22 +37,17 @@ export default {
     Footer
   },
   computed: {
-    ...mapGetters(["loader", "current_user", "is_login"])
+    ...mapGetters(["loader", "current_user", "is_login", "all_questions"])
   },
   methods: {
-    ...mapActions(["onLoader", "offLoader", "getUserInfo"])
+    ...mapActions(["getUserInfo"])
   },
   created() {
     if (this.is_login) {
-      this.onLoader();
       // check is user is login
       if (Object.keys(this.current_user).length == 0) {
         // get user's info
-        this.getUserInfo().then(() =>
-          setTimeout(() => {
-            this.offLoader();
-          }, 1000)
-        );
+        this.getUserInfo();
       }
     }
   }

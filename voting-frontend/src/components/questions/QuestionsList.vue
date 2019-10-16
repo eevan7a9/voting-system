@@ -84,12 +84,11 @@ export default {
     }
   },
   created() {
-    // we are using Free limited server resource,
-    // we want to get questions from server once
+    // incase questions are empty
     if (this.all_questions.length < 1) {
       this.onLoader();
       this.getQuestions().then(() => this.offLoader());
-    }
+    } // fetch questions
   }
 };
 </script>

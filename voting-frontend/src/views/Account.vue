@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper mgt-1">
     <div class="creadentials borad-2">
-      <div class="inner-creadentials pady-3 padx-2">
-        <label class="pady-1 fs-18 fw-bolder ls-1 mgt-1">Username :</label>
-        <p class="pady-1 fs-18 ls-1 bg-white mgt-1">{{ current_user.name }}</p>
-        <label class="pady-1 fs-18 fw-bolder ls-1 mgt-1">Email Address :</label>
-        <p class="pady-1 fs-18 ls-1 bg-white mgt-1">{{ current_user.email }}</p>
-        <label class="pady-1 fs-18 fw-bolder ls-1 mgt-1">Joined :</label>
-        <p class="pady-1 fs-18 ls-1 bg-white mgt-1">{{ current_user.created_at }}</p>
+      <div class="inner-creadentials pady-3 padx-1">
+        <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Username :</label>
+        <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.name }}</p>
+        <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Email :</label>
+        <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.email }}</p>
+        <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Joined :</label>
+        <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.created_at }}</p>
       </div>
       <div class="settings">
         <div class="inner-setting">
-          <label class="padx-1">Reset Password</label>
+          <label class="padx-1">Edit Password</label>
           <router-link :to="{name:'updatepassword'}">
             <button class="pady-1 fs-18 light borad-1 padx-1 bg-bluedient pointer">Update Password</button>
           </router-link>
@@ -21,20 +21,20 @@
     <div class="activity mgt-1">
       <div class="voted-questions pady-2 padx-1">
         <h2 class="pady-1 tx-upp">Recently voted surveys</h2>
-        <div class="inner-voted bg-lightdient pady-1 padx-5-px">
+        <div class="inner-voted pady-1 padx-5-px">
           <div class="mgt-1 pady1" v-for="(question, index) in current_user.votes" :key="index">
             <router-link :to="{ name:'details', params:{questionId:question.question.id}}">
-              <h4 class="pointer ls-1">{{ question.question.title }}</h4>
+              <p class="pointer ls-1">{{ question.question.title }}</p>
             </router-link>
           </div>
         </div>
       </div>
       <div class="asked-questions pady-2 padx-1">
         <h2 class="pady-1 tx-upp">Recently asked surveys</h2>
-        <div class="inner-asked bg-lightdient pady-1 padx-5-px">
+        <div class="inner-asked pady-1 padx-5-px">
           <div class="mgt-1 pady1" v-for="(question, index) in current_user.questions" :key="index">
             <router-link :to="{ name:'details', params:{questionId:question.id}}">
-              <h4 class="pointer ls-1">{{ question.title }}</h4>
+              <p class="pointer ls-1">{{ question.title }}</p>
             </router-link>
           </div>
         </div>
@@ -51,10 +51,18 @@ export default {
     ...mapGetters(["current_user"])
   },
   methods: {
-    ...mapActions(["getAccountInfo", "onLoader", "offLoader"])
+    ...mapActions(["getUserInfo", "getAccountInfo", "onLoader", "offLoader"])
   },
   created() {
-    this.getAccountInfo();
+    this.onLoader();
+    if (Object.keys(this.current_user).length == 0) {
+      // get user's info
+      this.getUserInfo().then(() =>
+        this.getAccountInfo().then(() => this.offLoader())
+      );
+    } else {
+      this.getAccountInfo().then(() => this.offLoader());
+    }
   }
 };
 </script>
@@ -80,7 +88,7 @@ a {
 }
 .inner-creadentials {
   display: grid;
-  grid-template-columns: minmax(100px, 200px) 1fr;
+  grid-template-columns: minmax(50px, 200px) auto;
 }
 .inner-creadentials label {
   text-align: right;
@@ -113,10 +121,16 @@ a {
   border-bottom: 3px solid #1583c7;
   border-top: 3px solid #1583c7;
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .creadentials {
     grid-template-columns: 1fr;
     padding-bottom: 20px;
+  }
+  .inner-creadentials label {
+    text-align: right;
+  }
+  .activity {
+    grid-template-columns: 1fr;
   }
 }
 </style>
