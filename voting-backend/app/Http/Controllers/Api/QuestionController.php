@@ -150,5 +150,11 @@ class QuestionController extends Controller
         return response()->json($questions);
 
     }
+    public function searchQuestions(Request $request)
+    {
+        $find = $request->title;
+        $questions = Question::with('answers')->where('title', 'LIKE', '%' . $find . '%')->orWhere('description', 'LIKE', '%' . $find . '%')->orderBy('created_at', $request->sort)->paginate(4);
+        return response()->json($questions);
+    }
 
 }

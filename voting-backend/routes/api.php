@@ -46,6 +46,8 @@ Route::post('/login', 'Api\AuthController@login');
 Route::post('/register', 'Api\AuthController@register');
 // custom controller for our Questions resouce controller for :filtering and sorting
 Route::get('questions/filter/{sort?}/{filter?}', 'Api\QuestionController@filtered');
+// custom method for Question resource controller for :searching questions
+Route::post('questions/search/', 'Api\QuestionController@searchQuestions'); // req : title, sort
 // Resource Controller for Questions
 Route::resource('questions', 'Api\QuestionController');
 // Resource Controller for Ansers
