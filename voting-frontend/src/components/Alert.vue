@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="padx-3">
     <transition-group name="bounce" mode="out-in">
       <div v-for="(alert_user, index) in alert_users" :key="alert_user.message.length + index">
         <div

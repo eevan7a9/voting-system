@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="wrapper bg-bluedient mgt-2 mgb-1"
+      class="wrapper bg-bluedient mgt-2 mgb-3"
       v-for="(question, index) in all_questions"
       :key="index"
     >
@@ -103,11 +103,21 @@ hr {
   margin: auto;
 }
 .wrapper {
+  margin-right: auto;
+  margin-left: auto;
   border: 3px solid #1583c7;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+  width: 98%;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
+}
+.wrapper:hover {
+  transition: 0.5s;
+  transition-delay: 1s;
+  width: 100%;
+  -webkit-box-shadow: 7px 12px 19px -9px #000000;
+  box-shadow: 7px 12px 19px -9px #000000;
 }
 .question-container {
   border-top-right-radius: 10px;
