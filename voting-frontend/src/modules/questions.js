@@ -196,7 +196,7 @@ const actions = {
             }
         })
             .then(res => {
-                if (state.filtered.filter == "all") {
+                if (state.filtered.filter == "all" || state.filtered.filter == "search") {
                     commit("insertNewVote", res.data);
                 } else {
                     commit("insertNewVote", res.data);

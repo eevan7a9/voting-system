@@ -47,7 +47,7 @@
       <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
           @click="cancel"
-          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 dark bg-lightdient tx-cap pointer"
+          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 blue bg-lightdient tx-cap pointer"
         >cancel</button>
         <button
           :disabled="disable_btn"
@@ -144,32 +144,40 @@ export default {
       this.disable_radio = true;
     },
     submit() {
-      // Submittinga Vote
-      if (!this.selected_answer.id) {
-        // if user did not select any answers
+      if (!this.is_login) {
         this.showAlert({
-          message: "you have not selected any of the choices",
+          message: "You can't vote if you're not logged in",
           error: true
         });
+        this.$router.push({ name: "login" });
       } else {
-        const vote = {
-          answer_id: this.selected_answer.id,
-          user_id: this.current_user.id,
-          question_id: this.question_detail.id
-        };
-        this.onLoader();
-        this.addVote(vote).then(res => {
-          this.disable_btn = true; // after vote is successfull
-          this.disable_radio = true; // we disable submit and radio
-          const found_question = this.all_questions.find(
-            question => question.id == this.question_detail.id
-          );
-          if (!found_question) {
-            // we check if the question id exists in the questios lists
-            this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
-          }
-          this.showAlert({ message: res }).then(() => this.offLoader());
-        });
+        // Submittinga Vote
+        if (!this.selected_answer.id) {
+          // if user did not select any answers
+          this.showAlert({
+            message: "you have not selected any of the choices",
+            error: true
+          });
+        } else {
+          const vote = {
+            answer_id: this.selected_answer.id,
+            user_id: this.current_user.id,
+            question_id: this.question_detail.id
+          };
+          this.onLoader();
+          this.addVote(vote).then(res => {
+            this.disable_btn = true; // after vote is successfull
+            this.disable_radio = true; // we disable submit and radio
+            const found_question = this.all_questions.find(
+              question => question.id == this.question_detail.id
+            );
+            if (!found_question) {
+              // we check if the question id exists in the questios lists
+              this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
+            }
+            this.showAlert({ message: res }).then(() => this.offLoader());
+          });
+        }
       }
     },
     exitEditMode() {
@@ -191,7 +199,7 @@ export default {
       }, 1000);
     });
     if (!this.is_login) {
-      this.disableSubmit();
+      // this.disableSubmit();
       const content = {
         message: `Ooops only "Logged in" users are allowed to vote.`,
         error: 1
