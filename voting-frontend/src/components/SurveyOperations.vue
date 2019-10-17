@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ onFilter }} {{ filter }}
     <div class="wrapper pady-2 padx-2 bg-white borad-2">
       <div class="sorter">
         <h2 class="tx-upp fs-large">sorter</h2>
@@ -66,6 +67,17 @@
               @change="getQuestion"
             />
           </li>
+          <li>
+            <p class="pady-8-px tx-cap fs-18">Search Bar</p>
+            <input
+              type="radio"
+              name="filter"
+              v-model="filter"
+              :disabled="!is_login"
+              value="search"
+              @change="getQuestion"
+            />
+          </li>
         </ul>
       </div>
       <div class="create">
@@ -109,6 +121,11 @@ export default {
       sorter: "newest",
       filter: "all"
     };
+  },
+  watch: {
+    onFilter: function(newValue) {
+      this.filter = newValue.filter;
+    }
   },
   computed: mapGetters(["is_login", "onFilter"]),
   methods: {

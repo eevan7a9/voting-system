@@ -12,13 +12,15 @@ const state = {
         next_page_url: null,
         path: null,
         prev_page_url: null,
-    }
+    },
+    search: ""
 }
 const getters = {
     all_questions: state => state.questions,
     question_detail: state => state.question,
     onFilter: state => state.filtered,
-    pagination: state => state.paginate
+    pagination: state => state.paginate,
+    mySearch: state => state.search
 }
 const actions = {
     getQuestionDetails: ({ commit }, id) => {
@@ -224,8 +226,22 @@ const actions = {
                 alert(err);
                 return { message: "Something went wrong", error: true };
             })
-
     },
+    searchQuestions: async ({ commit }, { find, sorter }) => {
+        return await axios.post(`questions/search`, {
+            find: find,
+            sort: sorter
+        })
+            .then(res => {
+                commit("setQuestions", res.data.data);
+                commit("setFilter", { sorter: sorter, filter: "search" }); // set state filter to true
+                commit("setPagination", res.data);
+                commit("setMySearch", find);
+            })
+            .catch(err => {
+                alert(err);
+            });
+    }
 }
 const mutations = {
     setQuestions: (state, questions) => state.questions = questions,
@@ -288,7 +304,8 @@ const mutations = {
         state.paginate.next_page_url = data.next_page_url;
         state.paginate.path = data.path;
         state.paginate.prev_page_url = data.prev_page_url;
-    }
+    },
+    setMySearch: (state, search) => state.search = search,
 }
 export default {
     state,

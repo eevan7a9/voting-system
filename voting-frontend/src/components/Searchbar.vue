@@ -8,6 +8,7 @@
         @focus="focuse = 1"
         @blur="focuse = 0"
         placeholder="Search..."
+        v-model="find_question"
       />
       <svg
         id="img"
@@ -31,16 +32,24 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Searchbar",
   data() {
     return {
-      focuse: 0
+      focuse: 0,
+      find_question: ""
     };
   },
+  computed: mapGetters(["onFilter"]),
   methods: {
+    ...mapActions(["searchQuestions", "onLoader", "offLoader"]),
     search() {
-      alert("toggled");
+      this.onLoader();
+      this.searchQuestions({
+        find: this.find_question,
+        sorter: this.onFilter.sorter
+      }).then(() => this.offLoader());
     }
   }
 };
@@ -49,12 +58,11 @@ export default {
 <style scoped>
 .wrapper {
   border: 3px solid #1583c7;
-  width: 350px;
+  width: 100%;
   margin-left: 30px;
   transition: 1s;
 }
 .focuse {
-  flex-grow: 1;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }

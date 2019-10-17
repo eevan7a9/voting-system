@@ -11,7 +11,7 @@ class QuestionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index', 'show']);
+        $this->middleware('auth:api')->except(['index', 'show', 'searchQuestions']);
     }
     /**
      * Display a listing of the resource.
@@ -152,8 +152,9 @@ class QuestionController extends Controller
     }
     public function searchQuestions(Request $request)
     {
-        $find = $request->title;
-        $questions = Question::with('answers')->where('title', 'LIKE', '%' . $find . '%')->orWhere('description', 'LIKE', '%' . $find . '%')->orderBy('created_at', $request->sort)->paginate(4);
+        $order = $request->sort == "newest" ? "desc" : "asc"; // check if not newest then sort to oldest
+        $find = $request->find;
+        $questions = Question::with('answers')->where('title', 'LIKE', '%' . $find . '%')->orWhere('description', 'LIKE', '%' . $find . '%')->orderBy('created_at', $order)->paginate(4);
         return response()->json($questions);
     }
 
