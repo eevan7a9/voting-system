@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ onFilter }} {{ filter }}
     <div class="wrapper pady-2 padx-2 bg-white borad-2">
       <div class="sorter">
         <h2 class="tx-upp fs-large">sorter</h2>
@@ -108,6 +107,7 @@
           </div>
         </button>
       </div>
+      <p v-if="!is_login" class="notifier red">Only Logged In users can use Filter & Sort</p>
     </div>
   </div>
 </template>
@@ -127,12 +127,13 @@ export default {
       this.filter = newValue.filter;
     }
   },
-  computed: mapGetters(["is_login", "onFilter"]),
+  computed: mapGetters(["is_login", "onFilter", "mySearch"]),
   methods: {
     ...mapActions([
       "showAlert",
       "closeAlert",
       "filterQuestions",
+      "searchQuestions",
       "getQuestions",
       "onLoader",
       "offLoader"
@@ -140,7 +141,12 @@ export default {
     getQuestion() {
       this.onLoader();
       if (this.is_login) {
-        if (this.sorter == "newest" && this.filter == "all") {
+        if (this.filter == "search") {
+          this.searchQuestions({
+            find: this.mySearch,
+            sorter: this.sorter
+          }).then(() => this.offLoader());
+        } else if (this.sorter == "newest" && this.filter == "all") {
           this.getQuestions().then(() => {
             this.showAlert({
               message: "Success, sorted to: newest and filtered by all"
@@ -189,6 +195,7 @@ export default {
   border: 3px solid #1583c7;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
@@ -229,6 +236,9 @@ button p {
   button div {
     justify-content: center;
   }
+}
+.notifier{
+  margin-top:10px;
 }
 @media (max-width: 490px) {
   .wrapper {

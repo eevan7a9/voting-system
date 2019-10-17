@@ -71,6 +71,8 @@ button:disabled:hover {
 .page-info {
   margin-top: auto;
   margin-bottom: auto;
+  min-width: 100px;
+  text-align: center;
 }
 @media (max-width: 700px) {
   button {

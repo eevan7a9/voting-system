@@ -2,7 +2,7 @@
   <div class="pady-3">
     <div class="wrapper pady-2 bg-white borad-1" v-if="!edit_answer">
       <section id="question">
-        <h1 class="create pady-1 padx-2 tx-upp blue">Create Question</h1>
+        <h1 class="create padx-2 tx-upp blue">Create Survey</h1>
         <div class="create-container pady-1 padx-3">
           <div class="title-container">
             <label for="title" class="pady-1 fs-18 tx-upp">title :</label>
@@ -17,7 +17,7 @@
               v-model="description"
               id="description"
               cols="30"
-              rows="4"
+              rows="2"
             ></textarea>
             <label for="additional_info" class="pady-1 fs-13 tx-upp">additional info (optional):</label>
             <editor
@@ -27,7 +27,7 @@
               :html="editorHtml"
               :visible="editorVisible"
               previewStyle="vertical"
-              height="500px"
+              height="300px"
               mode="wysiwyg"
             />
           </div>
@@ -72,9 +72,9 @@ export default {
   },
   data() {
     return {
-      title: "Question Title",
-      description: "Description here",
-      additional_info: "Additional info",
+      title: "",
+      description: "",
+      additional_info: "",
       error: {
         message: ""
       },
@@ -143,6 +143,9 @@ export default {
 label {
   min-width: 100px;
   text-align: left;
+}
+.editor {
+  font-size: 20px;
 }
 .create {
   text-align: center;

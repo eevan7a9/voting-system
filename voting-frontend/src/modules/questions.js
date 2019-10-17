@@ -241,7 +241,8 @@ const actions = {
             .catch(err => {
                 alert(err);
             });
-    }
+    },
+    searchErase: ({ commit }) => commit("clearSearch"),
 }
 const mutations = {
     setQuestions: (state, questions) => state.questions = questions,
@@ -306,6 +307,7 @@ const mutations = {
         state.paginate.prev_page_url = data.prev_page_url;
     },
     setMySearch: (state, search) => state.search = search,
+    clearSearch: state => state.search = ""
 }
 export default {
     state,

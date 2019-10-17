@@ -97,4 +97,7 @@ export default {
   background: #e2a176;
   color: #b13010;
 }
+.bounce-leave-active {
+  animation: bounce-in 0 reverse;
+}
 </style>

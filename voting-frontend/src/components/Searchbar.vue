@@ -27,6 +27,23 @@
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
+      <div class="icon-divider bg-bluedient"></div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="35"
+        height="35"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-x red pointer clear"
+        @click="clear"
+      >
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
     </div>
   </div>
 </template>
@@ -43,13 +60,25 @@ export default {
   },
   computed: mapGetters(["onFilter"]),
   methods: {
-    ...mapActions(["searchQuestions", "onLoader", "offLoader"]),
+    ...mapActions([
+      "searchQuestions",
+      "searchErase",
+      "getQuestions",
+      "onLoader",
+      "offLoader"
+    ]),
     search() {
       this.onLoader();
       this.searchQuestions({
         find: this.find_question,
         sorter: this.onFilter.sorter
       }).then(() => this.offLoader());
+    },
+    clear() {
+      this.onLoader();
+      this.searchErase();
+      this.find_question = "";
+      this.getQuestions().then(() => this.offLoader());
     }
   }
 };
@@ -68,7 +97,7 @@ export default {
 }
 .search-wrapper {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto 23px auto;
 }
 .search-wrapper input {
   width: 100%;
@@ -76,6 +105,14 @@ export default {
 }
 .search-wrapper input:focus {
   border: 3px solid #1583c7;
+}
+.icon-divider {
+  margin-left: 10px;
+  margin-right: 10px;
+  background: grey;
+}
+.clear {
+  margin: auto;
 }
 @media (max-width: 700px) {
   .wrapper {
