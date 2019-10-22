@@ -212,6 +212,7 @@ export default {
 .sorter li,
 .filter li {
   display: flex;
+  align-items: center;
 }
 .sorter li p,
 .filter li p {
@@ -237,8 +238,8 @@ button p {
     justify-content: center;
   }
 }
-.notifier{
-  margin-top:10px;
+.notifier {
+  margin-top: 10px;
 }
 @media (max-width: 490px) {
   .wrapper {
