@@ -41,5 +41,30 @@ class QuestionsSeeder extends Seeder
             "title" => "What do you do to improve your mood when you are in a bad mood?",
             "description" => "In psychology, a mood is an emotional state. In contrast to emotions, feelings, or affects, moods are less specific, less intense and less likely to be provoked or instantiated by a particular stimulus or event. Moods are typically described as having either a positive or negative valence. In other words, people usually talk about being in a good mood or a bad mood.",
         ]);
+        Question::create([
+            "id" => 5,
+            "user_id" => 1,
+            "title" => "What do you think is the Best CMS of 2019?",
+            "description" => "Content plays a major role in the journey of building your online presence and brand. Without it, you're going to struggle in today’s ruthless business world. In fact, digital marketing is arguably one of the most important areas of commerce, although it’s often neglected.",
+            "additional_info" => "
+# [WordPress](https://wordpress.com/)
+
+| Pros | Cons |
+| ---- | ---- |
+| Loads of tools | Learning Curve |
+| Great selection of themes |  |
+| Affordably priced business plan |  |
+
+# [Squarespace](https://www.squarespace.com/)
+
+| Pros | Cons |
+| ---- | ---- |
+| Beginner friendly | Not Opensource |
+| Intuitive UI |  |
+| Loads of themes |  |
+
+# Others:",
+        ]);
+
     }
 }
