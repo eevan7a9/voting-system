@@ -92,7 +92,9 @@ const actions = {
         }
     },
     deleteQuestion: async ({ commit, rootState }, id) => {
-        return await axios.delete(`/questions/${id}`, {
+        return await axios.post(`/questions/${id}`,{
+            _method: 'delete'
+        },{
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${rootState.users.user_token}`
