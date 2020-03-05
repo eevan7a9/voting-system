@@ -1,24 +1,21 @@
 <template>
-  <div>
-    <div class="wrapper pady-2 mgt-2 bg-white borad-1">
-      <h1 class="login pady-1 padx-2 tx-upp blue">login</h1>
+  <div class="wrapper">
+    <div class="login pady-2 bg-white borad-1">
+      <h1 class="pady-1 padx-1 tx-upp blue" style="text-align:center">login</h1>
       <form @submit.prevent="submit">
-        <div class="email-container mgt-2 padx-1">
-          <label for="email" class="tx-upp padx-1 pady-1">email</label>
+        <div class="input-container">
           <input
             type="email"
-            class="fs-20 padx-1 borad-2"
-            v-model="user.email"
+            class="fs-20 padx-1 pady-1 borad-2 mgb-1 mgx-1"
+            v-model.trim="user.email"
             id="email"
             placeholder="EMAIL"
           />
-        </div>
-        <div class="password-container mgt-2 padx-1">
-          <label for="password" class="tx-upp padx-1 pady-1">password</label>
+
           <input
             type="password"
-            class="fs-20 padx-1 borad-2"
-            v-model="user.password"
+            class="fs-20 padx-1 pady-1 borad-2 mgb-1 mgx-1"
+            v-model.trim="user.password"
             id="password"
             placeholder="PASSWORD"
           />
@@ -28,7 +25,6 @@
             type="submit"
             class="pady-1 padx-2 borad-1 bg-bluedient light fs-20 pointer"
           >Submit</button>
-
           <p class="pady-1">
             <router-link to="/password/email" class="blue">Forgot Password?</router-link>
           </p>
@@ -45,8 +41,8 @@ export default {
   data() {
     return {
       user: {
-        email: "",
-        password: ""
+        email: "user1@gmail.com",
+        password: "secret"
       }
     };
   },
@@ -95,24 +91,23 @@ input {
   border: 3px solid #1583c7;
 }
 .wrapper {
-  border: 3px solid #1583c7;
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-  -webkit-box-shadow: 4px 9px 17px -8px #000000;
-  box-shadow: 4px 9px 17px -8px #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .login {
+  border: 3px solid #1583c7;
+  width: 600px;
+  -webkit-box-shadow: 4px 9px 17px -8px #000000;
+  box-shadow: 4px 9px 17px -8px #000000;
+  position: relative;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+.input-container input {
   text-align: center;
-}
-.email-container,
-.password-container {
-  display: grid;
-  grid-template-columns: minmax(100px, 150px) 1fr;
-  padding-right: 50px;
-}
-label {
-  text-align: right;
 }
 .submit-container {
   text-align: center;
@@ -128,23 +123,12 @@ p {
   margin-right: auto;
   margin-left: auto;
 }
-@media (max-width: 800px) {
-  label {
-    text-align: center;
-  }
-  input {
-    padding: 20px;
-    text-align: center;
-    width: 100%;
-  }
-  .email-container,
-  .password-container {
-    grid-template-columns: 1fr;
-    padding: 10px;
-  }
-}
 @media (max-width: 600px) {
   .wrapper {
+    padding-top: 2rem;
+    display: block;
+  }
+  .login {
     width: 100%;
   }
 }
