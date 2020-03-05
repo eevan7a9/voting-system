@@ -6,13 +6,11 @@
       <viewer :value="additional_info" />
     </div>
     <transition-group name="slide-fade">
-      <div
-        class="answers-cont mgt-3-px"
-        v-for="(answer, index) in answers"
-        :key="answer.title + index"
-      >
+      <div class="answers-cont mgt-3-px" v-for="(answer) in answers" :key="answer.title">
         <div class="answers pady-1 padx-2 bg-bluedient light fw-bold">
-          <p class="fs-18">{{ answer.title }}</p>
+          <p class="fs-18">{{ answer.title | truncate(30,'...') }}</p>
+
+          <img src="@/assets/trash-2.svg" alt="delete" @click="removeChoice(answer.title)" />
         </div>
       </div>
     </transition-group>
@@ -68,11 +66,20 @@ export default {
       "showAlert",
       "closeAlert"
     ]),
+    removeChoice(title) {
+      this.answers = this.answers.filter(answer => answer.title != title);
+    },
     addChoice() {
       if (this.choice) {
-        this.answers.push({
-          title: this.choice
-        });
+        const alreadyExists = this.answers.some(
+          answer => answer.title == this.choice
+        );
+        if (!alreadyExists) {
+          this.answers.push({
+            title: this.choice
+          });
+        }
+
         this.choice = "";
       }
     },
@@ -131,6 +138,17 @@ export default {
 .submit-cont {
   display: flex;
   justify-content: space-between;
+}
+.answers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.answers p {
+  overflow: hidden;
+}
+.answers img {
+  cursor: pointer;
 }
 @media (max-width: 700px) {
   .add_choice {
