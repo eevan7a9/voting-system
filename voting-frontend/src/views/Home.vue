@@ -1,12 +1,15 @@
 <template>
-  <div class="home pady-1">
-    <SurveyOperations class="mgt-1" />
-    <div class="wrapper-page-search mgt-2">
-      <SurveyPagination id="paginate" />
-      <Searchbar id="search" />
+  <div>
+    <div class="home container pady-1">
+      <SurveyOperations class="mgt-1" />
+      <div class="wrapper-page-search mgt-2">
+        <SurveyPagination id="paginate" />
+        <Searchbar id="search" />
+      </div>
+      <QuestionsList class="question-lists" :scrollInto="scrollInto" />
+      <SurveyPagination id="bottom_paginate" class="mgb-2" />
     </div>
-    <QuestionsList class="question-lists" :scrollInto="scrollInto" />
-    <SurveyPagination id="bottom_paginate" class="mgb-2" />
+    <Footer />
   </div>
 </template>
 
@@ -16,6 +19,7 @@ import SurveyOperations from "../components/SurveyOperations";
 import QuestionsList from "../components/questions/QuestionsList";
 import SurveyPagination from "../components/SurveyPagination";
 import Searchbar from "../components/Searchbar";
+import Footer from "@/components/Footer";
 import { mapActions } from "vuex";
 
 export default {
@@ -24,7 +28,8 @@ export default {
     SurveyOperations,
     QuestionsList,
     SurveyPagination,
-    Searchbar
+    Searchbar,
+    Footer
   },
   props: {
     scrollInto: String

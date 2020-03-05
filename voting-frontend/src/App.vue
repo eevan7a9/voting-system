@@ -20,21 +20,21 @@
       </div>
     </div>
     <transition name="fade" mode="out-in">
-      <router-view class="container main-view" />
+      <router-view class="main-view" />
     </transition>
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 export default {
   components: {
     Navbar,
-    Alert,
-    Footer
+    Alert
+    // Footer
   },
   computed: {
     ...mapGetters(["loader", "current_user", "is_login", "all_questions"])
