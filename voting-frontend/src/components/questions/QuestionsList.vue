@@ -112,13 +112,7 @@ hr {
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
-.wrapper:hover {
-  transition: 0.5s;
-  transition-delay: 1s;
-  width: 100%;
-  -webkit-box-shadow: 7px 12px 19px -9px #000000;
-  box-shadow: 7px 12px 19px -9px #000000;
-}
+
 .question-container {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;

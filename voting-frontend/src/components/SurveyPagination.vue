@@ -48,12 +48,7 @@ button {
   border: 3px solid #1583c7;
   width: 80px;
 }
-button:hover {
-  -webkit-box-shadow: 4px 9px 17px -8px #000000;
-  box-shadow: 4px 9px 17px -8px #000000;
-  transition: 0.5s;
-  width: 100px;
-}
+
 button:disabled {
   border: 3px solid grey;
   color: grey;
