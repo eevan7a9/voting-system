@@ -1,42 +1,40 @@
 <template>
   <div>
-    <div
-      class="wrapper bg-bluedient mgt-2 mgb-3"
-      v-for="(question, index) in all_questions"
-      :key="index"
-    >
+    <div class="wrapper mgt-2 mgb-3" v-for="(question, index) in all_questions" :key="index">
       <div class="question-container bg-white dark pady-1 padx-2" :id="question.id">
         <!-- <router-link :to="{ name:'details', params:{questionId:question.id}}"> -->
         <div @click="viewQuestion(question.id)">
           <div style="display:flex; justify-content:space-between;">
-            <h2 class="mgb-5-px">{{ question.title }}</h2>
+            <h2 class="question-title mgb-5-px">{{ question.title }}</h2>
             <span>{{question.created_at}}</span>
           </div>
-          <p class="ls-2 pady-1">{{ question.description | truncate(150,'...') }}</p>
+          <p class="question-desc ls-2 pady-1">{{ question.description | truncate(150,'...') }}</p>
         </div>
         <!-- </router-link> -->
       </div>
       <hr class="blue" />
+      <br />
       <div v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
-        <div class="answers pady-1 padx-2 bg-lightdient">
-          <p class="fs-18">{{ answer.title | truncate(30,'...') }}</p>
+        <div class="answers">
+          <p class="fs-18 fw-bold bg-bluedient">{{ answer.title | truncate(30,'...') }}</p>
         </div>
-        <hr class="blue" />
+        <!-- <hr class="blue" /> -->
       </div>
       <div v-if="question.answers.length > 2">
-        <div class="more pady-1 padx-2 bg-lightdient fw-bolder">...</div>
-        <hr class="blue" />
+        <div class="answers fw-bolder">
+          <p class="bg-bluedient more">
+            <img src="@/assets/more-horizontal.svg" alt srcset />
+          </p>
+        </div>
+        <!-- <hr class="blue" /> -->
       </div>
       <router-link :to="{ name:'details', params:{questionId:question.id}}">
         <div
-          class="vote pady-1 padx-2 bg-lightdient fw-bolder tx-upp pointer"
+          class="vote pady-1 padx-2 fw-bolder tx-upp pointer"
           v-if="question.answers.length !== 0"
         >view</div>
       </router-link>
-      <div
-        class="vote pady-1 padx-2 bg-lightdient fw-bolder pointer"
-        v-if="question.answers.length == 0"
-      >None</div>
+      <div class="vote pady-1 padx-2 fw-bolder pointer" v-if="question.answers.length == 0">None</div>
     </div>
     <div class="empty" v-if="all_questions.length === 0">
       <div>
@@ -132,11 +130,21 @@ hr {
   color: #1583c7;
 }
 .answers {
-  max-width: 900px;
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  width: 100%;
+  padding: 0 50px;
+}
+.answers p {
+  margin-top: 6px;
+  padding-left: 20px;
+  color: aliceblue;
+  line-height: 50px;
+  border-radius: 10px;
+}
+.answers > .more {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 0 0 50px;
 }
 .vote {
   max-width: 900px;
@@ -145,11 +153,7 @@ hr {
   margin-right: auto;
   color: #1583c7;
 }
-.more {
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .empty {
   height: 100%;
   display: flex;
