@@ -33,10 +33,10 @@
           </div>
           <div class="submit-container">
             <button
-              @click="cancel"
+              @click="back"
               type="button"
-              class="cancel blue pady-1 mgy-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
-            >Cancel</button>
+              class="back blue pady-1 mgy-3 padx-2 borad-1 bg-lightdient fs-20 pointer"
+            >back</button>
             <button
               @click="next"
               class="pady-1 mgy-3 padx-2 borad-1 bg-bluedient light fs-20 pointer"
@@ -132,7 +132,7 @@ export default {
         this.edit_answer = 1;
       }
     },
-    cancel() {
+    back() {
       this.$router.push("/");
     }
   }
@@ -150,14 +150,17 @@ label {
 .create {
   text-align: center;
 }
-.cancel {
+.back {
   border: 1px solid #1583c7;
+}
+.back:hover {
+  background: aliceblue;
 }
 .wrapper {
   border: 3px solid #1583c7;
   margin-left: auto;
   margin-right: auto;
-  width: 85%;
+  max-width: 800px;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
@@ -180,6 +183,7 @@ label {
 .additional-info textarea {
   width: 100%;
   border: 3px solid #1583c7;
+  resize: vertical;
 }
 .submit-container {
   display: flex;

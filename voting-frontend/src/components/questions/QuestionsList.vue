@@ -6,10 +6,15 @@
       :key="index"
     >
       <div class="question-container bg-white dark pady-1 padx-2" :id="question.id">
-        <router-link :to="{ name:'details', params:{questionId:question.id}}">
-          <h2 class="mgb-5-px">{{ question.title }}</h2>
+        <!-- <router-link :to="{ name:'details', params:{questionId:question.id}}"> -->
+        <div @click="viewQuestion(question.id)">
+          <div style="display:flex; justify-content:space-between;">
+            <h2 class="mgb-5-px">{{ question.title }}</h2>
+            <span>{{question.created_at}}</span>
+          </div>
           <p class="ls-2 pady-1">{{ question.description | truncate(150,'...') }}</p>
-        </router-link>
+        </div>
+        <!-- </router-link> -->
       </div>
       <hr class="blue" />
       <div v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
@@ -76,6 +81,9 @@ export default {
           inline: "center"
         });
       }
+    },
+    viewQuestion(id) {
+      this.$router.push({ name: "details", params: { questionId: id } });
     }
   },
   mounted() {
@@ -117,7 +125,10 @@ hr {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
-.question-container h2:hover {
+.question-container > div {
+  cursor: pointer;
+}
+.question-container div h2:hover {
   color: #1583c7;
 }
 .answers {

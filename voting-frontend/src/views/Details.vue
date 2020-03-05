@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wrapper padx-3 pady-2 mgt-2 mgb-2 borad-1 bg-white">
+  <div class="wrapper">
+    <div class="details padx-3 pady-2 mgt-2 mgb-2 borad-1 bg-white">
       <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
 
       <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
@@ -46,9 +46,9 @@
       <!-- Add Answers Ends -->
       <div class="buttons-container pady-3" v-show="!edit_mode">
         <button
-          @click="cancel"
-          class="cancel pady-1 padx-2 fs-18 fw-bold borad-1 blue bg-lightdient tx-cap pointer"
-        >cancel</button>
+          @click="back"
+          class="back pady-1 padx-2 fs-18 fw-bold borad-1 blue bg-lightdient tx-cap pointer"
+        >back</button>
         <button
           :disabled="disable_btn"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
@@ -120,7 +120,7 @@ export default {
       "addVote",
       "showAlert"
     ]),
-    cancel() {
+    back() {
       // Return to Home
       const found_question = this.all_questions.find(
         question => question.id == this.question_detail.id
@@ -215,12 +215,19 @@ export default {
 
 <style scoped>
 .wrapper {
+  width: 100%;
+  position: relative;
+}
+.details {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
   border: 3px solid #1583c7;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
 .option-icons {
-  max-width: 900px;
+  max-width: 800px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -248,7 +255,7 @@ export default {
   width: 100%;
   text-align: center;
 }
-.cancel,
+.back,
 .submit {
   border: 1px solid #5ab4ec;
 }
@@ -276,7 +283,7 @@ button:disabled:hover {
     padding: 0;
     font-size: 15px;
   }
-  .wrapper {
+  .details {
     padding-left: 0px;
     padding-right: 0px;
   }
