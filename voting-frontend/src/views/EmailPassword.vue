@@ -76,7 +76,7 @@ input {
 }
 .wrapper {
   border: 3px solid #1583c7;
-  width: 70%;
+  width: 700px;
   margin-left: auto;
   margin-right: auto;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;

@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="wrapper mgt-3 bg-white borad-1">
-      <h1 class="register pady-1 padx-2 tx-upp blue">Register</h1>
+  <div class="wrapper">
+    <div class="register mgt-3 bg-white borad-1">
+      <h1 class="pady-1 padx-2 tx-upp blue" style="text-align:center">Register</h1>
       <form @submit="submit">
         <div class="username-container mgt-2 padx-1">
           <label for="username" class="tx-upp padx-1 pady-1">username</label>
@@ -153,14 +153,16 @@ input {
 label {
   width: 100%;
 }
-.register {
-  text-align: center;
-}
 .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.register {
   border: 3px solid #1583c7;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 800px;
   -webkit-box-shadow: 4px 9px 17px -8px #000000;
   box-shadow: 4px 9px 17px -8px #000000;
 }
@@ -190,7 +192,7 @@ label {
     padding: 20px;
     text-align: center;
   }
-  .wrapper {
+  .register {
     width: 100%;
   }
   .username-container,
