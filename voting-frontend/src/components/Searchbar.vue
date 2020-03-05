@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper bg-lightdient pady-1 padx-1 borad-1" :class="{focuse: focuse}">
+  <div class="wrapper pady-1 padx-1 borad-1" :class="{focuse: focuse}">
     <div class="search-wrapper">
       <input
         type="text"
-        class="mgr-1 fs-18 ls-1 dark bg-lightdient borad-1 padx-1"
+        class="mgr-1 fs-18 ls-1 dark borad-1 padx-1"
         @keypress.enter="search"
         @focus="focuse = 1"
         @blur="focuse = 0"
