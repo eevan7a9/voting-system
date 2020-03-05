@@ -4,17 +4,19 @@
       class="answers pady-1 padx-2 light fw-bold"
       v-bind:class="[checked|| selected_answer.id == answer.id? 'active-green' : 'bg-bluedient' ]"
     >
-      <p class="fs-18">{{ answer.title }}</p>
-      <p class="votes padx-1 fs-18">{{ answer.votes.length }}</p>
-      <input
-        class="pointer"
-        type="radio"
-        v-on:change="selectedAnswer"
-        :name="answer.question_id"
-        :value="answer.id"
-        :checked="checked"
-        :disabled="disable_radio"
-      />
+      <div class="choices fs-18">{{ answer.title }}</div>
+      <div class="votes">
+        <p class="padx-1 fs-18">{{ answer.votes.length }}</p>
+        <input
+          class="pointer"
+          type="radio"
+          v-on:change="selectedAnswer"
+          :name="answer.question_id"
+          :value="answer.id"
+          :checked="checked"
+          :disabled="disable_radio"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +61,7 @@ export default {
 <style scoped>
 .answers {
   border: 3px solid #1583c7;
+  position: relative;
   max-width: 900px;
   margin-right: auto;
   margin-left: auto;
@@ -69,5 +72,14 @@ export default {
   border: 3px solid #2bb110;
   background: #76e296;
   color: #289c10;
+}
+.choices {
+  height: auto;
+  overflow-x: hidden;
+}
+.votes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

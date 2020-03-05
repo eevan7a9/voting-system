@@ -19,7 +19,7 @@
       <hr class="blue" />
       <div v-for="(answer, index) in question.answers.slice(0,2)" :key="index">
         <div class="answers pady-1 padx-2 bg-lightdient">
-          <p class="fs-18">{{ answer.title }}</p>
+          <p class="fs-18">{{ answer.title | truncate(30,'...') }}</p>
         </div>
         <hr class="blue" />
       </div>
