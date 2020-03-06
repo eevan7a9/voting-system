@@ -75,7 +75,10 @@ export default {
   methods: {
     ...mapActions(["deleteQuestion", "showAlert"]),
     editQuestion() {
-      this.$emit("edit");
+      this.$router.push({
+        name: "edit",
+        params: { questionId: this.question.id }
+      });
     },
     remove() {
       // Removing the question and all it's answers

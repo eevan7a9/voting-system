@@ -1,26 +1,12 @@
 <template>
   <div class="wrapper">
-    <div class="details padx-3 pady-2 mgt-2 mgb-2 borad-1 bg-white">
-      <h2 class="edit-mode green tx-upp pady-1" v-show="edit_mode">Edit Mode :</h2>
-
-      <div class="question-cont dark pady-1 padx-2" v-show="!edit_mode">
+    <div class="details padx-3 pady-1 mgt-2 borad-1 bg-white">
+      <div class="question-cont dark pady-1 padx-2">
         <h2>{{ question_detail.title }}</h2>
         <p class="ls-2 pady-2">{{ question_detail.description }}</p>
         <viewer class="viewer" :value="question_detail.additional_info" />
       </div>
-      <SurveyDetailOptions
-        class="option-icons"
-        v-show="!edit_mode"
-        @edit="edit"
-        :question="question_detail"
-        :user="current_user"
-      />
-      <!-- Edit Question Starts -->
-      <QuestionEdit
-        :question="{id:question_detail.id, title:question_detail.title, description:question_detail.description, additional_info:question_detail.additional_info}"
-        v-if="edit_mode"
-      />
-      <!-- Edit Question Ends -->
+      <SurveyDetailOptions class="option-icons" :question="question_detail" :user="current_user" />
       <div
         class="answers-cont mgt-1"
         v-for="(answer, index) in question_detail.answers"
@@ -34,17 +20,11 @@
           :disable_radio="disable_radio"
           @selectedAnswer="setSelected"
           @disableSubmit="disableSubmit"
-          v-if="!edit_mode"
         />
         <!-- End of iteration -->
-        <!-- Edit Answers Starts -->
-        <AnswerEdit :answer="answer" v-if="edit_mode" />
-        <!-- Edit Answers Ends -->
       </div>
-      <!-- Add Answers Starts -->
-      <AnswerAdd :question_id="question_detail.id" @newAnswer="addChoice" v-if="edit_mode" />
-      <!-- Add Answers Ends -->
-      <div class="buttons-container pady-3" v-show="!edit_mode">
+
+      <div class="buttons-container pady-1">
         <button
           @click="back"
           class="back pady-1 padx-2 fs-18 fw-bold borad-1 blue bg-lightdient tx-cap pointer"
@@ -58,15 +38,6 @@
           <span v-if="disable_btn">Voted</span>
         </button>
       </div>
-      <!-- Edit Buttons Starts -->
-      <div class="buttons-container pady-1">
-        <button
-          @click="exitEditMode"
-          v-show="edit_mode"
-          class="pady-1 padx-2 fs-18 fw-bold borad-1 light bg-reddient tx-cap pointer"
-        >Exit Edit Mode</button>
-      </div>
-      <!-- Edit Buttons Ends -->
     </div>
   </div>
 </template>
@@ -78,19 +49,14 @@ import "highlight.js/styles/github.css";
 import { Viewer } from "@toast-ui/vue-editor";
 // viewer imports ends
 import AnswersItem from "../components/answers/AnswersItem";
-import AnswerEdit from "../components/answers/AnswerEdit";
-import AnswerAdd from "../components/answers/AnswerAdd";
 import SurveyDetailOptions from "../components/SurveyDetailOptions";
-import QuestionEdit from "../components/questions/QuestionEdit";
+
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Details",
   components: {
-    QuestionEdit,
     SurveyDetailOptions,
     AnswersItem,
-    AnswerEdit,
-    AnswerAdd,
     viewer: Viewer // Viewer compnent
   },
   props: {
@@ -99,7 +65,6 @@ export default {
   data() {
     return {
       selected_answer: {},
-      edit_mode: false,
       disable_btn: false,
       disable_radio: false
     };
@@ -179,16 +144,6 @@ export default {
           });
         }
       }
-    },
-    exitEditMode() {
-      this.edit_mode = false;
-      this.saved = false;
-    },
-    edit() {
-      this.edit_mode = !this.edit_mode;
-    },
-    addChoice(answer) {
-      this.question_detail.answers.push(answer);
     }
   },
   created() {
@@ -239,22 +194,12 @@ export default {
   margin-left: auto;
   background: #ffffff;
 }
-.answers {
-  border: 3px solid #1583c7;
-  max-width: 900px;
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-}
+
 .buttons-container {
   display: flex;
   justify-content: space-around;
 }
-.edit-mode {
-  width: 100%;
-  text-align: center;
-}
+
 .back,
 .submit {
   border: 1px solid #5ab4ec;
@@ -289,9 +234,6 @@ button:disabled:hover {
   }
   .question-cont {
     padding: 10px;
-  }
-  .edit-mode {
-    padding: 0;
   }
 }
 </style>
