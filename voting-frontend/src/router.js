@@ -49,6 +49,16 @@ export default new Router({
       },
     },
     {
+      path: "/question/:questionId/edit",
+      name: "edit",
+      component: () => import('./views/DetailsEdit.vue'),
+      props(route) { // by doing this we can prevent the params.id Type 
+        let props = { ...route.params } // from changing when entered from url
+        props.questionId = parseInt(props.questionId);
+        return props
+      },
+    },
+    {
       path: "/create",
       name: "create",
       component: () => import('./views/CreateQuestion.vue'),

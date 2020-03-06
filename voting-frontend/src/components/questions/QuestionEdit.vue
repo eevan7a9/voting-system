@@ -4,18 +4,19 @@
       @focus="saved = false"
       class="fs-25 pady-1 padx-1 mgb-1"
       type="text"
-      v-model="edit_title"
+      v-model="question_detail.title"
     />
     <textarea
       @focus="saved = false"
       class="pady-1 padx-1 fs-18 mgb-1"
-      v-model="edit_description"
+      v-model="question_detail.description"
       cols="10"
       rows="3"
     ></textarea>
     <editor
       class="additional_info pady-1 padx-1 fs-18 mgb-1"
-      v-model="edit_additional_info"
+      ref="additionalInfo"
+      v-model="question_detail.additional_info"
       :options="editorOptions"
       :html="editorHtml"
       :visible="editorVisible"
@@ -38,21 +39,19 @@ import "tui-editor/dist/tui-editor.css";
 import "tui-editor/dist/tui-editor-contents.css";
 import "codemirror/lib/codemirror.css";
 import { Editor } from "@toast-ui/vue-editor";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "QuestionEdit",
   components: {
     editor: Editor
   },
-  props: {
-    question: Object
+  computed: {
+    ...mapGetters(["question_detail"])
   },
   data() {
     return {
       saved: false,
-      edit_title: "",
-      edit_description: "",
-      edit_additional_info: "",
+      question: {},
       editorOptions: {
         minHeight: "200px",
         language: "en_US",
@@ -92,9 +91,11 @@ export default {
     save() {
       this.onLoader();
       // Save Edits of title and description
-      this.question.title = this.edit_title;
-      this.question.description = this.edit_description;
-      this.question.additional_info = this.edit_additional_info;
+      this.question.id = this.question_detail.id;
+      this.question.title = this.question_detail.title;
+      this.question.description = this.question_detail.description;
+      this.question.additional_info = this.question_detail.additional_info;
+
       this.editQuestion(this.question).then(res => {
         if (!res.error) {
           this.saved = true;
@@ -110,17 +111,13 @@ export default {
             message: res.message,
             error: true
           };
+
           this.showAlert(content).then(() => {
             this.offLoader();
           });
         }
       });
     }
-  },
-  created() {
-    this.edit_title = this.question.title;
-    this.edit_description = this.question.description;
-    this.edit_additional_info = this.question.additional_info;
   }
 };
 </script>
