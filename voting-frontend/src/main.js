@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import './filter/myFilter';
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import "./filter/myFilter";
 
 Vue.config.productionTip = false;
 
@@ -11,27 +11,40 @@ router.beforeEach((to, from, next) => {
     // this route requires auth, check if user_token exists
     if (!store.state.users.user_token) {
       next({
-        path: '/',
-      })
+        path: "/"
+      });
     } else {
-      next()
+      if (to.matched.some(record => record.meta.requiresOwner)) {
+        // this route requires owner, check if user is owner
+        if (
+          store.state.users.user.id != store.state.questions.question.user_id
+        ) {
+          next({
+            path: "/"
+          });
+        } else {
+          next();
+        }
+      } else {
+        next();
+      }
     }
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     // this route requires visitor, check if not login
     if (store.state.users.user_token) {
       next({
-        path: '/',
-      })
+        path: "/"
+      });
     } else {
-      next()
+      next();
     }
   } else {
-    next() // make sure to always call next()!
+    next(); // make sure to always call next()!
   }
-})
+});
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
