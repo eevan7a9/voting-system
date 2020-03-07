@@ -57,6 +57,7 @@ export default new Router({
         props.questionId = parseInt(props.questionId);
         return props
       },
+      meta: { requiresAuth: true, requiresOwner: true }
     },
     {
       path: "/create",
