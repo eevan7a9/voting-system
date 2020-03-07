@@ -2,7 +2,7 @@
   <div class="question-options">
     <ul>
       <li class="padx-1 dark pady-1">
-        <button class="pointer" :disabled="question.user_id != user.id" @click="editQuestion">
+        <button class="pointer" @click="editQuestion">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -21,7 +21,7 @@
         </button>
       </li>
       <li class="padx-1 dark pady-1 pointer">
-        <button class="pointer" :disabled="question.user_id != user.id" @click="remove">
+        <button class="pointer" @click="remove">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -75,25 +75,97 @@ export default {
   methods: {
     ...mapActions(["deleteQuestion", "showAlert"]),
     editQuestion() {
-      this.$router.push({
-        name: "edit",
-        params: { questionId: this.question.id }
-      });
+      if (this.user.id == undefined) {
+        this.$swal.fire(
+          "Is this your survey?",
+          "Please login to continue",
+          "question"
+        );
+      } else if (this.user.id != this.question.user_id) {
+        this.$swal.fire(
+          "Not allowed to Edit",
+          "Only owners of the survey can edit",
+          "info"
+        );
+      } else {
+        this.$router.push({
+          name: "edit",
+          params: { questionId: this.question.id }
+        });
+      }
     },
     remove() {
-      // Removing the question and all it's answers
-      const answer = confirm("Are you sure you want to Delete this Survey?");
-      answer
-        ? this.deleteQuestion(this.question.id).then(res => {
-            this.showAlert({
-              message: res,
-              error: 0
-            }).then(() => this.$router.push({ name: "home" }));
+      if (this.user.id == undefined) {
+        this.$swal.fire(
+          "Is this your survey?",
+          "Please login to continue",
+          "question"
+        );
+      } else if (this.user.id != this.question.user_id) {
+        this.$swal.fire(
+          "Not allowed to Delete",
+          "Only owners of the survey can Delete",
+          "info"
+        );
+      } else {
+        this.$swal
+          .fire({
+            title: "Delete this Survey?",
+            text: "You won't be able to revert this!",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes!"
           })
-        : "";
+          .then(result => {
+            if (result.value) {
+              this.deleteQuestion(this.question.id).then(res => {
+                this.showAlert({
+                  message: res,
+                  error: 0
+                }).then(() => this.$router.push({ name: "home" }));
+              });
+            }
+          });
+      }
     },
     reportQuestion() {
-      confirm("Are you sure you want to Report this Survey?");
+      // confirm("Are you sure you want to Report this Survey?");
+      if (this.user.id == undefined) {
+        this.$swal.fire(
+          "Is there something wrong?",
+          "Please login to continue",
+          "question"
+        );
+      } else {
+        this.$swal
+          .fire({
+            title: "Report this Survey?",
+            text: "Survey will be reviewed.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            // cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+          })
+          .then(result => {
+            if (result.value) {
+              /**
+               *   Code here....
+               *
+               *   Functionality is Pending for development
+               */
+              this.$swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Our staff will take a look on this.",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            }
+          });
+      }
     }
   }
 };
@@ -104,10 +176,7 @@ button {
   background: none;
   border: none;
 }
-button:disabled {
-  color: grey;
-  cursor: not-allowed;
-}
+
 .question-options ul {
   display: flex;
   list-style: none;
