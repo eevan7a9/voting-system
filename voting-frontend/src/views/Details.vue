@@ -6,7 +6,15 @@
         <p class="ls-2 pady-2">{{ question_detail.description }}</p>
         <viewer class="viewer" :value="question_detail.additional_info" />
       </div>
-      <SurveyDetailOptions class="option-icons" :question="question_detail" :user="current_user" />
+      <div class="option-icons mgt-1">
+        <button @click="viewChart" class="bg-lightdient">
+          <p class="fw-bold blue fs-18">Chart</p>
+          <span>
+            <img src="@/assets/bar-chart-2.svg" alt />
+          </span>
+        </button>
+        <SurveyDetailOptions :question="question_detail" :user="current_user" />
+      </div>
       <div
         class="answers-cont mgt-1"
         v-for="(answer, index) in question_detail.answers"
@@ -143,6 +151,12 @@ export default {
           });
         }
       }
+    },
+    viewChart() {
+      this.$router.push({
+        name: "chart",
+        params: { questionId: this.question_detail.id }
+      });
     }
   },
   created() {
@@ -181,10 +195,23 @@ export default {
   box-shadow: 4px 9px 17px -8px #000000;
 }
 .option-icons {
-  max-width: 800px;
-  margin-right: auto;
-  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+.option-icons button {
+  cursor: pointer;
+  padding: 8px 10px;
+  border: 2px solid #1583c7;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 7px;
+}
+.option-icons button:hover {
+  background: #b4dffa;
+}
+
 .question-cont {
   border-bottom: 3px solid #1583c7;
   max-width: 100%;
