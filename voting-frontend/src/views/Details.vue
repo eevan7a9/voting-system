@@ -110,19 +110,18 @@ export default {
     },
     submit() {
       if (!this.is_login) {
-        this.showAlert({
-          message: "You can't vote if you're not logged in",
-          error: true
-        });
-        this.$router.push({ name: "login" });
+        this.$swal
+          .fire("Want to Vote?", "Please login to continue", "info")
+          .then(() => this.$router.push({ name: "login" }));
       } else {
         // Submittinga Vote
         if (!this.selected_answer.id) {
           // if user did not select any answers
-          this.showAlert({
-            message: "you have not selected any of the choices",
-            error: true
-          });
+          this.$swal.fire(
+            "You cant submit empty!",
+            "Please select one of the choices",
+            "info"
+          );
         } else {
           const vote = {
             answer_id: this.selected_answer.id,
