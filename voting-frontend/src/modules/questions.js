@@ -23,14 +23,15 @@ const getters = {
     mySearch: state => state.search
 }
 const actions = {
-    getQuestionDetails: ({ commit }, id) => {
-        axios.get(`questions/${id}`)
+    getQuestionDetails: async ({ commit }, id) => {
+        return axios.get(`questions/${id}`)
             .then(res => {
-                const question = res.data
-                commit("setQuestionDetails", question);
+                commit("setQuestionDetails", res.data);
+                return res.data
             })
             .catch(err => {
                 alert(err);
+                return err.response
             })
 
     },
@@ -92,9 +93,9 @@ const actions = {
         }
     },
     deleteQuestion: async ({ commit, rootState }, id) => {
-        return await axios.post(`/questions/${id}`,{
+        return await axios.post(`/questions/${id}`, {
             _method: 'delete'
-        },{
+        }, {
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${rootState.users.user_token}`
