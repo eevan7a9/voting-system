@@ -1,12 +1,35 @@
 <template>
   <div class="outer-wrapper">
-    <div class="inner-wrapper bg-lightdient padx-1 pady-1">
-      <header>
-        <h1>Question TItle {{questionId}}s</h1>
+    <div class="inner-wrapper bg-lightdient padx-2 pady-1">
+      <header class="pady-1">
+        <h1 class="pady-1 blue">{{question_detail.title}}</h1>
+        <p>{{question_detail.description}}</p>
       </header>
       <div class="chart-container">
-        <BarChart :chartData="chartDataBar" :options="optionsBar" v-if="chartReady" />
+        <BarChart
+          :style="myStyles"
+          :chartData="chartDataBar"
+          :options="chartOptions"
+          v-if="chartReady"
+        />
       </div>
+      <router-link class="return pady-1" :to="{ name:'details', params:{questionId:questionId}}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="35"
+          height="35"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="11 17 6 12 11 7" />
+          <polyline points="18 17 13 12 18 7" />
+        </svg>
+        <span>BACK</span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -24,6 +47,11 @@ export default {
   data() {
     return {
       chartReady: 0,
+      myStyles: {
+        // height: "300px",
+        width: "100%",
+        position: "relative"
+      },
       chartDataBar: {
         labels: [],
         datasets: [
@@ -34,16 +62,51 @@ export default {
           }
         ]
       },
-      optionsBar: {
+      chartOptions: {
         scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              },
+              gridLines: {
+                display: true
+              }
+            }
+          ],
           xAxes: [
             {
+              ticks: {
+                beginAtZero: true
+              },
               gridLines: {
-                offsetGridLines: true
+                display: false
               }
             }
           ]
-        }
+        },
+        legend: {
+          display: true
+        },
+        tooltips: {
+          enabled: true,
+          mode: "single",
+          callbacks: {
+            label(tooltipItems, data) {
+              const { datasetIndex, index } = tooltipItems;
+              const value = data.datasets[datasetIndex].data[index];
+              if (parseInt(value, 10) > 999) {
+                return ` ${value
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+              }
+              return ` ${value}`;
+            }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        height: 300
       }
     };
   },
@@ -91,6 +154,37 @@ export default {
 }
 .inner-wrapper {
   border: 3px solid #1583c7;
-  width: 800px;
+  max-width: 50%;
+}
+.inner-wrapper .return {
+  display: flex;
+  align-items: center;
+  color: #1583c7;
+  text-decoration: none;
+}
+.inner-wrapper svg {
+  color: #1583c7;
+}
+.inner-wrapper span {
+  font-size: 23px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+@media (max-width: 1200px) {
+  .outer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 20px 0px;
+  }
+  .inner-wrapper {
+    max-width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .inner-wrapper {
+    border: 3px solid #1583c7;
+    max-width: 100%;
+  }
 }
 </style>

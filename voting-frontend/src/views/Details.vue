@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="details padx-3 pady-1 mgt-2 borad-1 bg-white">
+    <div class="details padx-3 pady-1 mgt-2 mgb-2 borad-1 bg-white">
       <div class="question-cont dark pady-1 padx-2">
         <h2>{{ question_detail.title }}</h2>
         <p class="ls-2 pady-2">{{ question_detail.description }}</p>
