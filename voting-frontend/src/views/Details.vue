@@ -7,12 +7,8 @@
         <viewer class="viewer" :value="question_detail.additional_info" />
       </div>
       <div class="option-icons mgt-1">
-        <button @click="viewChart" class="bg-lightdient">
-          <p class="fw-bold blue fs-18">Chart</p>
-          <span>
-            <img src="@/assets/bar-chart-2.svg" alt />
-          </span>
-        </button>
+        <p class="red" v-if="!already_voted">*If you vote you can see the result.</p>
+        <p class="green" v-else>*You voted already, you can see the result.</p>
         <SurveyDetailOptions :question="question_detail" :user="current_user" />
       </div>
       <div
@@ -38,13 +34,15 @@
           class="back pady-1 padx-2 fs-18 fw-bold borad-1 blue bg-lightdient tx-cap pointer"
         >back</button>
         <button
-          :disabled="disable_btn"
           class="submit pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
           @click="submit"
-        >
-          <span v-if="!disable_btn">Submit</span>
-          <span v-if="disable_btn">Voted</span>
-        </button>
+          v-if="!already_voted"
+        >Submit</button>
+        <button
+          v-else
+          class="result pady-1 padx-2 fs-18 fw-bold borad-1 light bg-bluedient tx-cap pointer"
+          @click="viewChart"
+        >Result</button>
       </div>
     </div>
   </div>
@@ -73,7 +71,7 @@ export default {
   data() {
     return {
       selected_answer: {},
-      disable_btn: false,
+      already_voted: false,
       disable_radio: false
     };
   },
@@ -113,7 +111,7 @@ export default {
     disableSubmit() {
       //  created() method of AnswersItem will $emit an event if user ID is found in votes
       // will disable  submit button and radio if user already voted
-      this.disable_btn = true;
+      this.already_voted = true;
       this.disable_radio = true;
     },
     submit() {
@@ -138,7 +136,7 @@ export default {
           };
           this.onLoader();
           this.addVote(vote).then(res => {
-            this.disable_btn = true; // after vote is successfull
+            this.already_voted = true; // after vote is successfull
             this.disable_radio = true; // we disable submit and radio
             const found_question = this.all_questions.find(
               question => question.id == this.question_detail.id
@@ -233,14 +231,10 @@ export default {
 .submit:hover {
   background: #1583c7;
 }
-button:disabled {
-  cursor: not-allowed;
+.result {
   border: 3px solid #2bb110;
   background: #76e296;
   color: #289c10;
-}
-button:disabled:hover {
-  background: #76e296;
 }
 .viewer {
   font-size: 30px;
