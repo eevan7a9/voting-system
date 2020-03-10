@@ -2,8 +2,11 @@
   <div class="outer-wrapper">
     <div class="inner-wrapper bg-lightdient padx-2 pady-1">
       <header class="pady-1">
-        <h1 class="pady-1 blue">{{question_detail.title}}</h1>
+        <h1 class="pady-1 dark">{{question_detail.title}}</h1>
         <p>{{question_detail.description}}</p>
+        <p class="pady-1">
+          <small>Created at: {{question_detail.created_at}}</small>
+        </p>
       </header>
       <div class="chart-container">
         <BarChart
@@ -154,7 +157,8 @@ export default {
 }
 .inner-wrapper {
   border: 3px solid #1583c7;
-  max-width: 50%;
+  max-width: 900px;
+  box-shadow: 4px 9px 17px -8px #000000;
 }
 .inner-wrapper .return {
   display: flex;
