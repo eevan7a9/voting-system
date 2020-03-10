@@ -1,36 +1,43 @@
 <template>
   <div>
-    <div class="wrapper container mgt-1">
-      <div class="creadentials borad-2">
-        <div class="inner-creadentials pady-3 padx-1">
-          <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Username :</label>
-          <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.name }}</p>
-          <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Email :</label>
-          <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.email }}</p>
-          <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Joined :</label>
-          <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.created_at }}</p>
-        </div>
-        <div class="settings">
-          <div class="inner-setting">
-            <label class="padx-1">Edit Password</label>
-            <router-link :to="{name:'updatepassword'}">
-              <button class="pady-1 fs-18 light borad-1 padx-1 bg-bluedient pointer">Update Password</button>
-            </router-link>
+    <div class="wrapper container mgt-3">
+      <div class="account-info">
+        <h2 class="padx-2 mgt-2 tx-upp">account info</h2>
+        <div class="creadentials pady-1 mgb-1">
+          <div class="inner-creadentials pady-1 padx-1 bg-white">
+            <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Username :</label>
+            <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.name }}</p>
+            <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Email :</label>
+            <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.email }}</p>
+            <label class="pady-1 fs-normal fw-bold ls-1 mgt-1 tx-upp">Joined :</label>
+            <p class="pady-1 fs-18 ls-1 mgt-1">{{ current_user.created_at }}</p>
           </div>
-        </div>
-      </div>
-      <div class="activity mgt-1">
-        <div class="voted-questions pady-2 padx-1">
-          <h2 class="pady-1 tx-upp">Recently voted surveys</h2>
-          <div class="inner-voted pady-1 padx-5-px">
-            <div class="mgt-1 pady1" v-for="(question, index) in current_user.votes" :key="index">
-              <router-link :to="{ name:'details', params:{questionId:question.question.id}}">
-                <p class="pointer ls-1">{{ question.question.title }}</p>
+          <div class="settings">
+            <div class="inner-setting">
+              <label class="padx-1">Edit Password</label>
+              <router-link :to="{name:'updatepassword'}">
+                <button
+                  class="pady-1 fs-18 light borad-1 padx-1 bg-bluedient pointer"
+                >Update Password</button>
               </router-link>
             </div>
           </div>
         </div>
-        <div class="asked-questions pady-2 padx-1">
+      </div>
+      <div class="activity mgt-3">
+        <div class="voted-questions pady-2 padx-1 bg-white">
+          <h2 class="pady-1 tx-upp">Recently voted surveys</h2>
+          <div class="inner-voted pady-1 padx-5-px">
+            <div class="mgt-1 pady1" v-for="(question, index) in current_user.votes" :key="index">
+              <router-link :to="{ name:'details', params:{questionId:question.question.id}}">
+                <u>
+                  <p class="pointer ls-1">{{ question.question.title }}</p>
+                </u>
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="asked-questions pady-2 padx-1 bg-white">
           <h2 class="pady-1 tx-upp">Recently asked surveys</h2>
           <div class="inner-asked pady-1 padx-5-px">
             <div
@@ -39,7 +46,9 @@
               :key="index"
             >
               <router-link :to="{ name:'details', params:{questionId:question.id}}">
-                <p class="pointer ls-1">{{ question.title }}</p>
+                <u>
+                  <p class="pointer ls-1">{{ question.title }}</p>
+                </u>
               </router-link>
             </div>
           </div>
@@ -92,15 +101,17 @@ a {
   justify-content: center;
   align-items: center;
 }
+.account-info {
+  border: 3px solid #1583c7;
+}
 .creadentials {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
-  background: #fff;
   /* height: 400px;/ */
-  border: 3px solid #1583c7;
 }
 .inner-creadentials {
+  border-top: 4px solid #1583c7;
   display: grid;
   grid-template-columns: minmax(50px, 200px) auto;
 }
@@ -108,7 +119,7 @@ a {
   text-align: right;
 }
 .inner-creadentials p {
-  border-bottom: 3px solid #1583c7;
+  border-bottom: 2px solid #1583c7;
   text-align: center;
 }
 .questions-created {
@@ -125,7 +136,6 @@ a {
 .activity .asked-questions {
   position: relative;
   border: 3px solid #1583c7;
-  background: #fff;
 }
 .inner-voted,
 .inner-asked {
