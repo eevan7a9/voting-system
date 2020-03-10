@@ -146,6 +146,7 @@ export default {
               this.question_detail.id = 0; // set id to 0 so we remove the scroll into question
             }
             this.showAlert({ message: res }).then(() => this.offLoader());
+            this.viewChart();
           });
         }
       }
